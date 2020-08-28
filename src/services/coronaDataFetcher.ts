@@ -1,7 +1,17 @@
-﻿export interface AreaData {
-    date: string;
+﻿import moment from "moment";
+
+interface RawDataFormat {
+    date: number;
     newCasesBySpecimenDate: number;
     cumCasesBySpecimenDate: number;
+}
+
+export interface AreaData {
+    date: moment.Moment;
+    newCases: number;
+    newCasesSevenDayAverage: number;
+    cumulativeCases: number;
+    cumulativeCasesSevenDayAverage: number;
 }
 
 const getUrl = (areaName: string) => {
@@ -11,6 +21,42 @@ const getUrl = (areaName: string) => {
 export const fetchDataForArea = async (areaName: string): Promise<AreaData[]> => {
     const response = await fetch(getUrl(areaName));
     const json = await response.json();
-    console.log(json.length, areaName);
-    return json.data;
+    return processData(json.data);
+};
+
+const processData = (rawData: RawDataFormat[]): AreaData[] => {
+    const processedData: AreaData[] = [];
+    
+    rawData
+        .map(toAreaData)
+        .sort(byDate)
+        .forEach(input => {
+            if (!containsData(processedData, input)) {
+                processedData.push(input);
+            } 
+        });
+    
+    return processedData;
+};
+
+const containsData = (processedData: AreaData[], input: AreaData): boolean => {
+    if (processedData.length === 0) {
+        return false;
+    }
+    const previousEntry = processedData[processedData.length - 1];
+    return previousEntry.date.isSame(input.date, "day");
+};
+
+const toAreaData = (rawData: RawDataFormat): AreaData => {
+    return {
+        date: moment(rawData.date),
+        newCases: rawData.newCasesBySpecimenDate,
+        newCasesSevenDayAverage: -1,
+        cumulativeCases: rawData.cumCasesBySpecimenDate,
+        cumulativeCasesSevenDayAverage: -1
+    }
+};
+
+const byDate = (a: AreaData, b: AreaData): number => {
+    return a.date > b.date ? 1 : -1;
 };

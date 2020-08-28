@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.scss';
 import {Area} from "./Area/Area";
+
+export type Mode = "raw" | "graph";
 
 const areas = [
     'Devon',
@@ -25,13 +27,14 @@ const areas = [
 ];
 
 function App() {
-  return (
-    <main>
-      <ul>
-        {areas.map(area => <li><Area areaName={area}/></li>)}
-      </ul>
-    </main>
-  );
+    const [mode, setMode] = useState<Mode>("graph");
+    return (
+        <main>
+            <ul>
+                {areas.map(area => <li><Area areaName={area} mode={mode}/></li>)}
+            </ul>
+        </main>
+    );
 }
 
 export default App;
