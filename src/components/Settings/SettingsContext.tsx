@@ -6,17 +6,17 @@ import {MetricSettings} from "./MetricSettings";
 export type ViewerMode = "Graph" | "Raw";
 export type Metric = 
     "Total Cases" | 
-    "Total Cases Rate" | 
+    "Total Cases Per Population" | 
     "New Cases" | 
-    "New Cases Rate" | 
+    "New Cases Per Population" | 
     "Total Admissions" | 
-    "Total Admissions Rate" | 
+    "Total Admissions Per Population" | 
     "New Admissions" | 
-    "New Admissions Rate" | 
+    "New Admissions Per Population" | 
     "Total Deaths" |
-    "Total Deaths Rate" |
+    "Total Deaths Per Population" |
     "New Deaths" |
-    "New Deaths Rate" |
+    "New Deaths Per Population" |
     "Hospital Cases" |
     "Hospital Capacity" |
     "Hospital Utilisation";

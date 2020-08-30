@@ -105,7 +105,7 @@ const toDataPoint = (dataPoint: RawData): DataPoint => {
         deathsRollingAverage: deathsRollingAverage,
         deathsRollingAveragePerPopulation: deathsRollingAverage / populationRatio,
 
-        hospitalUtilisation: dataPoint.hospitalCases * 100 / dataPoint.hospitalCapacity
+        hospitalUtilisation: (dataPoint.hospitalCapacity)? dataPoint.hospitalCases * 100 / dataPoint.hospitalCapacity : 0
     }  
 };
 
