@@ -1,5 +1,5 @@
 ﻿import React, {FunctionComponent} from "react";
-import {Metric} from "./SettingsContext";
+import {Metric} from "../../../config/options";
 
 interface MetricSettingsProps {
     metric: Metric;

@@ -1,6 +1,6 @@
 ﻿import React, {FunctionComponent, useContext, useEffect, useState} from "react";
-import {RawDataViewer} from "../RawData/RawDataViewer";
-import {GraphViewer} from "../Graph/GraphViewer";
+import {TableViewer} from "../Viewers/TableViewer/TableViewer";
+import {GraphViewer} from "../Viewers/GraphViewer/GraphViewer";
 import {AreaData, getAreaData} from "../../services/dataProcessor";
 import {SettingsContext} from "../Settings/SettingsContext";
 import {getPlotSeries} from "../../services/plotService";
@@ -24,7 +24,7 @@ export const Area: FunctionComponent<AreaProps> = ({areaName}) => {
     const timeSeries = getPlotSeries(data.timeSeries, metric);
     const viewerComponent = viewer === "Graph" ? 
         <GraphViewer graphData={timeSeries}/> : 
-        <RawDataViewer graphData={timeSeries}/>;
+        <TableViewer graphData={timeSeries}/>;
     
     return (
         <section>

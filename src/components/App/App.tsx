@@ -2,39 +2,9 @@ import React from 'react';
 import './App.scss';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {Header} from "../Header/Header";
-import {GraphPage} from "../GraphPage/GraphPage";
+import {ByAreaPage} from "../ByAreaPage/ByAreaPage";
 import {Settings} from "../Settings/SettingsContext";
-
-const nations = [
-    'United Kingdom',
-    'England',
-    'Scotland',
-    'Wales',
-    'Northern Ireland'
-];
-
-const areasOfInterest = [
-    'Islington',
-    'Kensington and Chelsea',
-    'Richmond upon Thames',
-    'Peterborough',
-    'Wirral',
-];
-
-const localAreas = [
-    'Devon',
-    'East Devon',
-    'Exeter',
-    'Mid Devon',
-    'South Hams',
-    'Teignbridge',
-    'Torridge',
-    'Torbay',
-    'West Devon',
-    'Plymouth',
-    'North Devon',
-    'Cornwall and Isles of Scilly'
-];
+import {AREAS_OF_INTEREST, LOCAL_AREAS, NATIONS} from "../../config/areas";
 
 function App() {
     return (
@@ -44,13 +14,13 @@ function App() {
                 <Settings>
                     <Switch>
                         <Route path={"/"} exact={true}>
-                            <GraphPage title={"National"} areaNames={nations}/>
+                            <ByAreaPage title={"National"} areaNames={NATIONS}/>
                         </Route>
                         <Route path={"/local"} exact={true}>
-                            <GraphPage title={"Local"} areaNames={localAreas}/>
+                            <ByAreaPage title={"Local"} areaNames={LOCAL_AREAS}/>
                         </Route>
                         <Route path={"/regions-of-interest"} exact={true}>
-                            <GraphPage title={"Areas of Interest"} areaNames={areasOfInterest}/>
+                            <ByAreaPage title={"Areas of Interest"} areaNames={AREAS_OF_INTEREST}/>
                         </Route>
                         <Route path={"/find-a-region"} exact={true}>
                             <h1>Find a Region</h1>

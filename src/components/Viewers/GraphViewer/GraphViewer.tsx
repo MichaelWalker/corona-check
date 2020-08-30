@@ -1,6 +1,6 @@
 ﻿import React, {FunctionComponent, ReactElement} from "react";
 import {Bar, ComposedChart, Line, XAxis, YAxis} from "recharts";
-import {GraphData} from "../../services/plotService";
+import {GraphData} from "../../../services/plotService";
 
 interface GraphViewerProps {
     graphData: GraphData

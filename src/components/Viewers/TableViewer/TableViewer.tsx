@@ -1,11 +1,11 @@
 ﻿import React, {FunctionComponent} from "react";
-import {GraphData} from "../../services/plotService";
+import {GraphData} from "../../../services/plotService";
 
-interface RawDataViewerProps {
+interface TableViewerProps {
     graphData: GraphData
 }
 
-export const RawDataViewer: FunctionComponent<RawDataViewerProps> = ({ graphData }) => {
+export const TableViewer: FunctionComponent<TableViewerProps> = ({ graphData }) => {
     return (
         <ol>
             {graphData.map(dataPoint => <li>Date: {dataPoint.date.format()}, Value: {dataPoint.value}, Rolling Average: {dataPoint.rollingAverage}</li>)}

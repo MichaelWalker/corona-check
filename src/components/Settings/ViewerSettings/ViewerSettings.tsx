@@ -1,5 +1,5 @@
 ﻿import React, {FunctionComponent} from "react";
-import {ViewerMode} from "./SettingsContext";
+import {ViewerMode} from "../../../config/options";
 
 interface ViewerSettingsProps {
     viewer: ViewerMode;
