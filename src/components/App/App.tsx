@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.scss';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {Header} from "../Header/Header";
 import {GraphPage} from "../GraphPage/GraphPage";
-
-export type Mode = "raw" | "graph";
+import {Settings} from "../Settings/SettingsContext";
 
 const nations = [
     'United Kingdom',
@@ -38,25 +37,26 @@ const localAreas = [
 ];
 
 function App() {
-    const [mode, setMode] = useState<Mode>("graph");
     return (
         <BrowserRouter>
             <Header/>
             <main>
-                <Switch>
-                    <Route path={"/"} exact={true}>
-                        <GraphPage title={"National"} areaNames={nations} mode={mode}/>
-                    </Route>
-                    <Route path={"/local"} exact={true}>
-                        <GraphPage title={"Local"} areaNames={localAreas} mode={mode}/>
-                    </Route>
-                    <Route path={"/regions-of-interest"} exact={true}>
-                        <GraphPage title={"Areas of Interest"} areaNames={areasOfInterest} mode={mode}/>
-                    </Route>
-                    <Route path={"/find-a-region"} exact={true}>
-                        <h1>Find a Region</h1>
-                    </Route>
-                </Switch>
+                <Settings>
+                    <Switch>
+                        <Route path={"/"} exact={true}>
+                            <GraphPage title={"National"} areaNames={nations}/>
+                        </Route>
+                        <Route path={"/local"} exact={true}>
+                            <GraphPage title={"Local"} areaNames={localAreas}/>
+                        </Route>
+                        <Route path={"/regions-of-interest"} exact={true}>
+                            <GraphPage title={"Areas of Interest"} areaNames={areasOfInterest}/>
+                        </Route>
+                        <Route path={"/find-a-region"} exact={true}>
+                            <h1>Find a Region</h1>
+                        </Route>
+                    </Switch>
+                </Settings>
             </main>
         </BrowserRouter>
     );

@@ -1,17 +1,17 @@
-﻿import React, {FunctionComponent, useEffect, useState} from "react";
+﻿import React, {FunctionComponent, useContext, useEffect, useState} from "react";
 import {RawDataViewer} from "../RawData/RawDataViewer";
-import {Mode} from "../App/App";
 import {GraphViewer} from "../Graph/GraphViewer";
 import {AreaData, getAreaData} from "../../services/dataProcessor";
+import {SettingsContext} from "../Settings/SettingsContext";
 
 interface AreaProps {
     areaName: string;
-    mode: Mode;
 }
 
-export const Area: FunctionComponent<AreaProps> = ({areaName, mode}) => {
+export const Area: FunctionComponent<AreaProps> = ({areaName}) => {
     const [data, setData] = useState<AreaData | null>(null);
-    
+    const {viewer} = useContext(SettingsContext);
+
     useEffect(() => {
         getAreaData(areaName).then(areaData => setData(areaData));
     }, [areaName]);
@@ -20,11 +20,14 @@ export const Area: FunctionComponent<AreaProps> = ({areaName, mode}) => {
         return <div>Loading</div>
     }
     
-    const viewer = mode === "graph" ? <GraphViewer rawData={data.cases}/> : <RawDataViewer rawData={data.cases}/>;
+    const viewerComponent = viewer === "Graph" ? 
+        <GraphViewer rawData={data.cases}/> : 
+        <RawDataViewer rawData={data.cases}/>;
+    
     return (
         <section>
             <h2>{areaName}</h2>
-            {viewer}
+            {viewerComponent}
         </section>
     );
 };

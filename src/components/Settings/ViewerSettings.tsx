@@ -1,0 +1,18 @@
+﻿import React, {FunctionComponent} from "react";
+import {ViewerMode} from "./SettingsContext";
+
+interface SettingsProps {
+    viewer: ViewerMode;
+    setViewer: (viewer: ViewerMode) => void;
+}
+
+export const ViewerSettings: FunctionComponent<SettingsProps> = ({viewer, setViewer}) => {
+    return (
+        <label>Viewer
+            <select value={viewer} onChange={(event) => setViewer(event.target.value as ViewerMode)}>
+                <option>Graph</option>
+                <option>Table</option>
+            </select>
+        </label>
+    );    
+};
