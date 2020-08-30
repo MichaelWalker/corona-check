@@ -77,14 +77,27 @@ const calculatePopulation = (dataPoint: DataPoint): number => {
 const calculateTimeSeries = (data: RawData[]): TimeSeries => {
     return data
         .map(toDataPoint)
-        .sort(byDate);
+        .sort(byDate)
+        .map(addRollingAverage);
 };
 
-const toDataPoint = (dataPoint: RawData): DataPoint => {
+const lastSevenPoints = (timeSeries: TimeSeries, index: number) => {
+    if (index <= 7) {
+        return timeSeries.slice(0, index);
+    }
+    return timeSeries.slice(index - 7, index);
+};
+
+const calculateRollingAverage = (lastSevenReadings: number[]) => {
+    if (lastSevenReadings.length === 0) {
+        return 0;
+    }
+    const sum = lastSevenReadings.reduce((a, b) => a + b);
+    return sum / 7;
+};
+
+const toDataPoint = (dataPoint: RawData, index: number, data: RawData[]): DataPoint => {
     const populationRatio = dataPoint.casesTotal / dataPoint.casesTotalPerPopulation;
-    const casesRollingAverage = 0;
-    const admissionsRollingAverage = 0;
-    const deathsRollingAverage = 0;
     
     return {
         ...dataPoint,
@@ -92,21 +105,39 @@ const toDataPoint = (dataPoint: RawData): DataPoint => {
         date: moment(dataPoint.dateString),
 
         casesNewPerPopulation: dataPoint.casesNew / populationRatio,
-        casesRollingAverage: casesRollingAverage,
-        casesRollingAveragePerPopulation: casesRollingAverage / populationRatio,
+        casesRollingAverage: 0,
+        casesRollingAveragePerPopulation: 0,
 
         admissionsNewPerPopulation: dataPoint.admissionsNew / populationRatio,
         admissionsTotalPerPopulation: dataPoint.admissionsTotal / populationRatio,
-        admissionsRollingAverage: admissionsRollingAverage,
-        admissionsRollingAveragePerPopulation: admissionsRollingAverage / populationRatio,
+        admissionsRollingAverage: 0,
+        admissionsRollingAveragePerPopulation: 0,
 
         deathsNewPerPopulation: dataPoint.deathsNew / populationRatio,
         deathsTotalPerPopulation: dataPoint.deathsTotal / populationRatio,
-        deathsRollingAverage: deathsRollingAverage,
-        deathsRollingAveragePerPopulation: deathsRollingAverage / populationRatio,
+        deathsRollingAverage: 0,
+        deathsRollingAveragePerPopulation: 0,
 
         hospitalUtilisation: (dataPoint.hospitalCapacity)? dataPoint.hospitalCases * 100 / dataPoint.hospitalCapacity : 0
     }  
+};
+
+const addRollingAverage = (dataPoint: DataPoint, index: number, timeSeries: TimeSeries): DataPoint => {
+    const populationRatio = dataPoint.casesTotal / dataPoint.casesTotalPerPopulation;
+    const lastWeek = lastSevenPoints(timeSeries, index);
+    const casesRollingAverage = calculateRollingAverage(lastWeek.map(d => d.casesNew));
+    const admissionsRollingAverage = calculateRollingAverage(lastWeek.map(d => d.admissionsNew));
+    const deathsRollingAverage = calculateRollingAverage(lastWeek.map(d => d.deathsNew));
+    
+    return {
+        ...dataPoint,
+        casesRollingAverage: casesRollingAverage,
+        casesRollingAveragePerPopulation: casesRollingAverage / populationRatio,
+        admissionsRollingAverage: admissionsRollingAverage,
+        admissionsRollingAveragePerPopulation: admissionsRollingAverage / populationRatio,
+        deathsRollingAverage: deathsRollingAverage,
+        deathsRollingAveragePerPopulation: deathsRollingAverage / populationRatio,
+    };
 };
 
 const byDate = (a: DataPoint, b: DataPoint) => {

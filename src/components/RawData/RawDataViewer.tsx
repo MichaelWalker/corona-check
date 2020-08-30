@@ -8,7 +8,7 @@ interface RawDataViewerProps {
 export const RawDataViewer: FunctionComponent<RawDataViewerProps> = ({ graphData }) => {
     return (
         <ol>
-            {graphData.map(dataPoint => <li>Date: {dataPoint.date.format()}, Value: {dataPoint.value}</li>)}
+            {graphData.map(dataPoint => <li>Date: {dataPoint.date.format()}, Value: {dataPoint.value}, Rolling Average: {dataPoint.rollingAverage}</li>)}
         </ol>
     );
 };
