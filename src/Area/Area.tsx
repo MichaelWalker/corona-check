@@ -1,8 +1,8 @@
 ﻿import React, {FunctionComponent, useEffect, useState} from "react";
-import {AreaData, fetchDataForArea} from "../services/coronaDataFetcher";
 import {RawDataViewer} from "../RawData/RawDataViewer";
 import {Mode} from "../App";
 import {GraphViewer} from "../Graph/GraphViewer";
+import {AreaData, getAreaData} from "../services/dataProcessor";
 
 interface AreaProps {
     areaName: string;
@@ -10,21 +10,21 @@ interface AreaProps {
 }
 
 export const Area: FunctionComponent<AreaProps> = ({areaName, mode}) => {
-    const [data, setData] = useState<AreaData[]>([]);
+    const [data, setData] = useState<AreaData | null>(null);
     
     useEffect(() => {
-        fetchDataForArea(areaName).then(areaData => setData(areaData));
+        getAreaData(areaName).then(areaData => setData(areaData));
     }, [areaName]);
     
-    if (data.length === 0) {
+    if (!data) {
         return <div>Loading</div>
     }
     
-    const viewer = mode === "graph" ? <GraphViewer rawData={data}/> : <RawDataViewer rawData={data}/>;
+    const viewer = mode === "graph" ? <GraphViewer rawData={data.cases}/> : <RawDataViewer rawData={data.cases}/>;
     return (
-        <div>
+        <section>
             <h2>{areaName}</h2>
             {viewer}
-        </div>
+        </section>
     );
 };

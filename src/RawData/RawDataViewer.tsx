@@ -1,14 +1,14 @@
 ﻿import React, {FunctionComponent} from "react";
-import {AreaData} from "../services/coronaDataFetcher";
+import {DataPoint} from "../services/dataProcessor";
 
 interface RawDataViewerProps {
-    rawData: AreaData[]
+    rawData: DataPoint[]
 }
 
 export const RawDataViewer: FunctionComponent<RawDataViewerProps> = ({ rawData }) => {
     return (
         <ol>
-            {rawData.map(day => <li>Date: {day.date.format()}, Total Cases: {day.cumulativeCases}, New Cases: {day.newCases}</li>)}
+            {rawData.map(day => <li>Date: {day.date.format()}, Total Cases: {day.cumulative}, New Cases: {day.new}</li>)}
         </ol>
     );
 };
