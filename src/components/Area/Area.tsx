@@ -1,8 +1,8 @@
 ﻿import React, {FunctionComponent, useEffect, useState} from "react";
 import {RawDataViewer} from "../RawData/RawDataViewer";
-import {Mode} from "../App";
+import {Mode} from "../App/App";
 import {GraphViewer} from "../Graph/GraphViewer";
-import {AreaData, getAreaData} from "../services/dataProcessor";
+import {AreaData, getAreaData} from "../../services/dataProcessor";
 
 interface AreaProps {
     areaName: string;

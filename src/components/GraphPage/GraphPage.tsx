@@ -1,6 +1,6 @@
 ﻿import React, {FunctionComponent} from "react";
 import {Area} from "../Area/Area";
-import {Mode} from "../App";
+import {Mode} from "../App/App";
 
 interface GraphPageProps {
     title: string;

@@ -1,6 +1,6 @@
 ﻿import React, {FunctionComponent} from "react";
 import {CartesianGrid, Line, LineChart, XAxis, YAxis} from "recharts";
-import {DataPoint} from "../services/dataProcessor";
+import {DataPoint} from "../../services/dataProcessor";
 
 interface GraphViewerProps {
     rawData: DataPoint[]

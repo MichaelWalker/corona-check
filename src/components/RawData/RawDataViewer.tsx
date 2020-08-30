@@ -1,5 +1,5 @@
 ﻿import React, {FunctionComponent} from "react";
-import {DataPoint} from "../services/dataProcessor";
+import {DataPoint} from "../../services/dataProcessor";
 
 interface RawDataViewerProps {
     rawData: DataPoint[]

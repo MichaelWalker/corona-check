@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import './App.scss';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
-import {Header} from "./Header/Header";
-import {GraphPage} from "./GraphPage/GraphPage";
+import {Header} from "../Header/Header";
+import {GraphPage} from "../GraphPage/GraphPage";
 
 export type Mode = "raw" | "graph";
 
