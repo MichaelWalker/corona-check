@@ -3,6 +3,7 @@ import {RawDataViewer} from "../RawData/RawDataViewer";
 import {GraphViewer} from "../Graph/GraphViewer";
 import {AreaData, getAreaData} from "../../services/dataProcessor";
 import {SettingsContext} from "../Settings/SettingsContext";
+import {getPlotSeries} from "../../services/plotService";
 
 interface AreaProps {
     areaName: string;
@@ -10,7 +11,7 @@ interface AreaProps {
 
 export const Area: FunctionComponent<AreaProps> = ({areaName}) => {
     const [data, setData] = useState<AreaData | null>(null);
-    const {viewer} = useContext(SettingsContext);
+    const {viewer, metric} = useContext(SettingsContext);
 
     useEffect(() => {
         getAreaData(areaName).then(areaData => setData(areaData));
@@ -20,13 +21,14 @@ export const Area: FunctionComponent<AreaProps> = ({areaName}) => {
         return <div>Loading</div>
     }
     
+    const timeSeries = getPlotSeries(data.timeSeries, metric);
     const viewerComponent = viewer === "Graph" ? 
-        <GraphViewer rawData={data.cases}/> : 
-        <RawDataViewer rawData={data.cases}/>;
+        <GraphViewer graphData={timeSeries}/> : 
+        <RawDataViewer graphData={timeSeries}/>;
     
     return (
         <section>
-            <h2>{areaName}</h2>
+            <h2>{areaName} - {metric}</h2>
             {viewerComponent}
         </section>
     );

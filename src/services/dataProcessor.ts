@@ -1,5 +1,5 @@
 ﻿import moment from "moment";
-import {fetchDataForArea, ProcessedData} from "./coronaDataFetcher";
+import {fetchDataForArea, RawData} from "./coronaDataFetcher";
 
 interface R {
     last7Days: number;
@@ -9,46 +9,60 @@ interface R {
 
 export interface DataPoint {
     date: moment.Moment;
-    new: number;
-    cumulative: number;
-    newRate: number;
-    cumulativeRate: number;
-    sevenDayAverage: number;
-    sevenDayAverageRate: number;
+    
+    // cases
+    casesNew: number;
+    casesTotal: number;
+    casesNewPerPopulation: number;
+    casesTotalPerPopulation: number;
+    casesRollingAverage: number;
+    casesRollingAveragePerPopulation: number;
+    
+    // admissions
+    admissionsNew: number;
+    admissionsTotal: number;
+    admissionsNewPerPopulation: number;
+    admissionsTotalPerPopulation: number;
+    admissionsRollingAverage: number;
+    admissionsRollingAveragePerPopulation: number;
+    
+    // deaths
+    deathsNew: number;
+    deathsTotal: number;
+    deathsNewPerPopulation: number;
+    deathsTotalPerPopulation: number;
+    deathsRollingAverage: number;
+    deathsRollingAveragePerPopulation: number;
+    
+    // hospitalisation
+    hospitalCases: number;
+    hospitalCapacity: number;
+    hospitalUtilisation: number;
 }
 
-interface HospitalCases {
-    date: moment.Moment;
-    cases: number;
-    capacity: number;
-    utilisation: number;
-}
+export type TimeSeries = DataPoint[];
 
 export interface AreaData {
     areaName: string;
     r: R;
     population: number;
-    cases: DataPoint[];
-    admissions: DataPoint[];
-    deaths: DataPoint[];
-    hospitalCases: HospitalCases[];
+    timeSeries: TimeSeries;
 }
 
 export const getAreaData = async (areaName: string): Promise<AreaData> => {
-    const data = await fetchDataForArea(areaName);
+    const rawData = await fetchDataForArea(areaName);
+    const data = deduplicate(rawData);
+    const timeSeries = calculateTimeSeries(data);
     
     return {
         areaName: areaName,
-        r: calculateR(data),
-        population: calculatePopulation(data[0]),
-        cases: calculateCases(data),
-        admissions: calculateAdmissions(data),
-        deaths: calculateDeaths(data),
-        hospitalCases: calculateHospitalCases(data),
+        r: calculateR(timeSeries),
+        population: calculatePopulation(timeSeries[0]),
+        timeSeries: timeSeries,
     };
 };
 
-const calculateR = (data: ProcessedData[]): R => {
+const calculateR = (timeSeries: TimeSeries): R => {
     return {
         last7Days: -1,
         last14Days: -1,
@@ -56,69 +70,57 @@ const calculateR = (data: ProcessedData[]): R => {
     }
 };
 
-const calculatePopulation = (data: ProcessedData): number => {
-    return -1;  
+const calculatePopulation = (dataPoint: DataPoint): number => {
+    return 100000 * dataPoint.casesTotal / dataPoint.casesTotalPerPopulation;  
 };
 
-const calculateSevenDayAverage = (data: ProcessedData[], index: number, metric: string): number => {
-    return -1;
+const calculateTimeSeries = (data: RawData[]): TimeSeries => {
+    return data
+        .map(toDataPoint)
+        .sort(byDate);
 };
 
-const calculateCases = (data: ProcessedData[]): DataPoint[] => {
-    return data.map((dataPoint, index) => {
-        const population = calculatePopulation(dataPoint);
-        const sevenDayAverage = calculateSevenDayAverage(data, index, 'newCases');
-        return {
-            date: dataPoint.date,
-            new: dataPoint.newCases,
-            newRate: dataPoint.newCasesRate,
-            cumulative: dataPoint.cumulativeCases,
-            cumulativeRate: dataPoint.cumulativeCases,
-            sevenDayAverage: sevenDayAverage,
-            sevenDayAverageRate: sevenDayAverage * 100000 / population,
+const toDataPoint = (dataPoint: RawData): DataPoint => {
+    const populationRatio = dataPoint.casesTotal / dataPoint.casesTotalPerPopulation;
+    const casesRollingAverage = 0;
+    const admissionsRollingAverage = 0;
+    const deathsRollingAverage = 0;
+    
+    return {
+        ...dataPoint,
+
+        date: moment(dataPoint.dateString),
+
+        casesNewPerPopulation: dataPoint.casesNew / populationRatio,
+        casesRollingAverage: casesRollingAverage,
+        casesRollingAveragePerPopulation: casesRollingAverage / populationRatio,
+
+        admissionsNewPerPopulation: dataPoint.admissionsNew / populationRatio,
+        admissionsTotalPerPopulation: dataPoint.admissionsTotal / populationRatio,
+        admissionsRollingAverage: admissionsRollingAverage,
+        admissionsRollingAveragePerPopulation: admissionsRollingAverage / populationRatio,
+
+        deathsNewPerPopulation: dataPoint.deathsNew / populationRatio,
+        deathsTotalPerPopulation: dataPoint.deathsTotal / populationRatio,
+        deathsRollingAverage: deathsRollingAverage,
+        deathsRollingAveragePerPopulation: deathsRollingAverage / populationRatio,
+
+        hospitalUtilisation: dataPoint.hospitalCases * 100 / dataPoint.hospitalCapacity
+    }  
+};
+
+const byDate = (a: DataPoint, b: DataPoint) => {
+    return a.date > b.date ? 1 : -1;
+};
+
+const deduplicate = (rawData: RawData[]): RawData[] => {
+    const uniqueData: RawData[] = [];
+    
+    rawData.forEach(dataPoint => {
+        if (!uniqueData.find(item => item.hash === dataPoint.hash)) {
+            uniqueData.push(dataPoint);
         }
     });
-};
-
-const calculateAdmissions = (data: ProcessedData[]): DataPoint[] => {
-    return data.map((dataPoint, index) => {
-        const population = calculatePopulation(dataPoint);
-        const sevenDayAverage = calculateSevenDayAverage(data, index, 'newAdmissions');
-        return {
-            date: dataPoint.date,
-            new: dataPoint.newAdmissions,
-            newRate: dataPoint.newAdmissionsRate,
-            cumulative: dataPoint.cumulativeAdmissions,
-            cumulativeRate: dataPoint.cumulativeAdmissionsRate,
-            sevenDayAverage: sevenDayAverage,
-            sevenDayAverageRate: sevenDayAverage * 100000 / population,
-        }
-    });
-};
-
-const calculateDeaths = (data: ProcessedData[]): DataPoint[] => {
-    return data.map((dataPoint, index) => {
-        const population = calculatePopulation(dataPoint);
-        const sevenDayAverage = calculateSevenDayAverage(data, index, 'newDeaths');
-        return {
-            date: dataPoint.date,
-            new: dataPoint.newDeaths,
-            newRate: dataPoint.newDeathsRate,
-            cumulative: dataPoint.cumulativeDeaths,
-            cumulativeRate: dataPoint.cumulativeDeathsRate,
-            sevenDayAverage: sevenDayAverage,
-            sevenDayAverageRate: sevenDayAverage * 100000 / population,
-        }
-    });
-};
-
-const calculateHospitalCases = (data: ProcessedData[]): HospitalCases[] => {
-    return data.map(dataPoint => {
-        return {
-            date: dataPoint.date,
-            cases: dataPoint.hospitalCases,
-            capacity: dataPoint.hospitalCapacity,
-            utilisation: dataPoint.hospitalUtilisation
-        }
-    });
+    
+    return uniqueData;
 };

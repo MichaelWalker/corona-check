@@ -1,19 +1,18 @@
 ﻿import React, {FunctionComponent} from "react";
-import {CartesianGrid, Line, LineChart, XAxis, YAxis} from "recharts";
-import {DataPoint} from "../../services/dataProcessor";
+import {Line, LineChart, XAxis, YAxis} from "recharts";
+import {GraphData} from "../../services/plotService";
 
 interface GraphViewerProps {
-    rawData: DataPoint[]
+    graphData: GraphData
 }
 
-export const GraphViewer: FunctionComponent<GraphViewerProps> = ({rawData}) => {
+export const GraphViewer: FunctionComponent<GraphViewerProps> = ({graphData}) => {
     return (
         <div>
-            <LineChart width={1500} height={300} data={rawData}>
+            <LineChart width={1500} height={300} data={graphData}>
                 <XAxis dataKey={"date"}/>
                 <YAxis/>
-                <CartesianGrid stroke="#eee" strokeDasharray="5 5"/>
-                <Line type="monotone" dataKey="new" stroke="#8884d8" />
+                <Line type="monotone" dataKey="value" stroke="#8884d8" />
             </LineChart>
         </div>
     );

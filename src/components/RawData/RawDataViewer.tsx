@@ -1,14 +1,14 @@
 ﻿import React, {FunctionComponent} from "react";
-import {DataPoint} from "../../services/dataProcessor";
+import {GraphData} from "../../services/plotService";
 
 interface RawDataViewerProps {
-    rawData: DataPoint[]
+    graphData: GraphData
 }
 
-export const RawDataViewer: FunctionComponent<RawDataViewerProps> = ({ rawData }) => {
+export const RawDataViewer: FunctionComponent<RawDataViewerProps> = ({ graphData }) => {
     return (
         <ol>
-            {rawData.map(day => <li>Date: {day.date.format()}, Total Cases: {day.cumulative}, New Cases: {day.new}</li>)}
+            {graphData.map(dataPoint => <li>Date: {dataPoint.date.format()}, Value: {dataPoint.value}</li>)}
         </ol>
     );
 };

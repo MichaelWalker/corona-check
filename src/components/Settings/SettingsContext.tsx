@@ -1,6 +1,7 @@
 ﻿import React, {FunctionComponent, useState} from "react";
 import moment from "moment";
 import {ViewerSettings} from "./ViewerSettings";
+import {MetricSettings} from "./MetricSettings";
 
 export type ViewerMode = "Graph" | "Raw";
 export type Metric = 
@@ -42,6 +43,7 @@ export const Settings: FunctionComponent = ({children}) => {
         <SettingsContext.Provider value={context}>
             <section>
                 <ViewerSettings viewer={viewer} setViewer={setViewer}/>
+                <MetricSettings metric={metric} setMetric={setMetric}/>
             </section>
             {children}
         </SettingsContext.Provider>
