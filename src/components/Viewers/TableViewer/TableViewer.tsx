@@ -8,7 +8,7 @@ interface TableViewerProps {
 export const TableViewer: FunctionComponent<TableViewerProps> = ({ graphData }) => {
     return (
         <ol>
-            {graphData.map(dataPoint => <li>Date: {dataPoint.date.format()}, Value: {dataPoint.value}, Rolling Average: {dataPoint.rollingAverage}</li>)}
+            {graphData.map(dataPoint => <li>Date: {dataPoint.timestamp}, Value: {dataPoint.value}, Rolling Average: {dataPoint.rollingAverage}</li>)}
         </ol>
     );
 };

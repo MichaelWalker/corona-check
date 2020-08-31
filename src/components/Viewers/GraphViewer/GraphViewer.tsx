@@ -1,6 +1,7 @@
 ﻿import React, {FunctionComponent, ReactElement} from "react";
 import {Bar, ComposedChart, Line, XAxis, YAxis} from "recharts";
 import {GraphData} from "../../../services/plotService";
+import moment from "moment";
 
 interface GraphViewerProps {
     graphData: GraphData
@@ -32,7 +33,10 @@ export const GraphViewer: FunctionComponent<GraphViewerProps> = ({graphData}) =>
     }
     return (
         <ComposedChart width={1500} height={300} data={graphData}>
-            <XAxis dataKey={"date"}/>
+            <XAxis dataKey={"timestamp"} 
+                   domain={['dataMin - 50000', 'dataMax + 50000']} 
+                   type="number" 
+                   tickFormatter={timestamp => moment.unix(timestamp).format("DD-MMM")}/>
             <YAxis/>
             {plots}
         </ComposedChart>

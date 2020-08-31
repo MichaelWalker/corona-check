@@ -3,7 +3,7 @@ import {TimeSeries} from "./dataStructures";
 import {Metric} from "../config/options";
 
 interface GraphPoint {
-    date: moment.Moment,
+    timestamp: number,
     value: number | undefined,
     rollingAverage?: number | undefined
 }
@@ -14,35 +14,35 @@ export const getPlotSeries = (timeSeries: TimeSeries, metric: Metric, startDate?
     const dataSegment = getDataSegment(timeSeries, startDate, endDate);
     switch (metric) {
         case "New Cases":
-            return dataSegment.map(d => {return {date: d.date, value: d.casesNew, rollingAverage: d.casesRollingAverage}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.casesNew, rollingAverage: d.casesRollingAverage}});
         case "New Cases Per Population":
-            return dataSegment.map(d => {return {date: d.date, value: d.casesNewPerPopulation, rollingAverage: d.casesRollingAveragePerPopulation}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.casesNewPerPopulation, rollingAverage: d.casesRollingAveragePerPopulation}});
         case "Total Cases":
-            return dataSegment.map(d => {return {date: d.date, value: d.casesTotal}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.casesTotal}});
         case "Total Cases Per Population":
-            return dataSegment.map(d => {return {date: d.date, value: d.casesTotalPerPopulation}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.casesTotalPerPopulation}});
         case "New Admissions":
-            return dataSegment.map(d => {return {date: d.date, value: d.admissionsNew, rollingAverage: d.admissionsRollingAverage}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.admissionsNew, rollingAverage: d.admissionsRollingAverage}});
         case "New Admissions Per Population":
-            return dataSegment.map(d => {return {date: d.date, value: d.admissionsNewPerPopulation, rollingAverage: d.admissionsRollingAveragePerPopulation}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.admissionsNewPerPopulation, rollingAverage: d.admissionsRollingAveragePerPopulation}});
         case "Total Admissions":
-            return dataSegment.map(d => {return {date: d.date, value: d.admissionsTotal}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.admissionsTotal}});
         case "Total Admissions Per Population":
-            return dataSegment.map(d => {return {date: d.date, value: d.admissionsTotalPerPopulation}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.admissionsTotalPerPopulation}});
         case "New Deaths":
-            return dataSegment.map(d => {return {date: d.date, value: d.deathsNew, rollingAverage: d.deathsRollingAverage}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.deathsNew, rollingAverage: d.deathsRollingAverage}});
         case "New Deaths Per Population":
-            return dataSegment.map(d => {return {date: d.date, value: d.deathsNewPerPopulation, rollingAverage: d.deathsRollingAveragePerPopulation}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.deathsNewPerPopulation, rollingAverage: d.deathsRollingAveragePerPopulation}});
         case "Total Deaths":
-            return dataSegment.map(d => {return {date: d.date, value: d.deathsTotal}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.deathsTotal}});
         case "Total Deaths Per Population":
-            return dataSegment.map(d => {return {date: d.date, value: d.deathsTotalPerPopulation}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.deathsTotalPerPopulation}});
         case "Hospital Cases":
-            return dataSegment.map(d => {return {date: d.date, value: d.hospitalCases}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.hospitalCases}});
         case "Hospital Capacity":
-            return dataSegment.map(d => {return {date: d.date, value: d.hospitalCapacity}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.hospitalCapacity}});
         case "Hospital Utilisation":
-            return dataSegment.map(d => {return {date: d.date, value: d.hospitalUtilisation}});
+            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.hospitalUtilisation}});
         default: 
             return []
     }

@@ -31,7 +31,7 @@ const deduplicate = (rawData: RawDataPoint[]): RawDataPoint[] => {
     const uniqueData: RawDataPoint[] = [];
     
     rawData.forEach(dataPoint => {
-        if (!uniqueData.find(item => item.hash === dataPoint.hash)) {
+        if (!uniqueData.find(d => d.dateString === dataPoint.dateString)) {
             uniqueData.push(dataPoint);
         }
     });

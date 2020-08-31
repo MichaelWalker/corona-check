@@ -55,7 +55,7 @@ const lastSevenPoints = (rawData: RawData, index: number) => {
     if (index <= 7) {
         return rawData.slice(0, index);
     }
-    return rawData.slice(index - 7, index);
+    return rawData.slice(index - 6, index + 1);
 };
 
 const calculateRollingAverage = (lastSevenReadings: number[]) => {
