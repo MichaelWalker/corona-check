@@ -3,6 +3,7 @@ import moment from "moment";
 import {ViewerSettings} from "./ViewerSettings/ViewerSettings";
 import {MetricSettings} from "./MetricSettings/MetricSettings";
 import {Metric, ViewerMode} from "../../config/options";
+import {DateSettings} from "./DateSettings/DateSettings";
 
 
 const initialContext = {
@@ -16,7 +17,7 @@ export const SettingsContext = React.createContext(initialContext);
 export const Settings: FunctionComponent = ({children}) => {
     const [viewer, setViewer] = useState<ViewerMode>("Graph");
     const [metric, setMetric] = useState<Metric>("Total Cases");
-    const [startDate, setStartDate] = useState(moment());
+    const [startDate, setStartDate] = useState(moment("01 March 2020"));
     const [endDate, setEndDate] = useState(moment());
     
     const context = {
@@ -28,6 +29,7 @@ export const Settings: FunctionComponent = ({children}) => {
             <section>
                 <ViewerSettings viewer={viewer} setViewer={setViewer}/>
                 <MetricSettings metric={metric} setMetric={setMetric}/>
+                <DateSettings startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}/>
             </section>
             {children}
         </SettingsContext.Provider>
