@@ -8,6 +8,10 @@ export interface RawDataPoint {
     cumulativeCasesBySpecimenDate: number;
     newAdmissions: number;
     cumulativeAdmissions: number;
+    newDeathsByPublishDate: number;
+    newDeathsByDeathDate: number;
+    cumulativeDeathsByPublishDate: number;
+    cumulativeDeathsByDeathDate: number;
 }
 
 export type DataPoint = RawDataPoint & {
@@ -15,6 +19,8 @@ export type DataPoint = RawDataPoint & {
     newCasesByPublishDateRollingAverage: number;
     newCasesBySpecimenDateRollingAverage: number;
     newAdmissionsRollingAverage: number;
+    newDeathsByPublishDateRollingAverage: number;
+    newDeathsByDeathDateRollingAverage: number;
 }
 
 export type RawData = RawDataPoint[];

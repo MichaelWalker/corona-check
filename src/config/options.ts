@@ -59,18 +59,40 @@ export const METRICS: Metric[] = [
             apiName: "cumAdmissions",
         }
     },
+    {
+        label: "New Deaths (by publish date)",
+        property: {
+            name: "newDeathsByPublishDate",
+            apiName: "newDeaths28DaysByPublishDate",
+            associatedAverage: "newDeathsByPublishDateRollingAverage"
+        }
+    },
+    {
+        label: "New Deaths (by death date)",
+        property: {
+            name: "newDeathsByDeathDate",
+            apiName: "newDeaths28DaysByDeathDate",
+            associatedAverage: "newDeathsByDeathDateRollingAverage"
+        }
+    },
+    {
+        label: "Cumulative Deaths (by publish date)",
+        property: {
+            name: "cumulativeDeathsByPublishDate",
+            apiName: "cumDeaths28DaysByPublishDate",
+        }
+    },
+    {
+        label: "Cumulative Deaths (by death date)",
+        property: {
+            name: "cumulativeDeathsByDeathDate",
+            apiName: "cumDeaths28DaysByDeathDate",
+        }
+    },
 ];
 
 
 // export type Metric =
-//     "Total Cases" |
-//     "Total Cases Per Population" |
-//     "New Cases" |
-//     "New Cases Per Population" |
-//     "Total Admissions" |
-//     "Total Admissions Per Population" |
-//     "New Admissions" |
-//     "New Admissions Per Population" |
 //     "Total Deaths" |
 //     "Total Deaths Per Population" |
 //     "New Deaths" |
