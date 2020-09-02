@@ -14,6 +14,8 @@ export interface RawDataPoint {
     cumulativeDeathsByDeathDate: number;
     peopleInHospital: number;
     hospitalCapacity: number;
+    newTests: number;
+    cumulativeTests: number;
 }
 
 export type DataPoint = RawDataPoint & {
@@ -23,6 +25,7 @@ export type DataPoint = RawDataPoint & {
     newAdmissionsRollingAverage: number;
     newDeathsByPublishDateRollingAverage: number;
     newDeathsByDeathDateRollingAverage: number;
+    newTestsRollingAverage: number;
 }
 
 export type RawData = RawDataPoint[];

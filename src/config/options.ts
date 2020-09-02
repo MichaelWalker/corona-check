@@ -112,7 +112,22 @@ export const METRICS: Metric[] = [
             associatedData: "hospitalCapacity"
         },
         excludeFromStructure: true
-    }
+    },
+    {
+        label: "New Tests",
+        property: {
+            name: "newTests",
+            apiName: "newTestsByPublishDate",
+            associatedData: "newTestsRollingAverage"
+        }
+    },
+    {
+        label: "Cumulative Tests",
+        property: {
+            name: "cumulativeTests",
+            apiName: "cumTestsByPublishDate"
+        }
+    },
 ];
 
 

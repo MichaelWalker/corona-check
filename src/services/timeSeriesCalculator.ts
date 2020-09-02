@@ -32,6 +32,7 @@ const toDataPoint = (dataPoint: RawDataPoint, index: number, rawData: RawData): 
         newAdmissionsRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newAdmissions)),
         newDeathsByPublishDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newDeathsByPublishDate)),
         newDeathsByDeathDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newDeathsByDeathDate)),
+        newTestsRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newTests)),
     }
 };
 
