@@ -24,7 +24,8 @@ export const getAreaData = async (areaName: string): Promise<AreaData> => {
 };
 
 const calculatePopulation = (dataPoint: DataPoint): number => {
-    return 100000 * dataPoint.casesTotal / dataPoint.casesTotalPerPopulation;  
+    return 0;
+    // return 100000 * dataPoint.casesTotal / dataPoint.casesTotalPerPopulation;
 };
 
 const deduplicate = (rawData: RawDataPoint[]): RawDataPoint[] => {

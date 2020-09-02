@@ -22,32 +22,13 @@ const byDate = (a: RawDataPointWithDate, b: RawDataPointWithDate): number => {
 };
 
 const toDataPoint = (dataPoint: RawDataPoint, index: number, rawData: RawData): DataPoint => {
-    const populationRatio = dataPoint.casesTotal / dataPoint.casesTotalPerPopulation;
     const lastWeek = lastSevenPoints(rawData, index);
-    const casesRollingAverage = calculateRollingAverage(lastWeek.map(d => d.casesNew));
-    const admissionsRollingAverage = calculateRollingAverage(lastWeek.map(d => d.admissionsNew));
-    const deathsRollingAverage = calculateRollingAverage(lastWeek.map(d => d.deathsNew));
 
     return {
         ...dataPoint,
-
         date: moment(dataPoint.dateString),
-
-        casesNewPerPopulation: dataPoint.casesNew / populationRatio,
-        casesRollingAverage: casesRollingAverage,
-        casesRollingAveragePerPopulation: casesRollingAverage / populationRatio,
-
-        admissionsNewPerPopulation: dataPoint.admissionsNew / populationRatio,
-        admissionsTotalPerPopulation: dataPoint.admissionsTotal / populationRatio,
-        admissionsRollingAverage: admissionsRollingAverage,
-        admissionsRollingAveragePerPopulation: admissionsRollingAverage / populationRatio,
-
-        deathsNewPerPopulation: dataPoint.deathsNew / populationRatio,
-        deathsTotalPerPopulation: dataPoint.deathsTotal / populationRatio,
-        deathsRollingAverage: deathsRollingAverage,
-        deathsRollingAveragePerPopulation: deathsRollingAverage / populationRatio,
-
-        hospitalUtilisation: (dataPoint.hospitalCapacity)? dataPoint.hospitalCases * 100 / dataPoint.hospitalCapacity : 0
+        newCasesByPublishDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newCasesByPublishDate)),
+        newCasesBySpecimenDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newCasesBySpecimenDate)),
     }
 };
 

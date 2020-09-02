@@ -19,7 +19,7 @@ const hasRollingAverage = (graphData: GraphData): boolean => {
 };
 
 export const GraphViewer: FunctionComponent<GraphViewerProps> = ({graphData}) => {
-    let plots: ReactElement[] = [];
+    let plots: ReactElement[];
     if (hasRollingAverage(graphData)) {
         plots = [
             <Bar dataKey="value" stroke="#8884d8" />,

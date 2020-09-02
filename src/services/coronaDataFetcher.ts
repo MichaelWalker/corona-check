@@ -1,22 +1,25 @@
 ﻿import {RawDataPoint} from "./dataStructures";
+import {METRICS} from "../config/options";
 
 const BASE_URL = "https://api.coronavirus-staging.data.gov.uk";
-const STRUCTURE = {
-    dateString: "date",
-    hash: "hash",
-    casesNew: "newCasesBySpecimenDate",
-    casesTotal: "cumCasesBySpecimenDate",
-    casesTotalPerPopulation: "cumCasesBySpecimenDateRate",
-    admissionsNew: "newAdmissions",
-    admissionsTotal: "cumAdmissions",
-    hospitalCases: "hospitalCases",
-    hospitalCapacity: "plannedCapacityByPublishDate",
-    deathsNew: "newDeaths28DaysByDeathDate",
-    deathsTotal: "cumDeaths28DaysByDeathDate",
+
+const getStructure = (): {} => {
+    let structure: any = {
+        dateString: "date"
+    };
+    
+    METRICS.forEach(metric => {
+        structure[metric.byPublishedDate.name] = metric.byPublishedDate.apiName;
+        if (metric.bySpecimenDate) {
+            structure[metric.byPublishedDate.name] = metric.byPublishedDate.apiName;
+        }
+    });
+    
+    return structure;
 };
 
 const getUrl = (areaName: string) => {
-    const structureString = JSON.stringify(STRUCTURE);
+    const structureString = JSON.stringify(getStructure());
     return `${BASE_URL}/v1/data?filters=areaName=${areaName}&structure=${structureString}`;
 };
 

@@ -1,6 +1,6 @@
 ﻿import moment from "moment";
-import {TimeSeries} from "./dataStructures";
-import {Metric} from "../config/options";
+import {DataPoint, TimeSeries} from "./dataStructures";
+import {Metric, Property} from "../config/options";
 
 interface GraphPoint {
     timestamp: number,
@@ -10,42 +10,32 @@ interface GraphPoint {
 
 export type GraphData = GraphPoint[];
 
+const getProperty = (metric: Metric): Property => {
+    return metric.byPublishedDate;
+};
+
+const getPlotValue = (dataPoint: DataPoint, property: Property): number => {
+    return dataPoint[property.name] as number;
+};
+
+const getPlotRollingAverage = (dataPoint: DataPoint, property: Property): number | undefined => {
+    if (!property.associatedAverage) {
+        return undefined;
+    }
+    return dataPoint[property.associatedAverage] as number;
+};
+ 
 export const getPlotSeries = (timeSeries: TimeSeries, metric: Metric, startDate?: moment.Moment, endDate?: moment.Moment): GraphData => {
     const dataSegment = getDataSegment(timeSeries, startDate, endDate);
-    switch (metric) {
-        case "New Cases":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.casesNew, rollingAverage: d.casesRollingAverage}});
-        case "New Cases Per Population":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.casesNewPerPopulation, rollingAverage: d.casesRollingAveragePerPopulation}});
-        case "Total Cases":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.casesTotal}});
-        case "Total Cases Per Population":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.casesTotalPerPopulation}});
-        case "New Admissions":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.admissionsNew, rollingAverage: d.admissionsRollingAverage}});
-        case "New Admissions Per Population":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.admissionsNewPerPopulation, rollingAverage: d.admissionsRollingAveragePerPopulation}});
-        case "Total Admissions":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.admissionsTotal}});
-        case "Total Admissions Per Population":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.admissionsTotalPerPopulation}});
-        case "New Deaths":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.deathsNew, rollingAverage: d.deathsRollingAverage}});
-        case "New Deaths Per Population":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.deathsNewPerPopulation, rollingAverage: d.deathsRollingAveragePerPopulation}});
-        case "Total Deaths":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.deathsTotal}});
-        case "Total Deaths Per Population":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.deathsTotalPerPopulation}});
-        case "Hospital Cases":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.hospitalCases}});
-        case "Hospital Capacity":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.hospitalCapacity}});
-        case "Hospital Utilisation":
-            return dataSegment.map(d => {return {timestamp: d.date.unix(), value: d.hospitalUtilisation}});
-        default: 
-            return []
-    }
+    const property = getProperty(metric);
+    
+    return dataSegment.map(dataPoint => {
+       return {
+           timestamp: dataPoint.date.unix(),
+           value: getPlotValue(dataPoint, property),
+           rollingAverage: getPlotRollingAverage(dataPoint, property)
+       } 
+    });
 };
 
 const getDataSegment = (allData: TimeSeries, 

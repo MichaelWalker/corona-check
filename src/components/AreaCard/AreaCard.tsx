@@ -28,7 +28,7 @@ export const Area: FunctionComponent<AreaProps> = ({areaName}) => {
     
     return (
         <section>
-            <h2>{areaName} - {metric}</h2>
+            <h2>{areaName} - {metric.label}</h2>
             {viewerComponent}
         </section>
     );
