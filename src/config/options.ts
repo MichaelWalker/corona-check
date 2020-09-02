@@ -5,12 +5,13 @@ export type ViewerMode = "Graph" | "Raw";
 export interface Property {
     name: keyof DataPoint;
     apiName: string;
-    associatedAverage?: keyof DataPoint | undefined;
+    associatedData?: keyof DataPoint | undefined;
 }
 
 export interface Metric {
     label: string;
     property: Property;
+    excludeFromStructure?: boolean | undefined;
 }
 
 export const METRICS: Metric[] = [
@@ -19,7 +20,7 @@ export const METRICS: Metric[] = [
         property: {
             name: "newCasesByPublishDate",
             apiName: "newCasesByPublishDate",
-            associatedAverage: "newCasesByPublishDateRollingAverage"
+            associatedData: "newCasesByPublishDateRollingAverage"
         },
     },
     {
@@ -27,7 +28,7 @@ export const METRICS: Metric[] = [
         property: {
             name: "newCasesBySpecimenDate",
             apiName: "newCasesBySpecimenDate",
-            associatedAverage: "newCasesBySpecimenDateRollingAverage"
+            associatedData: "newCasesBySpecimenDateRollingAverage"
         }
     },
     {
@@ -49,7 +50,7 @@ export const METRICS: Metric[] = [
         property: {
             name: "newAdmissions",
             apiName: "newAdmissions",
-            associatedAverage: "newAdmissionsRollingAverage"
+            associatedData: "newAdmissionsRollingAverage"
         }
     },
     {
@@ -64,7 +65,7 @@ export const METRICS: Metric[] = [
         property: {
             name: "newDeathsByPublishDate",
             apiName: "newDeaths28DaysByPublishDate",
-            associatedAverage: "newDeathsByPublishDateRollingAverage"
+            associatedData: "newDeathsByPublishDateRollingAverage"
         }
     },
     {
@@ -72,7 +73,7 @@ export const METRICS: Metric[] = [
         property: {
             name: "newDeathsByDeathDate",
             apiName: "newDeaths28DaysByDeathDate",
-            associatedAverage: "newDeathsByDeathDateRollingAverage"
+            associatedData: "newDeathsByDeathDateRollingAverage"
         }
     },
     {
@@ -89,6 +90,29 @@ export const METRICS: Metric[] = [
             apiName: "cumDeaths28DaysByDeathDate",
         }
     },
+    {
+        label: "Hospital Capacity",
+        property: {
+            name: "hospitalCapacity",
+            apiName: "plannedCapacityByPublishDate",
+        }
+    },
+    {
+        label: "People In Hospital",
+        property: {
+            name: "peopleInHospital",
+            apiName: "hospitalCases",
+        }
+    },
+    {
+        label: "Hospital Utilisation",
+        property: {
+            name: "peopleInHospital",
+            apiName: "hospitalCases",
+            associatedData: "hospitalCapacity"
+        },
+        excludeFromStructure: true
+    }
 ];
 
 

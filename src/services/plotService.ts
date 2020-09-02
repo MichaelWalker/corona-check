@@ -15,10 +15,10 @@ const getPlotValue = (dataPoint: DataPoint, property: Property): number => {
 };
 
 const getPlotRollingAverage = (dataPoint: DataPoint, property: Property): number | undefined => {
-    if (!property.associatedAverage) {
+    if (!property.associatedData) {
         return undefined;
     }
-    return dataPoint[property.associatedAverage] as number;
+    return dataPoint[property.associatedData] as number;
 };
  
 export const getPlotSeries = (timeSeries: TimeSeries, metric: Metric, startDate?: moment.Moment, endDate?: moment.Moment): GraphData => {

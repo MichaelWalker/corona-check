@@ -12,6 +12,8 @@ export interface RawDataPoint {
     newDeathsByDeathDate: number;
     cumulativeDeathsByPublishDate: number;
     cumulativeDeathsByDeathDate: number;
+    peopleInHospital: number;
+    hospitalCapacity: number;
 }
 
 export type DataPoint = RawDataPoint & {
