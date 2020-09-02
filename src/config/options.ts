@@ -44,6 +44,21 @@ export const METRICS: Metric[] = [
             apiName: "cumCasesBySpecimenDate",
         }
     },
+    {
+        label: "New Admissions",
+        property: {
+            name: "newAdmissions",
+            apiName: "newAdmissions",
+            associatedAverage: "newAdmissionsRollingAverage"
+        }
+    },
+    {
+        label: "Cumulative Admissions",
+        property: {
+            name: "cumulativeAdmissions",
+            apiName: "cumAdmissions",
+        }
+    },
 ];
 
 

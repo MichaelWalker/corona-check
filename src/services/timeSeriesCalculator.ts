@@ -29,6 +29,7 @@ const toDataPoint = (dataPoint: RawDataPoint, index: number, rawData: RawData): 
         date: moment(dataPoint.dateString),
         newCasesByPublishDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newCasesByPublishDate)),
         newCasesBySpecimenDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newCasesBySpecimenDate)),
+        newAdmissionsRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newAdmissions)),
     }
 };
 
