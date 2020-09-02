@@ -4,6 +4,8 @@ export interface RawDataPoint {
     dateString: string;
     newCasesByPublishDate: number;
     newCasesBySpecimenDate: number;
+    cumulativeCasesByPublishDate: number;
+    cumulativeCasesBySpecimenDate: number;
 }
 
 export type DataPoint = RawDataPoint & {

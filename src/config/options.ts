@@ -1,6 +1,7 @@
 ﻿import {DataPoint} from "../services/dataStructures";
 
 export type ViewerMode = "Graph" | "Raw";
+export type RecordType = "By Publish Date" | "By Specimen Date"
 
 export interface Property {
     name: keyof DataPoint;
@@ -27,7 +28,18 @@ export const METRICS: Metric[] = [
             apiName: "newCasesBySpecimenDate",
             associatedAverage: "newCasesBySpecimenDateRollingAverage"
         }
-    }  
+    },
+    {
+        label: "Cumulative Cases",
+        byPublishedDate: {
+            name: "cumulativeCasesByPublishDate",
+            apiName: "cumCasesByPublishDate",
+        },
+        bySpecimenDate: {
+            name: "cumulativeCasesBySpecimenDate",
+            apiName: "cumCasesBySpecimenDate",
+        }
+    }
 ];
 
 

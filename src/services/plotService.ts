@@ -1,6 +1,6 @@
 ﻿import moment from "moment";
 import {DataPoint, TimeSeries} from "./dataStructures";
-import {Metric, Property} from "../config/options";
+import {Metric, Property, RecordType} from "../config/options";
 
 interface GraphPoint {
     timestamp: number,
@@ -10,8 +10,8 @@ interface GraphPoint {
 
 export type GraphData = GraphPoint[];
 
-const getProperty = (metric: Metric): Property => {
-    return metric.byPublishedDate;
+const getProperty = (metric: Metric, recordType: RecordType): Property => {
+    return recordType === "By Publish Date" ? metric.byPublishedDate : metric.bySpecimenDate!;
 };
 
 const getPlotValue = (dataPoint: DataPoint, property: Property): number => {
@@ -25,9 +25,9 @@ const getPlotRollingAverage = (dataPoint: DataPoint, property: Property): number
     return dataPoint[property.associatedAverage] as number;
 };
  
-export const getPlotSeries = (timeSeries: TimeSeries, metric: Metric, startDate?: moment.Moment, endDate?: moment.Moment): GraphData => {
+export const getPlotSeries = (timeSeries: TimeSeries, metric: Metric, recordType: RecordType, startDate?: moment.Moment, endDate?: moment.Moment): GraphData => {
     const dataSegment = getDataSegment(timeSeries, startDate, endDate);
-    const property = getProperty(metric);
+    const property = getProperty(metric, recordType);
     
     return dataSegment.map(dataPoint => {
        return {

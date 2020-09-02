@@ -11,7 +11,7 @@ const getStructure = (): {} => {
     METRICS.forEach(metric => {
         structure[metric.byPublishedDate.name] = metric.byPublishedDate.apiName;
         if (metric.bySpecimenDate) {
-            structure[metric.byPublishedDate.name] = metric.byPublishedDate.apiName;
+            structure[metric.bySpecimenDate.name] = metric.bySpecimenDate.apiName;
         }
     });
     

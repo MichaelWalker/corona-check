@@ -11,7 +11,7 @@ interface AreaProps {
 
 export const Area: FunctionComponent<AreaProps> = ({areaName}) => {
     const [data, setData] = useState<AreaData | null>(null);
-    const {viewer, metric, startDate, endDate} = useContext(SettingsContext);
+    const {viewer, metric, recordType, startDate, endDate} = useContext(SettingsContext);
 
     useEffect(() => {
         getAreaData(areaName).then(areaData => setData(areaData));
@@ -21,7 +21,7 @@ export const Area: FunctionComponent<AreaProps> = ({areaName}) => {
         return <div>Loading</div>
     }
     
-    const timeSeries = getPlotSeries(data.timeSeries, metric, startDate, endDate);
+    const timeSeries = getPlotSeries(data.timeSeries, metric, recordType, startDate, endDate);
     const viewerComponent = viewer === "Graph" ? 
         <GraphViewer graphData={timeSeries}/> : 
         <TableViewer graphData={timeSeries}/>;
