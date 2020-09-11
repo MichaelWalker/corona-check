@@ -5,7 +5,7 @@ export const Header = () => {
     return (
         <header>
             <nav>
-                <Link to={"/"}>National</Link>
+                <Link to={"/national"}>National</Link>
                 <Link to={"/local"}>Local</Link>
                 <Link to={"/regions-of-interest"}>Regions of Interest</Link>
                 <Link to={"/find-a-region"}>Find a Region</Link>

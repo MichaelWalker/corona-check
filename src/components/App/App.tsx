@@ -13,7 +13,10 @@ function App() {
             <main>
                 <Settings>
                     <Switch>
-                        <Route path={"/"} exact={true}>
+                        <Route path={""} exact={true}>
+                            
+                        </Route>
+                        <Route path={"/national"} exact={true}>
                             <ByAreaPage title={"National"} areaNames={NATIONS}/>
                         </Route>
                         <Route path={"/local"} exact={true}>
