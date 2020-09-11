@@ -1,5 +1,6 @@
 ﻿import React, {FunctionComponent} from "react";
 import {Area} from "../AreaCard/AreaCard";
+import {Settings} from "../Settings/SettingsContext";
 
 interface ByAreaPageProps {
     title: string;
@@ -8,9 +9,9 @@ interface ByAreaPageProps {
 
 export const ByAreaPage: FunctionComponent<ByAreaPageProps> = ({ title, areaNames }) => {
     return (
-        <div>
+        <Settings>
             <h1>{title}</h1>
             {areaNames.map(areaName => <Area areaName={areaName}/>)}
-        </div>
+        </Settings>
     );  
 };
