@@ -30,9 +30,3 @@ export type DataPoint = RawDataPoint & {
 
 export type RawData = RawDataPoint[];
 export type TimeSeries = DataPoint[];
-
-export interface R {
-    last7Days: number;
-    last14Days: number;
-    last28Days: number;
-}

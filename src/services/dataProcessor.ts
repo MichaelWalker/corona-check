@@ -1,13 +1,13 @@
 ﻿import {fetchDataForArea} from "./coronaDataFetcher";
-import {DataPoint, R, RawDataPoint, TimeSeries} from "./dataStructures";
-import {calculateR} from "./rCalculator";
+import {DataPoint, RawDataPoint, TimeSeries} from "./dataStructures";
 import {calculateTimeSeries} from "./timeSeriesCalculator";
+import {getStats, Stats} from "./statService";
 
 export interface AreaData {
     areaName: string;
-    r: R;
     population: number;
     timeSeries: TimeSeries;
+    stats: Stats;
 }
 
 export const getAreaData = async (areaName: string): Promise<AreaData> => {
@@ -17,9 +17,9 @@ export const getAreaData = async (areaName: string): Promise<AreaData> => {
     
     return {
         areaName: areaName,
-        r: calculateR(timeSeries),
         population: calculatePopulation(timeSeries[0]),
         timeSeries: timeSeries,
+        stats: getStats(timeSeries)
     };
 };
 

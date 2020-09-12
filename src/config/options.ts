@@ -11,7 +11,6 @@ export interface Property {
 export interface Metric {
     label: string;
     property: Property;
-    excludeFromStructure?: boolean | undefined;
 }
 
 export const METRICS: Metric[] = [
@@ -105,15 +104,6 @@ export const METRICS: Metric[] = [
         }
     },
     {
-        label: "Hospital Utilisation",
-        property: {
-            name: "peopleInHospital",
-            apiName: "hospitalCases",
-            associatedData: "hospitalCapacity"
-        },
-        excludeFromStructure: true
-    },
-    {
         label: "New Tests",
         property: {
             name: "newTests",
@@ -129,13 +119,3 @@ export const METRICS: Metric[] = [
         }
     },
 ];
-
-
-// export type Metric =
-//     "Total Deaths" |
-//     "Total Deaths Per Population" |
-//     "New Deaths" |
-//     "New Deaths Per Population" |
-//     "Hospital Cases" |
-//     "Hospital Capacity" |
-//     "Hospital Utilisation";

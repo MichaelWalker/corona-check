@@ -9,9 +9,7 @@ const getStructure = (): {} => {
     };
     
     METRICS.forEach(metric => {
-        if (!metric.excludeFromStructure) {
-            structure[metric.property.name] = metric.property.apiName;
-        }
+        structure[metric.property.name] = metric.property.apiName;
     });
     
     return structure;

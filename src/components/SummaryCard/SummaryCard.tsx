@@ -1,20 +1,36 @@
-﻿import React, {FunctionComponent} from "react";
+﻿import React, {FunctionComponent, useEffect, useState} from "react";
 import styles from "./SummaryCard.module.scss";
 import {NewCasesStat, TotalCasesStat, CasesTrendStat} from "../Stat/Stat";
-import moment from "moment";
+import {AreaData, getAreaData} from "../../services/dataProcessor";
 
 interface SummaryCardProps {
     areaName: string;
+    isLarge?: boolean;
 }
 
-export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName}) => {
+export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, isLarge = false}) => {
+    const [data, setData] = useState<AreaData | null>(null);
+    
+    useEffect(() => {
+        getAreaData(areaName)
+            .then(areaData => setData(areaData))
+    }, [areaName]);
+    
+    if (data === null) {
+        return (
+            <section className={styles.card}>
+                Loading...
+            </section>
+        );
+    }
+    
     return (
-        <section className={styles.card}>
+        <section className={isLarge ? styles.largeCard : styles.card}>
             <h2 className={styles.title}>{areaName}</h2>
             <div className={styles.statRow}>
-                <NewCasesStat value={3000} lastUpdated={moment()}/>
-                <TotalCasesStat value={180000} lastUpdated={moment("09-11-2020")}/>
-                <CasesTrendStat value={1.2} lastUpdated={moment("09-10-2020")}/>
+                <NewCasesStat value={data.stats.cases.new} lastUpdated={data.stats.cases.date}/>
+                <TotalCasesStat value={data.stats.cases.total} lastUpdated={data.stats.cases.date}/>
+                <CasesTrendStat value={data.stats.cases.trend} lastUpdated={data.stats.cases.date}/>
             </div>
         </section>
     );  
@@ -22,13 +38,6 @@ export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName}) => 
 
 export const LargeSummaryCard: FunctionComponent<SummaryCardProps> = ({areaName}) => {
     return (
-        <section className={styles.largeCard}>
-            <h2 className={styles.title}>{areaName}</h2>
-            <div className={styles.statGrid}>
-                <NewCasesStat value={3000} lastUpdated={moment()}/>
-                <TotalCasesStat value={180000} lastUpdated={moment()}/>
-                <CasesTrendStat value={1.2} lastUpdated={moment()}/>
-            </div>
-        </section>
+        <SummaryCard areaName={areaName} isLarge={true}/>
     );
 };
