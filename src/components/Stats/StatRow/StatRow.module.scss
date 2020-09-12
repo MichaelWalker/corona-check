@@ -1,7 +1,7 @@
 ﻿@import "../../../styles/common";
 
 .statRow {
-  margin: #{20px - $statMargin} -$statMargin;
+  margin: -$statMargin;
   display: flex;
   flex-direction: row;
 }

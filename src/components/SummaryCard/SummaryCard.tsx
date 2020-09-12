@@ -17,19 +17,20 @@ export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, isLa
             .then(areaData => setData(areaData))
     }, [areaName]);
     
-    if (data === null) {
-        return (
-            <section className={isLarge ? styles.largeCard : styles.card}>
-                Loading...
-            </section>
-        );
-    }
+    const getContent = () => {
+        if (!data) {
+            return <div>Loading...</div>
+        }
+        if (isLarge) {
+            return <LargeCardContent areaData={data}/>
+        }
+        return <CardContent areaData={data}/>
+    };
     
     return (
         <section className={isLarge ? styles.largeCard : styles.card}>
             <h2 className={styles.title}>{areaName}</h2>
-            <StatRow statCategory={data.stats.cases}/>
-            <SimpleAreaChart data={data.timeSeries} dataKey="newCasesRollingAverage"/>
+            {getContent()}
         </section>
     );  
 };
@@ -37,5 +38,31 @@ export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, isLa
 export const LargeSummaryCard: FunctionComponent<SummaryCardProps> = ({areaName}) => {
     return (
         <SummaryCard areaName={areaName} isLarge={true}/>
+    );
+};
+
+interface CardContentProps {
+    areaData: AreaData;
+}
+
+const CardContent: FunctionComponent<CardContentProps> = ({areaData}) => {
+    return (
+        <div>
+            <div className={styles.statRow}>
+                <StatRow statCategory={areaData.stats.cases}/>
+            </div>
+            <SimpleAreaChart data={areaData.timeSeries} dataKey="newCasesRollingAverage"/>
+        </div>
+    );  
+};
+
+const LargeCardContent: FunctionComponent<CardContentProps> = ({areaData}) => {
+    return (
+        <ul className={styles.categoryList}>
+            <li className={styles.category}>
+                <StatRow statCategory={areaData.stats.cases}/>
+                <SimpleAreaChart data={areaData.timeSeries} dataKey="newCasesRollingAverage"/>
+            </li>
+        </ul>
     );
 };

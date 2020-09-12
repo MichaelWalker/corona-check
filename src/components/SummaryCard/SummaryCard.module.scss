@@ -23,3 +23,22 @@
 .title {
   @include cardTitleFont;
 }
+
+.categoryList {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.statRow {
+  margin: 20px 0;
+}
+
+.category {
+  display: flex;
+  flex-direction: row;
+  
+  & > :first-child {
+    margin-right: 20px;
+  }
+}
