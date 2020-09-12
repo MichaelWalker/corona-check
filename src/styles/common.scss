@@ -1,16 +1,18 @@
-﻿$colorLight: #FBFBFB;
+﻿$colorExtraLight: #FFFFFF;
+$colorLight: #FBFBFB;
 $colorLight2: #bcd1de;
 $colorMid: #004293;
 $colorDark: #050d22;
 $colorAccent: #B86A20;
 
-$gutterWidth: 20px;
+$gutterWidth: 40px;
 $maxContentWidth: 984px;
 $footerHeight: 40px;
 $headerHeight: 60px;
+$cardMargin: 20px; 
 
 @mixin contentGutters() {
-  margin: 0 20px;
+  margin: 0 $gutterWidth;
   
   @media (min-width: $maxContentWidth + 2*$gutterWidth) {
     margin: auto;
@@ -55,4 +57,8 @@ $headerHeight: 60px;
   &:hover {
     text-decoration: underline;
   }
+}
+
+@mixin cardTitleFont {
+  @include _font($fontSize: 32px)
 }

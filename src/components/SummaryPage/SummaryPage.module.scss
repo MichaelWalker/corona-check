@@ -3,3 +3,11 @@
 .page {
   @include contentGutters;
 }
+
+.cardContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  position: relative;
+  margin: #{40px - $cardMargin} -$cardMargin;
+}
