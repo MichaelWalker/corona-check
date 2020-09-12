@@ -1,0 +1,19 @@
+﻿@import "../../styles/common";
+
+.footer {
+  height: $footerHeight;
+  background: $colorAccent;
+}
+
+.iconCredit {
+  @include contentGutters;
+  @include bodyFont;
+}
+
+.iconCredit {
+  @include bodyFont;
+}
+
+.link {
+  @include linkFont;
+}

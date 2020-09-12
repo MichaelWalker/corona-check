@@ -1,0 +1,9 @@
+﻿@import "../../../styles/common";
+
+$logoHeight: 40px;
+
+.logo {
+  fill: $colorLight;
+  height: $logoHeight;
+  width: $logoHeight;
+}

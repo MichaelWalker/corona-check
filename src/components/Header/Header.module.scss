@@ -1,0 +1,64 @@
+﻿@import  "../../styles/common";
+
+.header {
+  background: $colorAccent;
+}
+
+.nav {
+  @include contentGutters;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  
+  height: 60px;
+}
+
+.navItem {
+  @include navLinkFont;
+  color: $colorLight;
+  transition: all ease 0.4s;
+  
+  &:active {
+    color: $colorAccentLight;
+  }
+}
+
+.logoLink {
+  @include logoFont;
+  color: $colorLight;
+  transition: all ease 0.4s;
+  
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &:active {
+    color: $colorAccentLight;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.searchLabel {
+  @include navLinkFont;
+}
+
+.input {
+  @include navLinkFont;
+  background: none;
+  border: none;
+  border-bottom: $colorAccentLight solid 1px;
+  margin-left: 20px;
+  outline: none;
+}
+
+.searchButton {
+  background: none;
+  border: none;
+}

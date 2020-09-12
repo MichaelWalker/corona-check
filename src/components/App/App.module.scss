@@ -1,0 +1,6 @@
+@import "../../styles/common";
+
+.main {
+  background: $colorLight;
+  min-height: calc(100vh - #{$footerHeight});
+}

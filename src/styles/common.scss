@@ -1,0 +1,47 @@
+﻿$colorLight: #FBFBFB;
+$colorAccent: #042c4e;
+$colorAccentLight: #77cbf0;
+$colorDark: #040b16;
+
+$gutterWidth: 20px;
+$maxContentWidth: 984px;
+$footerHeight: 40px;
+
+@mixin contentGutters() {
+  margin: 0 20px;
+  
+  @media (min-width: $maxContentWidth + 2*$gutterWidth) {
+    margin: auto;
+    max-width: $maxContentWidth;
+  }
+}
+
+@mixin _font($fontFamily: "Open Sans", $fontWeight: 400, $lineHeight: 1.5, $fontSize: 16px, $color: $colorDark) {
+  font-family: $fontFamily, "sans-serif";
+  font-weight: $fontWeight;
+  line-height: $lineHeight;
+  font-size: $fontSize;
+  color: $color;
+  text-decoration: none;
+}
+
+@mixin navLinkFont {
+  @include _font($fontSize: 20px, $color: $colorLight);
+}
+
+@mixin logoFont {
+  @include _font($fontSize: 20px, $color: $colorLight, $fontFamily: "Permanent Marker");
+}
+
+@mixin bodyFont {
+  @include _font($color: $colorLight);
+}
+
+@mixin linkFont {
+  @include bodyFont;
+  color: $colorAccentLight;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}

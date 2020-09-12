@@ -1,16 +1,16 @@
 import React from 'react';
-import './App.scss';
+import styles from './App.module.scss';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {Header} from "../Header/Header";
 import {ByAreaPage} from "../ByAreaPage/ByAreaPage";
-import {Settings} from "../Settings/SettingsContext";
 import {AREAS_OF_INTEREST, LOCAL_AREAS, NATIONS} from "../../config/areas";
 import {SubNav} from "../SubNav/SubNav";
+import {Footer} from "../Footer/Footer";
 
 function App() {
     return (
         <BrowserRouter>
-            <main>
+            <main className={styles.main}>
                 <Header/>
                 <Switch>
                     <Route path={"/national"} exact={true}>
@@ -47,6 +47,7 @@ function App() {
                     </Route>
                 </Switch>
             </main>
+            <Footer/>
         </BrowserRouter>
     );
 }
