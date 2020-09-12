@@ -1,0 +1,5 @@
+﻿@import "../../styles/common";
+
+.page {
+  @include contentGutters;
+}

@@ -1,7 +1,7 @@
 ﻿@import  "../../styles/common";
 
 .header {
-  background: $colorAccent;
+  background: $colorMid;
 }
 
 .nav {
@@ -21,7 +21,7 @@
   transition: all ease 0.4s;
   
   &:active {
-    color: $colorAccentLight;
+    color: $colorMid;
   }
 }
 
@@ -35,7 +35,7 @@
   align-items: center;
 
   &:active {
-    color: $colorAccentLight;
+    color: $colorMid;
   }
 }
 
@@ -53,7 +53,7 @@
   @include navLinkFont;
   background: none;
   border: none;
-  border-bottom: $colorAccentLight solid 1px;
+  border-bottom: $colorLight solid 1px;
   margin-left: 20px;
   outline: none;
 }

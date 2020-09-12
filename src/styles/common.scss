@@ -1,7 +1,8 @@
 ﻿$colorLight: #FBFBFB;
-$colorAccent: #042c4e;
-$colorAccentLight: #77cbf0;
-$colorDark: #040b16;
+$colorLight2: #bcd1de;
+$colorMid: #004293;
+$colorDark: #050d22;
+$colorAccent: #B86A20;
 
 $gutterWidth: 20px;
 $maxContentWidth: 984px;
@@ -30,6 +31,15 @@ $headerHeight: 60px;
   @include _font($fontSize: 20px, $color: $colorLight);
 }
 
+@mixin subNavFont {
+  @include _font($fontSize: 20px, $color: $colorDark, $fontWeight: 600);
+  transition: all ease 0.2s;
+  
+  &:hover {
+    color: $colorMid;
+  }
+}
+
 @mixin logoFont {
   @include _font($fontSize: 20px, $color: $colorLight, $fontFamily: "Permanent Marker");
 }
@@ -40,7 +50,7 @@ $headerHeight: 60px;
 
 @mixin linkFont {
   @include bodyFont;
-  color: $colorAccentLight;
+  color: $colorLight2;
   
   &:hover {
     text-decoration: underline;

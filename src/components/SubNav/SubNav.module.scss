@@ -1,0 +1,39 @@
+﻿@import "../../styles/common";
+
+.navContainer {
+  background: $colorLight2;
+}
+
+.nav {
+  @include contentGutters;
+  height: $headerHeight;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.navItem {
+  @include subNavFont;
+  margin-right: 60px;
+  position: relative;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    height: 4px;
+    background: $colorMid;
+    width: 0;
+    transition: all ease 0.2s;
+  }
+  
+  &.active {
+    color: $colorMid;
+    
+    &:after {
+      width: 100%;
+    }
+  }
+}

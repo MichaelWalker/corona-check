@@ -6,12 +6,13 @@ import {ByAreaPage} from "../ByAreaPage/ByAreaPage";
 import {AREAS_OF_INTEREST, LOCAL_AREAS, NATIONS} from "../../config/areas";
 import {SubNav} from "../SubNav/SubNav";
 import {Footer} from "../Footer/Footer";
+import {SummaryPage} from "../SummaryPage/SummaryPage";
 
 function App() {
     return (
         <BrowserRouter>
             <Header/>
-            <main className={styles.main}>
+            <div className={styles.main}>
                 <Switch>
                     <Route path={"/national"} exact={true}>
                         <ByAreaPage title={"National"} areaNames={NATIONS}/>
@@ -34,20 +35,17 @@ function App() {
                     <Route path={""}>
                         <SubNav/>
                         <Route path={"/uk"} exact={true}>
-                            <h1>UK</h1>
-                            <p>Coming Soon!</p>
+                            <SummaryPage title={"UK"}/>
                         </Route>
                         <Route path={"/devon"} exact={true}>
-                            <h1>Devon</h1>
-                            <p>Coming Soon!</p>
+                            <SummaryPage title={"Devon"}/>
                         </Route>
                         <Route path={"/favourites"} exact={true}>
-                            <h1>Favourites</h1>
-                            <p>Coming Soon!</p>
+                            <SummaryPage title={"Favourites"}/>
                         </Route>
                     </Route>
                 </Switch>
-            </main>
+            </div>
             <Footer/>
         </BrowserRouter>
     );
