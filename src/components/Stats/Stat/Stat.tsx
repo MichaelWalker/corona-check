@@ -1,10 +1,10 @@
 ﻿import React, {FunctionComponent} from "react";
 import moment from "moment";
 import styles from "./Stat.module.scss";
+import {Stat} from "../../../services/statService";
 
 interface StatProps {
-    value: number | undefined;
-    lastUpdated: moment.Moment | undefined;
+    stat: Stat | undefined;
 }
 
 type BaseStatProps = StatProps & {
@@ -12,38 +12,38 @@ type BaseStatProps = StatProps & {
     name: string;
 }
 
-export const Stat: FunctionComponent<BaseStatProps> = ({name, value, lastUpdated, className}) => {
+export const StatComponent: FunctionComponent<BaseStatProps> = ({name, stat, className}) => {
     const hasCurrentData = (): boolean => {
-        if (value === undefined || lastUpdated === undefined) {
+        if (!stat) {
             return false;
         }
-        return lastUpdated.isSame(moment(), "day");
+        return stat.lastUpdated.isSame(moment(), "day");
     };
 
     const valueString = (): string => {
-        if (value === undefined) {
+        if (!stat) {
             return "N/A";
         }
-        if (value > 1000000) {
-            return `${(value / 1000000).toPrecision(3)}M`;
+        if (stat.value > 1000000) {
+            return `${(stat.value / 1000000).toPrecision(3)}M`;
         }
-        if (value > 1000) {
-            return `${(value / 1000).toPrecision(3)}k`;
+        if (stat.value > 1000) {
+            return `${(stat.value / 1000).toPrecision(3)}k`;
         }
-        return `${value}`;
+        return `${stat.value}`;
     };
 
     const lastUpdatedString = (): string => {
-        if (lastUpdated === undefined) {
+        if (!stat) {
             return "-";
         }
-        if (lastUpdated.isSame(moment(), "day")) {
+        if (stat.lastUpdated.isSame(moment(), "day")) {
             return "today";
         }
-        if (lastUpdated.isSame(moment().add(-1, "day"), "day")) {
+        if (stat.lastUpdated.isSame(moment().add(-1, "day"), "day")) {
             return "yesterday";
         }
-        return lastUpdated.fromNow();
+        return stat.lastUpdated.fromNow();
     };
     
     return (
@@ -55,15 +55,15 @@ export const Stat: FunctionComponent<BaseStatProps> = ({name, value, lastUpdated
     );
 };
 
-export const NewCasesStat: FunctionComponent<StatProps> = ({value, lastUpdated}) => {
-    return <Stat name={"New Cases"} value={value} lastUpdated={lastUpdated} className={styles.newCases}/>  
+export const NewCasesStat: FunctionComponent<StatProps> = ({stat}) => {
+    return <StatComponent name={"New Cases"} stat={stat} className={styles.newCases}/>  
 };
 
-export const TotalCasesStat: FunctionComponent<StatProps> = ({value, lastUpdated}) => {
-    return <Stat name={"Total Cases"} value={value} lastUpdated={lastUpdated} className={styles.totalCases}/>
+export const TotalCasesStat: FunctionComponent<StatProps> = ({stat}) => {
+    return <StatComponent name={"Total Cases"} stat={stat} className={styles.totalCases}/>
 };
 
-export const CasesTrendStat: FunctionComponent<StatProps> = ({value, lastUpdated}) => {
-    return <Stat name={"Trend in Cases"} value={value} lastUpdated={lastUpdated} className={styles.trend}/>
+export const CasesTrendStat: FunctionComponent<StatProps> = ({stat}) => {
+    return <StatComponent name={"Trend in Cases"} stat={stat} className={styles.trend}/>
 };
 

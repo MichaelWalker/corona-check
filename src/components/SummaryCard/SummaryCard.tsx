@@ -29,7 +29,7 @@ export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, isLa
         <section className={isLarge ? styles.largeCard : styles.card}>
             <h2 className={styles.title}>{areaName}</h2>
             <StatRow statCategory={data.stats.cases}/>
-            <SimpleAreaChart data={data.timeSeries} dataKey="newCasesByPublishDateRollingAverage"/>
+            <SimpleAreaChart data={data.timeSeries} dataKey="newCasesRollingAverage"/>
         </section>
     );  
 };

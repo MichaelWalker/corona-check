@@ -31,12 +31,59 @@ const toDataPoint = (dataPoint: RawDataPoint, index: number, rawData: RawData): 
         date: moment(dataPoint.dateString),
         newCasesByPublishDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newCasesByPublishDate)),
         newCasesBySpecimenDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newCasesBySpecimenDate)),
+        newCases: getBestCaseFigure(dataPoint),
+        newCasesRollingAverage: calculateRollingAverage(lastWeek.map(d => getBestCaseFigure(d))),
+        totalCases: getBestTotalCaseFigure(dataPoint),
         newAdmissionsRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newAdmissions)),
         newDeathsByPublishDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newDeathsByPublishDate)),
         newDeathsByDeathDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newDeathsByDeathDate)),
+        newDeaths: getBestDeathsFigure(dataPoint),
+        newDeathsRollingAverage: calculateRollingAverage(lastWeek.map(d => getBestDeathsFigure(d))),
+        totalDeaths: getBestTotalDeathsFigure(dataPoint),
         newTestsRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newTests)),
     }
 };
+
+const getBestCaseFigure = (dataPoint: RawDataPoint): number | null => {
+    if (dataPoint.newCasesBySpecimenDate !== null) {
+        return dataPoint.newCasesBySpecimenDate;
+    }
+    if (dataPoint.newCasesByPublishDate !== null) {
+        return dataPoint.newCasesByPublishDate;
+    }
+    return null;
+};
+
+const getBestTotalCaseFigure = (dataPoint: RawDataPoint): number | null => {
+    if (dataPoint.newCasesBySpecimenDate !== null) {
+        return dataPoint.cumulativeCasesBySpecimenDate;
+    }
+    if (dataPoint.newCasesByPublishDate !== null) {
+        return dataPoint.cumulativeCasesByPublishDate;
+    }
+    return null;
+};
+
+const getBestDeathsFigure = (dataPoint: RawDataPoint): number | null => {
+    if (dataPoint.newDeathsByDeathDate !== null) {
+        return dataPoint.newDeathsByDeathDate;
+    }
+    if (dataPoint.newDeathsByPublishDate !== null) {
+        return dataPoint.newDeathsByPublishDate;
+    }
+    return null;
+};
+
+const getBestTotalDeathsFigure = (dataPoint: RawDataPoint): number | null => {
+    if (dataPoint.cumulativeDeathsByDeathDate !== null) {
+        return dataPoint.newDeathsByDeathDate;
+    }
+    if (dataPoint.cumulativeDeathsByPublishDate !== null) {
+        return dataPoint.newDeathsByPublishDate;
+    }
+    return null;
+};
+
 
 const lastSevenPoints = (rawData: RawData, index: number) => {
     if (index <= 7) {
@@ -45,10 +92,11 @@ const lastSevenPoints = (rawData: RawData, index: number) => {
     return rawData.slice(index - 6, index + 1);
 };
 
-const calculateRollingAverage = (lastSevenReadings: number[]) => {
-    if (lastSevenReadings.length === 0) {
+const calculateRollingAverage = (lastSevenReadings: (number | null)[]): number | null => {
+    const nonNullReadings = lastSevenReadings.filter(reading => reading !== null) as number[];
+    if (nonNullReadings.length === 0) {
         return 0;
     }
-    const sum = lastSevenReadings.reduce((a, b) => a + b);
-    return sum / 7;
+    const sum = nonNullReadings.reduce((a, b) => a + b);
+    return sum / nonNullReadings.length;
 };

@@ -2,30 +2,36 @@
 
 export interface RawDataPoint {
     dateString: string;
-    newCasesByPublishDate: number;
-    newCasesBySpecimenDate: number;
-    cumulativeCasesByPublishDate: number;
-    cumulativeCasesBySpecimenDate: number;
-    newAdmissions: number;
-    cumulativeAdmissions: number;
-    newDeathsByPublishDate: number;
-    newDeathsByDeathDate: number;
-    cumulativeDeathsByPublishDate: number;
-    cumulativeDeathsByDeathDate: number;
-    peopleInHospital: number;
-    hospitalCapacity: number;
-    newTests: number;
-    cumulativeTests: number;
+    newCasesByPublishDate: number | null;
+    newCasesBySpecimenDate: number | null;
+    cumulativeCasesByPublishDate: number | null;
+    cumulativeCasesBySpecimenDate: number | null;
+    newAdmissions: number | null;
+    cumulativeAdmissions: number | null;
+    newDeathsByPublishDate: number | null;
+    newDeathsByDeathDate: number | null;
+    cumulativeDeathsByPublishDate: number | null;
+    cumulativeDeathsByDeathDate: number | null;
+    peopleInHospital: number | null;
+    hospitalCapacity: number | null;
+    newTests: number | null;
+    cumulativeTests: number | null;
 }
 
 export type DataPoint = RawDataPoint & {
     date: moment.Moment;
-    newCasesByPublishDateRollingAverage: number;
-    newCasesBySpecimenDateRollingAverage: number;
-    newAdmissionsRollingAverage: number;
-    newDeathsByPublishDateRollingAverage: number;
-    newDeathsByDeathDateRollingAverage: number;
-    newTestsRollingAverage: number;
+    newCasesByPublishDateRollingAverage: number | null;
+    newCasesBySpecimenDateRollingAverage: number | null;
+    newCases: number | null;
+    newCasesRollingAverage: number | null;
+    totalCases: number | null;
+    newAdmissionsRollingAverage: number | null;
+    newDeathsByPublishDateRollingAverage: number | null;
+    newDeathsByDeathDateRollingAverage: number | null;
+    newDeaths: number | null;
+    newDeathsRollingAverage: number | null;
+    totalDeaths: number | null;
+    newTestsRollingAverage: number | null;
 }
 
 export type RawData = RawDataPoint[];

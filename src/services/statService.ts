@@ -1,35 +1,41 @@
 ﻿import {DataPoint, TimeSeries} from "./dataStructures";
 import moment from "moment";
 
+export interface Stat {
+    value: number;
+    lastUpdated: moment.Moment;
+}
+
 export interface StatCategory {
-    new: number;
-    total: number;
-    trend: number;
-    date: moment.Moment;
+    new: Stat | undefined;
+    total: Stat | undefined;
+    trend: Stat | undefined;
 }
 
 export interface Stats {
-    cases: StatCategory | null;
+    cases: StatCategory;
 }
 
 export const getStats = (timeSeries: TimeSeries): Stats => {
     return {
-        cases: getCaseStats(timeSeries)
+        cases: {
+            new: getStatFor(timeSeries, "newCases"),
+            total: getStatFor(timeSeries, "totalCases"),
+            trend: undefined,
+        }
     }  
 };
 
-const getCaseStats = (timeSeries: TimeSeries): StatCategory | null => {
-    const lastDataPoint = getMostRecentDataPoint(timeSeries, "newCasesByPublishDate");
+const getStatFor = (timeSeries: TimeSeries, key: keyof DataPoint): Stat | undefined => {
+    const dataPoint = getMostRecentDataPoint(timeSeries, key);
     
-    if (!lastDataPoint) {
-        return null;
+    if (!dataPoint) {
+        return undefined;
     }
     
     return {
-        new: lastDataPoint.newCasesByPublishDate,
-        total: lastDataPoint.cumulativeCasesByPublishDate,
-        trend: 1,
-        date: lastDataPoint.date,
+        value: dataPoint[key] as number,
+        lastUpdated: dataPoint.date,
     }
 };
 

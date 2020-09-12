@@ -4,15 +4,15 @@ import {CasesTrendStat, NewCasesStat, TotalCasesStat} from "../Stat/Stat";
 import styles from "./StatRow.module.scss";
 
 interface StatRowProps {
-    statCategory: StatCategory | null;
+    statCategory: StatCategory;
 }
 
 export const StatRow: FunctionComponent<StatRowProps> = ({statCategory}) => {
     return (
         <div className={styles.statRow}>
-            <NewCasesStat value={statCategory?.new} lastUpdated={statCategory?.date}/>
-            <TotalCasesStat value={statCategory?.total} lastUpdated={statCategory?.date}/>
-            <CasesTrendStat value={statCategory?.trend} lastUpdated={statCategory?.date}/>
+            <NewCasesStat stat={statCategory.new}/>
+            <TotalCasesStat stat={statCategory.total}/>
+            <CasesTrendStat stat={statCategory.trend}/>
         </div>
     );
 };
