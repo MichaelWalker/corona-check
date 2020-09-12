@@ -1,0 +1,25 @@
+﻿@import "../../styles/common";
+
+.statContainer {
+  @include shadow;
+  margin: $statMargin;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 8px;
+  height: 100px;
+  width: 100px;
+}
+
+.name {
+  @include statNameFont;
+}
+
+.value {
+  @include statValueFont;
+}
+
+.lastUpdated {
+  @include statLastUpdatedFont;
+}

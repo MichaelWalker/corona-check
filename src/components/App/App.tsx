@@ -7,6 +7,9 @@ import {AREAS_OF_INTEREST, LOCAL_AREAS, NATIONS} from "../../config/areas";
 import {SubNav} from "../SubNav/SubNav";
 import {Footer} from "../Footer/Footer";
 import {SummaryPage} from "../SummaryPage/SummaryPage";
+import moment from "moment";
+
+moment.relativeTimeRounding(Math.floor);
 
 function App() {
     return (
