@@ -6,7 +6,7 @@ import {ByAreaPage} from "../ByAreaPage/ByAreaPage";
 import {AREAS_OF_INTEREST, LOCAL_AREAS, NATIONS} from "../../config/areas";
 import {SubNav} from "../SubNav/SubNav";
 import {Footer} from "../Footer/Footer";
-import {SummaryPage} from "../SummaryPage/SummaryPage";
+import {DevonSummaryPage, FavouritesSummaryPage, UkSummaryPage} from "../SummaryPage/SummaryPage";
 import moment from "moment";
 
 moment.relativeTimeRounding(Math.floor);
@@ -38,13 +38,13 @@ function App() {
                     <Route path={""}>
                         <SubNav/>
                         <Route path={"/uk"} exact={true}>
-                            <SummaryPage title={"UK"}/>
+                            <UkSummaryPage/>
                         </Route>
                         <Route path={"/devon"} exact={true}>
-                            <SummaryPage title={"Devon"}/>
+                            <DevonSummaryPage/>
                         </Route>
                         <Route path={"/favourites"} exact={true}>
-                            <SummaryPage title={"Favourites"}/>
+                            <FavouritesSummaryPage/>
                         </Route>
                     </Route>
                 </Switch>

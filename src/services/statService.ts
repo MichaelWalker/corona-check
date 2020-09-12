@@ -9,7 +9,7 @@ export interface StatCategory {
 }
 
 export interface Stats {
-    cases: StatCategory;
+    cases: StatCategory | null;
 }
 
 export const getStats = (timeSeries: TimeSeries): Stats => {
@@ -18,8 +18,13 @@ export const getStats = (timeSeries: TimeSeries): Stats => {
     }  
 };
 
-const getCaseStats = (timeSeries: TimeSeries): StatCategory => {
+const getCaseStats = (timeSeries: TimeSeries): StatCategory | null => {
     const lastDataPoint = getMostRecentDataPoint(timeSeries, "newCasesByPublishDate");
+    
+    if (!lastDataPoint) {
+        return null;
+    }
+    
     return {
         new: lastDataPoint.newCasesByPublishDate,
         total: lastDataPoint.cumulativeCasesByPublishDate,
@@ -28,7 +33,7 @@ const getCaseStats = (timeSeries: TimeSeries): StatCategory => {
     }
 };
 
-const getMostRecentDataPoint = (timeSeries: TimeSeries, property: keyof DataPoint): DataPoint => {
+const getMostRecentDataPoint = (timeSeries: TimeSeries, property: keyof DataPoint): DataPoint | undefined => {
     return timeSeries
         .filter(dataPoint => dataPoint[property])
         .reverse()[0];

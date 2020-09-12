@@ -23,16 +23,3 @@
 .title {
   @include cardTitleFont;
 }
-
-.statRow {
-  margin: #{20px - $statMargin} -$statMargin;
-  display: flex;
-  flex-direction: row;
-}
-
-.statGrid {
-  margin: #{20px - $statMargin} -$statMargin;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}

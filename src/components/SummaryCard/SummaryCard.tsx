@@ -1,8 +1,8 @@
 ﻿import React, {FunctionComponent, useEffect, useState} from "react";
 import styles from "./SummaryCard.module.scss";
-import {NewCasesStat, TotalCasesStat, CasesTrendStat} from "../Stat/Stat";
 import {AreaData, getAreaData} from "../../services/dataProcessor";
 import {SimpleAreaChart} from "../Charts/SimpleAreaChart/SimpleAreaChart";
+import {StatRow} from "../Stats/StatRow/StatRow";
 
 interface SummaryCardProps {
     areaName: string;
@@ -28,11 +28,7 @@ export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, isLa
     return (
         <section className={isLarge ? styles.largeCard : styles.card}>
             <h2 className={styles.title}>{areaName}</h2>
-            <div className={styles.statRow}>
-                <NewCasesStat value={data.stats.cases.new} lastUpdated={data.stats.cases.date}/>
-                <TotalCasesStat value={data.stats.cases.total} lastUpdated={data.stats.cases.date}/>
-                <CasesTrendStat value={data.stats.cases.trend} lastUpdated={data.stats.cases.date}/>
-            </div>
+            <StatRow statCategory={data.stats.cases}/>
             <SimpleAreaChart data={data.timeSeries} dataKey="newCasesByPublishDateRollingAverage"/>
         </section>
     );  
