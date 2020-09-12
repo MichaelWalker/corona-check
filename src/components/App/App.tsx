@@ -23,6 +23,14 @@ function App() {
                         <ByAreaPage title={"Areas of Interest"} areaNames={AREAS_OF_INTEREST}/>
                     </Route>
 
+                    <Route path={"/areas"} exact={true}>
+                        <h1>Areas</h1>
+                        <p>Coming Soon!</p>
+                    </Route>
+                    <Route path={"/areas/:name"} exact={true}>
+                        <p>Coming Soon!</p>
+                    </Route>
+
                     <Route path={""}>
                         <SubNav/>
                         <Route path={"/uk"} exact={true}>
@@ -37,13 +45,6 @@ function App() {
                             <h1>Favourites</h1>
                             <p>Coming Soon!</p>
                         </Route>
-                    </Route>
-                    <Route path={"/areas"} exact={true}>
-                        <h1>Areas</h1>
-                        <p>Coming Soon!</p>
-                    </Route>
-                    <Route path={"/areas/:name"} exact={true}>
-                        <p>Coming Soon!</p>
                     </Route>
                 </Switch>
             </main>
