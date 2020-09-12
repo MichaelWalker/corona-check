@@ -2,6 +2,7 @@
 import styles from "./SummaryCard.module.scss";
 import {NewCasesStat, TotalCasesStat, CasesTrendStat} from "../Stat/Stat";
 import {AreaData, getAreaData} from "../../services/dataProcessor";
+import {SimpleAreaChart} from "../Charts/SimpleAreaChart/SimpleAreaChart";
 
 interface SummaryCardProps {
     areaName: string;
@@ -18,7 +19,7 @@ export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, isLa
     
     if (data === null) {
         return (
-            <section className={styles.card}>
+            <section className={isLarge ? styles.largeCard : styles.card}>
                 Loading...
             </section>
         );
@@ -32,6 +33,7 @@ export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, isLa
                 <TotalCasesStat value={data.stats.cases.total} lastUpdated={data.stats.cases.date}/>
                 <CasesTrendStat value={data.stats.cases.trend} lastUpdated={data.stats.cases.date}/>
             </div>
+            <SimpleAreaChart data={data.timeSeries} dataKey="newCasesByPublishDateRollingAverage"/>
         </section>
     );  
 };

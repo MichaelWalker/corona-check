@@ -4,8 +4,10 @@ import moment from "moment";
 type RawDataPointWithDate = RawDataPoint & {date: moment.Moment};
 
 export const calculateTimeSeries = (rawData: RawData): TimeSeries => {
+    const startDate = moment("01 March 2020");
     return rawData
         .map(parseDate)
+        .filter(dataPoint => dataPoint.date.isSameOrAfter(startDate, "day"))
         .sort(byDate)
         .map(toDataPoint);
 };
