@@ -10,8 +10,8 @@ import {Footer} from "../Footer/Footer";
 function App() {
     return (
         <BrowserRouter>
+            <Header/>
             <main className={styles.main}>
-                <Header/>
                 <Switch>
                     <Route path={"/national"} exact={true}>
                         <ByAreaPage title={"National"} areaNames={NATIONS}/>
