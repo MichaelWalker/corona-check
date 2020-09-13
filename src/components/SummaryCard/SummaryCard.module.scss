@@ -1,5 +1,7 @@
 ﻿@import "../../styles/common";
 
+$cardPadding: 20px;
+
 @mixin card($width, $height) {
   @include shadow;
   width: $width;
@@ -8,12 +10,13 @@
   flex-grow: 1;
   margin: $cardMargin;
   border-radius: 8px;
-  padding: 20px;
+  padding: $cardPadding;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .card {
-  @include card(calc(50% - 2*#{$cardMargin}), 323px);
+  @include card(calc(50% - 2*#{$cardMargin}), 328px);
 }
 
 .largeCard {
@@ -45,4 +48,8 @@
   & > :first-child {
     margin-right: 20px;
   }
+}
+
+.graphContainer {
+  margin: 10px #{-$cardPadding} #{-$cardPadding} #{-$cardPadding};
 }

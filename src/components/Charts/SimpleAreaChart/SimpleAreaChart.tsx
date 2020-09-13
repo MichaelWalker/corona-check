@@ -12,7 +12,7 @@ export const SimpleAreaChart: FunctionComponent<AreaChartProps> = ({data, dataKe
     return (
         <div className={styles.chartContainer}>
             <ResponsiveContainer>
-                <AreaChart data={data}>
+                <AreaChart data={data} margin={{right: 0}}>
                     <Area dataKey={dataKey} type={"monotone"} fill={"#8884d8"}/>
                 </AreaChart>
             </ResponsiveContainer>

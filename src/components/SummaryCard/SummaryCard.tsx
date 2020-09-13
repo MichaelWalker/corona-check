@@ -51,7 +51,9 @@ const CardContent: FunctionComponent<CardContentProps> = ({areaData}) => {
             <div className={styles.statRow}>
                 <StatRow label={"Cases"} statCategory={areaData.stats.cases}/>
             </div>
-            <SimpleAreaChart data={areaData.timeSeries} dataKey="newCasesRollingAverage"/>
+            <div className={styles.graphContainer}>
+                <SimpleAreaChart data={areaData.timeSeries} dataKey="newCasesRollingAverage"/>
+            </div>
         </div>
     );  
 };
