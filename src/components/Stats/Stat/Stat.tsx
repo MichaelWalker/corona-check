@@ -55,15 +55,15 @@ export const StatComponent: FunctionComponent<BaseStatProps> = ({name, stat, cla
     );
 };
 
-export const NewCasesStat: FunctionComponent<StatProps> = ({stat}) => {
-    return <StatComponent name={"New Cases"} stat={stat} className={styles.newCases}/>  
+export const NewValueStat: FunctionComponent<StatProps> = ({stat}) => {
+    return <StatComponent name={"New"} stat={stat} className={styles.newCases}/>  
 };
 
-export const TotalCasesStat: FunctionComponent<StatProps> = ({stat}) => {
-    return <StatComponent name={"Total Cases"} stat={stat} className={styles.totalCases}/>
+export const TotalValueStat: FunctionComponent<StatProps> = ({stat}) => {
+    return <StatComponent name={"Total"} stat={stat} className={styles.totalCases}/>
 };
 
-export const CasesTrendStat: FunctionComponent<StatProps> = ({stat}) => {
-    return <StatComponent name={"Trend in Cases"} stat={stat} className={styles.trend}/>
+export const TrendStat: FunctionComponent<StatProps> = ({stat}) => {
+    return <StatComponent name={"Trend"} stat={stat} className={styles.trend}/>
 };
 

@@ -49,7 +49,7 @@ const CardContent: FunctionComponent<CardContentProps> = ({areaData}) => {
     return (
         <div>
             <div className={styles.statRow}>
-                <StatRow statCategory={areaData.stats.cases}/>
+                <StatRow label={"Cases"} statCategory={areaData.stats.cases}/>
             </div>
             <SimpleAreaChart data={areaData.timeSeries} dataKey="newCasesRollingAverage"/>
         </div>
@@ -60,15 +60,15 @@ const LargeCardContent: FunctionComponent<CardContentProps> = ({areaData}) => {
     return (
         <ul className={styles.categoryList}>
             <li className={styles.category}>
-                <StatRow statCategory={areaData.stats.cases}/>
+                <StatRow label={"Cases"} statCategory={areaData.stats.cases}/>
                 <SimpleAreaChart data={areaData.timeSeries} dataKey="newCasesRollingAverage"/>
             </li>
             <li className={styles.category}>
-                <StatRow statCategory={areaData.stats.admissions}/>
+                <StatRow label={"Admissions"} statCategory={areaData.stats.admissions}/>
                 <SimpleAreaChart data={areaData.timeSeries} dataKey="newAdmissionsRollingAverage"/>
             </li>
             <li className={styles.category}>
-                <StatRow statCategory={areaData.stats.deaths}/>
+                <StatRow label={"Deaths"} statCategory={areaData.stats.deaths}/>
                 <SimpleAreaChart data={areaData.timeSeries} dataKey="newDeathsRollingAverage"/>
             </li>
         </ul>

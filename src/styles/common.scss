@@ -64,6 +64,13 @@ $statMargin: 10px;
   @include _font($fontSize: 32px)
 }
 
+@mixin statLabelFont {
+  @include _font($fontSize: 16px, $fontFamily: "Open Sans Condensed", $lineHeight: 1);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
 @mixin statNameFont {
   @include _font($fontSize: 12px, $fontFamily: "Open Sans Condensed", $lineHeight: 1);
   text-transform: uppercase;
