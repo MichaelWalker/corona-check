@@ -14,6 +14,8 @@ export interface StatCategory {
 
 export interface Stats {
     cases: StatCategory;
+    admissions: StatCategory;
+    deaths: StatCategory;
 }
 
 export const getStats = (timeSeries: TimeSeries): Stats => {
@@ -22,7 +24,17 @@ export const getStats = (timeSeries: TimeSeries): Stats => {
             new: getStatFor(timeSeries, "newCases"),
             total: getStatFor(timeSeries, "totalCases"),
             trend: undefined,
-        }
+        },
+        admissions: {
+            new: getStatFor(timeSeries, "newAdmissions"),
+            total: getStatFor(timeSeries, "cumulativeAdmissions"),
+            trend: undefined,
+        },
+        deaths: {
+            new: getStatFor(timeSeries, "newDeaths"),
+            total: getStatFor(timeSeries, "totalDeaths"),
+            trend: undefined,
+        },
     }  
 };
 

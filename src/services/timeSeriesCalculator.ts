@@ -76,10 +76,10 @@ const getBestDeathsFigure = (dataPoint: RawDataPoint): number | null => {
 
 const getBestTotalDeathsFigure = (dataPoint: RawDataPoint): number | null => {
     if (dataPoint.cumulativeDeathsByDeathDate !== null) {
-        return dataPoint.newDeathsByDeathDate;
+        return dataPoint.cumulativeDeathsByDeathDate;
     }
     if (dataPoint.cumulativeDeathsByPublishDate !== null) {
-        return dataPoint.newDeathsByPublishDate;
+        return dataPoint.cumulativeDeathsByPublishDate;
     }
     return null;
 };
