@@ -9,7 +9,8 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.3",
-    "recharts": "1.8.5"
+    "recharts": "1.8.5",
+    "typescript-plugin-css-modules": "2.4.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -23,8 +24,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "5.1.5",
     "@types/recharts": "1.8.14",
-    "typescript": "~3.7.2",
-    "typescript-plugin-css-modules": "2.4.0"
+    "typescript": "~3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
