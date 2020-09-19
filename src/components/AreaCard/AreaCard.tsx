@@ -4,6 +4,7 @@ import {GraphViewer} from "../Viewers/GraphViewer/GraphViewer";
 import {AreaData, getAreaData} from "../../services/dataProcessor";
 import {SettingsContext} from "../Settings/SettingsContext";
 import {getPlotSeries} from "../../services/plotService";
+import {Link} from "react-router-dom";
 
 interface AreaProps {
     areaName: string;

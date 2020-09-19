@@ -8,6 +8,7 @@ import {SubNav} from "../SubNav/SubNav";
 import {Footer} from "../Footer/Footer";
 import {DevonSummaryPage, FavouritesSummaryPage, UkSummaryPage} from "../SummaryPage/SummaryPage";
 import moment from "moment";
+import {AreaPage} from "../AreaPage/AreaPage";
 
 moment.relativeTimeRounding(Math.floor);
 
@@ -32,7 +33,7 @@ function App() {
                         <p>Coming Soon!</p>
                     </Route>
                     <Route path={"/areas/:name"} exact={true}>
-                        <p>Coming Soon!</p>
+                        <AreaPage/>
                     </Route>
 
                     <Route path={""}>

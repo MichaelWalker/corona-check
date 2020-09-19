@@ -3,6 +3,7 @@ import styles from "./SummaryCard.module.scss";
 import {AreaData, getAreaData} from "../../services/dataProcessor";
 import {SimpleAreaChart} from "../Charts/SimpleAreaChart/SimpleAreaChart";
 import {StatRow} from "../Stats/StatRow/StatRow";
+import {Link} from "react-router-dom";
 
 interface SummaryCardProps {
     areaName: string;
@@ -28,10 +29,12 @@ export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, isLa
     };
     
     return (
-        <section className={isLarge ? styles.largeCard : styles.card}>
-            <h2 className={styles.title}>{areaName}</h2>
-            {getContent()}
-        </section>
+        <Link to={`/areas/${areaName}`} className={isLarge ? styles.largeCard : styles.card}>
+            <section>
+                <h2 className={styles.title}>{areaName}</h2>
+                {getContent()}
+            </section>
+        </Link>
     );  
 };
 
