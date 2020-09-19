@@ -1,6 +1,6 @@
 ﻿import React, {FunctionComponent} from "react";
 import styles from "./CustomisableChart.module.scss";
-import {Bar, Brush, ComposedChart, Line, ResponsiveContainer, XAxis, YAxis} from "recharts";
+import {Bar, Brush, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {DataPoint, TimeSeries} from "../../../services/dataStructures";
 import moment from "moment";
 
@@ -9,6 +9,12 @@ interface CustomisableChartProps {
     dataKey: keyof DataPoint;
     rollingAverageKey?: keyof DataPoint | undefined;
     scale: "auto" | "log";
+}
+
+interface TooltipProps {
+    active?: any;
+    payload?: any[];
+    label?: any;
 }
 
 export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({data, dataKey, rollingAverageKey, scale }) => {
@@ -37,6 +43,9 @@ export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({da
                            height={30} 
                            stroke="#8884d8" 
                            tickFormatter={timestamp => moment.unix(timestamp).format("DD-MMM")}
+                    />
+                    <Tooltip labelFormatter={timestamp => moment.unix(parseInt(timestamp.toString())).format("DD-MMM")}
+                             formatter={input => Math.round(parseInt(input.toString()))}
                     />
                 </ComposedChart>
             </ResponsiveContainer>
