@@ -1,16 +1,17 @@
 ﻿import React, {FunctionComponent} from "react";
 import styles from "./CustomisableChart.module.scss";
-import {Bar, Brush, ComposedChart, ResponsiveContainer, XAxis, YAxis} from "recharts";
+import {Bar, Brush, ComposedChart, Line, ResponsiveContainer, XAxis, YAxis} from "recharts";
 import {DataPoint, TimeSeries} from "../../../services/dataStructures";
 import moment from "moment";
 
 interface CustomisableChartProps {
     data: TimeSeries;
     dataKey: keyof DataPoint;
+    rollingAverageKey?: keyof DataPoint | undefined;
     scale: "auto" | "log";
 }
 
-export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({data, dataKey, scale }) => {
+export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({data, dataKey, rollingAverageKey, scale }) => {
     const safeData = makeLogSafe(data, dataKey);
     
     return (
@@ -18,6 +19,7 @@ export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({da
             <ResponsiveContainer>
                 <ComposedChart data={safeData} >
                     <Bar dataKey={dataKey} fill={"#413ea0"}/>
+                    {rollingAverageKey && <Line dataKey={rollingAverageKey} fill={"#413ea0"}/>} 
                     <XAxis dataKey={"timestamp"} 
                            type={"number"} 
                            domain={['dataMin - 36000', 'dataMax + 36000']}
