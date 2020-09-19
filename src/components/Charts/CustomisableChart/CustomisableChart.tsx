@@ -25,7 +25,7 @@ export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({da
                            tickFormatter={timestamp => moment.unix(timestamp).format("DD-MMM")}
                            interval={"preserveEnd"}
                     />
-                    <YAxis width={40} 
+                    <YAxis width={50} 
                            scale={scale} 
                            domain={[1, "auto"]} 
                            allowDataOverflow={true} 
