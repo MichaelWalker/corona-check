@@ -26,7 +26,10 @@ const CardContent: FunctionComponent<CardContentProps> = ({data}) => {
     return (
         <div>
             <StatRow label={"Cases"} statCategory={data.stats.cases} showLabel={false}/>
-            <CustomisableChart data={data.timeSeries} dataKey={"newCasesByPublishDateRollingAverage"}/>
+            <CustomisableChart data={data.timeSeries} 
+                               dataKey={"newCasesByPublishDate"}
+                               scale={"auto"}
+            />
         </div>
     );
 };
