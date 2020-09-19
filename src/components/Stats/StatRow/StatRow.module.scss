@@ -3,15 +3,16 @@
 .statContainer {
   display: flex;
   flex-direction: row;
+  margin: 0 #{-$statMargin};
 }
 
 .statRow {
   display: flex;
   flex-direction: row;
   align-items: center;
-
 }
 
 .label {
   @include statLabelFont;
+  margin-right: 10px;
 }

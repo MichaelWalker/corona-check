@@ -1,26 +1,18 @@
 ﻿@import "../../styles/common";
 
-$cardPadding: 20px;
-
-@mixin card($width, $height) {
-  @include shadow;
+@mixin summaryCard($width, $height) {
+  @include card;
   width: $width;
   height: $height;
-  background: $colorExtraLight;
   flex-grow: 1;
-  margin: $cardMargin;
-  border-radius: 8px;
-  padding: $cardPadding;
-  box-sizing: border-box;
-  overflow: hidden;
 }
 
 .card {
-  @include card(calc(50% - 2*#{$cardMargin}), 328px);
+  @include summaryCard(calc(50% - 2*#{$cardMargin}), 328px);
 }
 
 .largeCard {
-  @include card(calc(100% - 2*#{$cardMargin}), 460px);
+  @include summaryCard(calc(100% - 2*#{$cardMargin}), 460px);
 }
 
 .title {

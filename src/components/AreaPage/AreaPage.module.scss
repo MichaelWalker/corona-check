@@ -8,3 +8,7 @@
   @include titleFont;
   padding-top: 20px;
 }
+
+.metrics {
+  margin: 0 #{-$cardMargin};
+}

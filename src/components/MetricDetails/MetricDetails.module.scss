@@ -1,0 +1,9 @@
+﻿@import "../../styles/common";
+
+.card {
+  @include card;
+}
+
+.header {
+  @include cardTitleFont;
+}
