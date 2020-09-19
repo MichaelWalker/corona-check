@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './App.module.scss';
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import {Header} from "../Header/Header";
 import {ByAreaPage} from "../ByAreaPage/ByAreaPage";
 import {AREAS_OF_INTEREST, LOCAL_AREAS, NATIONS} from "../../config/areas";
@@ -38,6 +38,9 @@ function App() {
 
                     <Route path={""}>
                         <SubNav/>
+                        <Route path={"/"} exact={true}>
+                            <Redirect to={"/uk"}/>
+                        </Route>
                         <Route path={"/uk"} exact={true}>
                             <UkSummaryPage/>
                         </Route>
