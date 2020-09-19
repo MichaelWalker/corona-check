@@ -26,15 +26,17 @@ interface CardContentProps {
 }
 
 const plotOptions = [
-    { label: "Daily (by publish date)", value: "newCasesByPublishDate", rollingAverage: "" },
+    { label: "Daily (best available data)", value: "newCases" },
+    { label: "Daily (by publish date)", value: "newCasesByPublishDate" },
     { label: "Daily (by specimen date)", value: "newCasesBySpecimenDate" },
+    { label: "Cumulative (best available data)", value: "totalCases" },
     { label: "Cumulative (by publish date)", value: "cumulativeCasesByPublishDate" },
     { label: "Cumulative (by specimen date)", value: "cumulativeCasesBySpecimenDate" },
 ];
 
 const CardContent: FunctionComponent<CardContentProps> = ({data}) => {
     const [logAxis, setLogAxis] = useState(false);
-    const [metric, setMetric] = useState<keyof DataPoint>("newCasesByPublishDate");
+    const [metric, setMetric] = useState<keyof DataPoint>("newCases");
     
     const updateMetric = (newPlot: string) => {
         setMetric(newPlot as keyof DataPoint);

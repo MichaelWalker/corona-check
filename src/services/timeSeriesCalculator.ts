@@ -48,7 +48,9 @@ const toDataPoint = (dataPoint: RawDataPoint, index: number, rawData: RawData): 
 
 const getBestCaseFigure = (dataPoint: RawDataPoint): number | null => {
     if (dataPoint.newCasesBySpecimenDate !== null) {
-        return dataPoint.newCasesBySpecimenDate;
+        if (!isMuchSmaller(dataPoint.newCasesBySpecimenDate, dataPoint.newCasesByPublishDate)) {
+            return dataPoint.newCasesBySpecimenDate;
+        }
     }
     if (dataPoint.newCasesByPublishDate !== null) {
         return dataPoint.newCasesByPublishDate;
@@ -57,10 +59,12 @@ const getBestCaseFigure = (dataPoint: RawDataPoint): number | null => {
 };
 
 const getBestTotalCaseFigure = (dataPoint: RawDataPoint): number | null => {
-    if (dataPoint.newCasesBySpecimenDate !== null) {
-        return dataPoint.cumulativeCasesBySpecimenDate;
+    if (dataPoint.cumulativeCasesBySpecimenDate !== null) {
+        if (!isMuchSmaller(dataPoint.cumulativeCasesBySpecimenDate, dataPoint.cumulativeCasesByPublishDate)) {
+            return dataPoint.cumulativeCasesBySpecimenDate;
+        }
     }
-    if (dataPoint.newCasesByPublishDate !== null) {
+    if (dataPoint.cumulativeCasesByPublishDate !== null) {
         return dataPoint.cumulativeCasesByPublishDate;
     }
     return null;
@@ -68,7 +72,9 @@ const getBestTotalCaseFigure = (dataPoint: RawDataPoint): number | null => {
 
 const getBestDeathsFigure = (dataPoint: RawDataPoint): number | null => {
     if (dataPoint.newDeathsByDeathDate !== null) {
-        return dataPoint.newDeathsByDeathDate;
+        if (!isMuchSmaller(dataPoint.newDeathsByDeathDate, dataPoint.newDeathsByPublishDate)) {
+            return dataPoint.newDeathsByDeathDate;
+        }
     }
     if (dataPoint.newDeathsByPublishDate !== null) {
         return dataPoint.newDeathsByPublishDate;
@@ -78,7 +84,9 @@ const getBestDeathsFigure = (dataPoint: RawDataPoint): number | null => {
 
 const getBestTotalDeathsFigure = (dataPoint: RawDataPoint): number | null => {
     if (dataPoint.cumulativeDeathsByDeathDate !== null) {
-        return dataPoint.cumulativeDeathsByDeathDate;
+        if (!isMuchSmaller(dataPoint.cumulativeDeathsByDeathDate, dataPoint.cumulativeDeathsByPublishDate)) {
+            return dataPoint.cumulativeDeathsByDeathDate;
+        }
     }
     if (dataPoint.cumulativeDeathsByPublishDate !== null) {
         return dataPoint.cumulativeDeathsByPublishDate;
@@ -86,6 +94,12 @@ const getBestTotalDeathsFigure = (dataPoint: RawDataPoint): number | null => {
     return null;
 };
 
+const isMuchSmaller = (first: number, second: number | null): boolean => {
+    if (second === null) {
+        return false;
+    }
+    return first / second < 0.7;
+};
 
 const lastSevenPoints = (rawData: RawData, index: number) => {
     if (index <= 7) {
