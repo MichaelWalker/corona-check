@@ -26,7 +26,7 @@ interface CardContentProps {
 }
 
 const plotOptions = [
-    { label: "Daily (by publish date)", value: "newCasesByPublishDate" },
+    { label: "Daily (by publish date)", value: "newCasesByPublishDate", rollingAverage: "" },
     { label: "Daily (by specimen date)", value: "newCasesBySpecimenDate" },
     { label: "Cumulative (by publish date)", value: "cumulativeCasesByPublishDate" },
     { label: "Cumulative (by specimen date)", value: "cumulativeCasesBySpecimenDate" },
@@ -34,22 +34,22 @@ const plotOptions = [
 
 const CardContent: FunctionComponent<CardContentProps> = ({data}) => {
     const [logAxis, setLogAxis] = useState(false);
-    const [plot, setPlot] = useState<keyof DataPoint>("newCasesByPublishDate");
+    const [metric, setMetric] = useState<keyof DataPoint>("newCasesByPublishDate");
     
-    const updatePlot = (newPlot: string) => {
-        setPlot(newPlot as keyof DataPoint);
+    const updateMetric = (newPlot: string) => {
+        setMetric(newPlot as keyof DataPoint);
     };
     
     return (
         <div>
             <StatRow label={"Cases"} statCategory={data.stats.cases} showLabel={false}/>
             <CustomisableChart data={data.timeSeries} 
-                               dataKey={plot}
+                               dataKey={metric}
                                scale={logAxis ? "log" : "auto"}
             />
             <div className={styles.controls}>
                 <Checkbox label={"Log Axis"} value={logAxis} onChange={setLogAxis}/>
-                <Select label={"Plot"} value={plot} options={plotOptions} onChange={updatePlot}/>
+                <Select label={"Metric"} value={metric} options={plotOptions} onChange={updateMetric}/>
             </div>
         </div>
     );
