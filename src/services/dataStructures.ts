@@ -20,6 +20,7 @@ export interface RawDataPoint {
 
 export type DataPoint = RawDataPoint & {
     date: moment.Moment;
+    timestamp: number;
     newCasesByPublishDateRollingAverage: number | null;
     newCasesBySpecimenDateRollingAverage: number | null;
     newCases: number | null;

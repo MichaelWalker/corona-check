@@ -2,6 +2,7 @@
 import styles from "./MetricDetails.module.scss";
 import {AreaData} from "../../services/dataProcessor";
 import {StatRow} from "../Stats/StatRow/StatRow";
+import {CustomisableChart} from "../Charts/CustomisableChart/CustomisableChart";
 
 interface MetricProps {
     name: string;
@@ -25,6 +26,7 @@ const CardContent: FunctionComponent<CardContentProps> = ({data}) => {
     return (
         <div>
             <StatRow label={"Cases"} statCategory={data.stats.cases} showLabel={false}/>
+            <CustomisableChart data={data.timeSeries} dataKey={"newCasesByPublishDateRollingAverage"}/>
         </div>
     );
 };

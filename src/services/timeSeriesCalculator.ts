@@ -25,10 +25,12 @@ const byDate = (a: RawDataPointWithDate, b: RawDataPointWithDate): number => {
 
 const toDataPoint = (dataPoint: RawDataPoint, index: number, rawData: RawData): DataPoint => {
     const lastWeek = lastSevenPoints(rawData, index);
+    const date = moment(dataPoint.dateString);
 
     return {
         ...dataPoint,
-        date: moment(dataPoint.dateString),
+        date: date,
+        timestamp: date.unix(),
         newCasesByPublishDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newCasesByPublishDate)),
         newCasesBySpecimenDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newCasesBySpecimenDate)),
         newCases: getBestCaseFigure(dataPoint),
