@@ -1,6 +1,6 @@
 ﻿import React, {FunctionComponent} from "react";
 import styles from "./CustomisableChart.module.scss";
-import {Bar, Brush, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
+import {Area, Bar, Brush, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {DataPoint, TimeSeries} from "../../../services/dataStructures";
 import moment from "moment";
 
@@ -9,23 +9,19 @@ interface CustomisableChartProps {
     dataKey: keyof DataPoint;
     rollingAverageKey?: keyof DataPoint | undefined;
     scale: "auto" | "log";
+    chartType: "bar" | "area";
 }
 
-interface TooltipProps {
-    active?: any;
-    payload?: any[];
-    label?: any;
-}
-
-export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({data, dataKey, rollingAverageKey, scale }) => {
+export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({data, dataKey, rollingAverageKey, scale, chartType }) => {
     const safeData = makeLogSafe(data, dataKey);
     
     return (
         <div className={styles.container}>
             <ResponsiveContainer>
                 <ComposedChart data={safeData} >
-                    <Bar dataKey={dataKey} fill={"#413ea0"}/>
-                    {rollingAverageKey && <Line dataKey={rollingAverageKey} fill={"#413ea0"}/>} 
+                    {chartType === "bar" && <Bar dataKey={dataKey} fill={"#413ea0"}/>}
+                    {chartType === "area" && <Area dataKey={dataKey} type={"monotone"} fill={"#8884d8"}/>}
+                    {rollingAverageKey && <Line dataKey={rollingAverageKey} fill={"#413ea0"} dot={false} activeDot={true}/>} 
                     <XAxis dataKey={"timestamp"} 
                            type={"number"} 
                            domain={['dataMin - 36000', 'dataMax + 36000']}

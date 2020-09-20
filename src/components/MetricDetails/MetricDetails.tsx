@@ -28,6 +28,7 @@ interface CardContentProps {
 interface PlotConfig {
     key: keyof DataPoint;
     rollingAverageKey?: keyof DataPoint | undefined;
+    chartType: "bar" | "area";
 }
 
 interface PlotOption {
@@ -36,21 +37,31 @@ interface PlotOption {
 }
 
 const plotOptions: PlotOption[] = [
-    { label: "Daily (best available data)", value: { key: "newCases", rollingAverageKey: "newCasesRollingAverage" } },
-    { label: "Daily (by publish date)", value: { key: "newCasesByPublishDate", rollingAverageKey: "newCasesByPublishDateRollingAverage" } },
-    { label: "Daily (by specimen date)", value: { key: "newCasesBySpecimenDate", rollingAverageKey: "newCasesBySpecimenDateRollingAverage" } },
-    { label: "Cumulative (best available data)", value: { key: "totalCases" } },
-    { label: "Cumulative (by publish date)", value: { key: "cumulativeCasesByPublishDate" } },
-    { label: "Cumulative (by specimen date)", value: { key: "cumulativeCasesBySpecimenDate" } },
+    { label: "Daily (best available data)", value: { chartType: "bar", key: "newCases", rollingAverageKey: "newCasesRollingAverage" } },
+    { label: "Daily (by publish date)", value: { chartType: "bar", key: "newCasesByPublishDate", rollingAverageKey: "newCasesByPublishDateRollingAverage" } },
+    { label: "Daily (by specimen date)", value: { chartType: "bar", key: "newCasesBySpecimenDate", rollingAverageKey: "newCasesBySpecimenDateRollingAverage" } },
+    { label: "Cumulative (best available data)", value: { chartType: "area", key: "totalCases" } },
+    { label: "Cumulative (by publish date)", value: { chartType: "area", key: "cumulativeCasesByPublishDate" } },
+    { label: "Cumulative (by specimen date)", value: { chartType: "area", key: "cumulativeCasesBySpecimenDate" } },
 ];
 
 const CardContent: FunctionComponent<CardContentProps> = ({data}) => {
     const [logAxis, setLogAxis] = useState(false);
     const [plotConfig, setPlotConfig] = useState<PlotOption>(plotOptions[0]);
+    const [showRollingAverage, setShowRollingAverage] = useState(true);
+    
+    const chartType = plotConfig.value.chartType;
     
     const updatePlotConfig = (newLabel: string) => {
         const plotOption = plotOptions.find(plot => plot.label === newLabel);
         setPlotConfig(plotOption!);
+    };
+    
+    const rollingAverageKey = (): keyof DataPoint | undefined=> {
+        if (!showRollingAverage) {
+            return undefined;
+        }  
+        return plotConfig.value.rollingAverageKey;
     };
     
     return (
@@ -58,12 +69,14 @@ const CardContent: FunctionComponent<CardContentProps> = ({data}) => {
             <StatRow label={"Cases"} statCategory={data.stats.cases} showLabel={false}/>
             <CustomisableChart data={data.timeSeries} 
                                dataKey={plotConfig.value.key}
-                               rollingAverageKey={plotConfig.value.rollingAverageKey}
+                               rollingAverageKey={rollingAverageKey()}
                                scale={logAxis ? "log" : "auto"}
+                               chartType={chartType}
             />
             <div className={styles.controls}>
                 <Checkbox label={"Log Axis"} value={logAxis} onChange={setLogAxis}/>
                 <Select label={"Metric"} value={plotConfig.label} options={plotOptions} onChange={updatePlotConfig}/>
+                {chartType === "bar" && <Checkbox label="Show Rolling Average" value={showRollingAverage} onChange={setShowRollingAverage}/>}
             </div>
         </div>
     );
