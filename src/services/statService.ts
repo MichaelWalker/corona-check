@@ -22,7 +22,7 @@ export const getStats = (timeSeries: TimeSeries): Stats => {
     return {
         cases: {
             new: getStatFor(timeSeries, "newCases"),
-            total: getStatFor(timeSeries, "totalCases"),
+            total: getStatFor(timeSeries, "cumulativeCasesByPublishDate"),
             trend: undefined,
         },
         admissions: {
@@ -32,7 +32,7 @@ export const getStats = (timeSeries: TimeSeries): Stats => {
         },
         deaths: {
             new: getStatFor(timeSeries, "newDeaths"),
-            total: getStatFor(timeSeries, "totalDeaths"),
+            total: getStatFor(timeSeries, "cumulativeDeathsByPublishDate"),
             trend: undefined,
         },
     }  

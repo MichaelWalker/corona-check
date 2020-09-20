@@ -25,13 +25,11 @@ export type DataPoint = RawDataPoint & {
     newCasesBySpecimenDateRollingAverage: number | null;
     newCases: number | null;
     newCasesRollingAverage: number | null;
-    totalCases: number | null;
     newAdmissionsRollingAverage: number | null;
     newDeathsByPublishDateRollingAverage: number | null;
     newDeathsByDeathDateRollingAverage: number | null;
     newDeaths: number | null;
     newDeathsRollingAverage: number | null;
-    totalDeaths: number | null;
     newTestsRollingAverage: number | null;
 }
 

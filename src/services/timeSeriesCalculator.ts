@@ -35,13 +35,11 @@ const toDataPoint = (dataPoint: RawDataPoint, index: number, rawData: RawData): 
         newCasesBySpecimenDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newCasesBySpecimenDate)),
         newCases: getBestCaseFigure(dataPoint),
         newCasesRollingAverage: calculateRollingAverage(lastWeek.map(d => getBestCaseFigure(d))),
-        totalCases: getBestTotalCaseFigure(dataPoint),
         newAdmissionsRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newAdmissions)),
         newDeathsByPublishDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newDeathsByPublishDate)),
         newDeathsByDeathDateRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newDeathsByDeathDate)),
         newDeaths: getBestDeathsFigure(dataPoint),
         newDeathsRollingAverage: calculateRollingAverage(lastWeek.map(d => getBestDeathsFigure(d))),
-        totalDeaths: getBestTotalDeathsFigure(dataPoint),
         newTestsRollingAverage: calculateRollingAverage(lastWeek.map(d => d.newTests)),
     }
 };
@@ -58,18 +56,6 @@ const getBestCaseFigure = (dataPoint: RawDataPoint): number | null => {
     return null;
 };
 
-const getBestTotalCaseFigure = (dataPoint: RawDataPoint): number | null => {
-    if (dataPoint.cumulativeCasesBySpecimenDate !== null) {
-        if (!isMuchSmaller(dataPoint.cumulativeCasesBySpecimenDate, dataPoint.cumulativeCasesByPublishDate)) {
-            return dataPoint.cumulativeCasesBySpecimenDate;
-        }
-    }
-    if (dataPoint.cumulativeCasesByPublishDate !== null) {
-        return dataPoint.cumulativeCasesByPublishDate;
-    }
-    return null;
-};
-
 const getBestDeathsFigure = (dataPoint: RawDataPoint): number | null => {
     if (dataPoint.newDeathsByDeathDate !== null) {
         if (!isMuchSmaller(dataPoint.newDeathsByDeathDate, dataPoint.newDeathsByPublishDate)) {
@@ -82,20 +68,8 @@ const getBestDeathsFigure = (dataPoint: RawDataPoint): number | null => {
     return null;
 };
 
-const getBestTotalDeathsFigure = (dataPoint: RawDataPoint): number | null => {
-    if (dataPoint.cumulativeDeathsByDeathDate !== null) {
-        if (!isMuchSmaller(dataPoint.cumulativeDeathsByDeathDate, dataPoint.cumulativeDeathsByPublishDate)) {
-            return dataPoint.cumulativeDeathsByDeathDate;
-        }
-    }
-    if (dataPoint.cumulativeDeathsByPublishDate !== null) {
-        return dataPoint.cumulativeDeathsByPublishDate;
-    }
-    return null;
-};
-
 const isMuchSmaller = (first: number, second: number | null): boolean => {
-    if (second === null) {
+    if (first === null || second === null) {
         return false;
     }
     return first / second < 0.7;
