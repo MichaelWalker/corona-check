@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import styles from "./AreaPage.module.scss";
 import {MetricDetails} from "../MetricDetails/MetricDetails";
 import {AreaData, getAreaData} from "../../services/dataProcessor";
+import {Cases} from "../MetricDetails/Cases";
+import {Admissions} from "../MetricDetails/Admissions";
+import {Deaths} from "../MetricDetails/Deaths";
 
 export const AreaPage: FunctionComponent = () => {
     const { name } = useParams();
@@ -17,7 +20,9 @@ export const AreaPage: FunctionComponent = () => {
         <div className={styles.page}>
             <h1 className={styles.title}>{name}</h1>
             <div className={styles.metrics}>
-                <MetricDetails name={"Cases"} data={data}/>
+                <Cases data={data}/>
+                <Admissions data={data}/>
+                <Deaths data={data}/>
             </div>
         </div>
     );

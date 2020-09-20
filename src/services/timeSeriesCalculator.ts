@@ -72,7 +72,7 @@ const isMuchSmaller = (first: number, second: number | null): boolean => {
     if (first === null || second === null) {
         return false;
     }
-    return first / second < 0.7;
+    return first / second < 0.4;
 };
 
 const lastSevenPoints = (rawData: RawData, index: number) => {

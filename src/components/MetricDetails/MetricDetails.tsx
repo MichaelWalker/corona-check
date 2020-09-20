@@ -4,25 +4,15 @@ import {AreaData} from "../../services/dataProcessor";
 import {StatRow} from "../Stats/StatRow/StatRow";
 import {CustomisableChart} from "../Charts/CustomisableChart/CustomisableChart";
 import {Checkbox} from "../Inputs/Checkbox/Checkbox";
-import {Option, Select} from "../Inputs/Select/Select";
+import {Select} from "../Inputs/Select/Select";
 import {DataPoint} from "../../services/dataStructures";
+import {StatCategory} from "../../services/statService";
 
 interface MetricProps {
     name: string;
     data: AreaData | undefined;
-}
-
-export const MetricDetails: FunctionComponent<MetricProps> = ({ name, data }) => {
-    return (
-        <section className={styles.card}>
-            <h2 className={styles.header}>{name}</h2>
-            { data ? <CardContent data={data}/> : <div>Loading</div> }
-        </section>
-    );  
-};
-
-interface CardContentProps {
-    data: AreaData;
+    plotOptions: PlotOption[];
+    statCategory: StatCategory | undefined;
 }
 
 interface PlotConfig {
@@ -31,20 +21,27 @@ interface PlotConfig {
     chartType: "bar" | "area";
 }
 
-interface PlotOption {
+export interface PlotOption {
     label: string;
     value: PlotConfig;
 }
 
-const plotOptions: PlotOption[] = [
-    { label: "Daily (best available data)", value: { chartType: "bar", key: "newCases", rollingAverageKey: "newCasesRollingAverage" } },
-    { label: "Daily (by publish date)", value: { chartType: "bar", key: "newCasesByPublishDate", rollingAverageKey: "newCasesByPublishDateRollingAverage" } },
-    { label: "Daily (by specimen date)", value: { chartType: "bar", key: "newCasesBySpecimenDate", rollingAverageKey: "newCasesBySpecimenDateRollingAverage" } },
-    { label: "Cumulative (by publish date)", value: { chartType: "area", key: "cumulativeCasesByPublishDate" } },
-    { label: "Cumulative (by specimen date)", value: { chartType: "area", key: "cumulativeCasesBySpecimenDate" } },
-];
+interface CardContentProps {
+    data: AreaData;
+    plotOptions: PlotOption[];
+    statCategory: StatCategory;
+}
 
-const CardContent: FunctionComponent<CardContentProps> = ({data}) => {
+export const MetricDetails: FunctionComponent<MetricProps> = ({ name, data, plotOptions, statCategory }) => {
+    return (
+        <section className={styles.card}>
+            <h2 className={styles.header}>{name}</h2>
+            { data ? <CardContent data={data} plotOptions={plotOptions} statCategory={statCategory!}/> : <div>Loading</div> }
+        </section>
+    );  
+};
+
+const CardContent: FunctionComponent<CardContentProps> = ({data, plotOptions, statCategory}) => {
     const [logAxis, setLogAxis] = useState(false);
     const [plotConfig, setPlotConfig] = useState<PlotOption>(plotOptions[0]);
     const [showRollingAverage, setShowRollingAverage] = useState(true);
@@ -65,7 +62,7 @@ const CardContent: FunctionComponent<CardContentProps> = ({data}) => {
     
     return (
         <div>
-            <StatRow label={"Cases"} statCategory={data.stats.cases} showLabel={false}/>
+            <StatRow statCategory={statCategory}/>
             <CustomisableChart data={data.timeSeries} 
                                dataKey={plotConfig.value.key}
                                rollingAverageKey={rollingAverageKey()}
