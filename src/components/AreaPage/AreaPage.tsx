@@ -6,6 +6,7 @@ import {AreaData, getAreaData} from "../../services/dataProcessor";
 import {Cases} from "../MetricDetails/Cases";
 import {Admissions} from "../MetricDetails/Admissions";
 import {Deaths} from "../MetricDetails/Deaths";
+import {Hospitalisation} from "../MetricDetails/Hospitilisation";
 
 export const AreaPage: FunctionComponent = () => {
     const { name } = useParams();
@@ -23,6 +24,7 @@ export const AreaPage: FunctionComponent = () => {
                 <Cases data={data}/>
                 <Admissions data={data}/>
                 <Deaths data={data}/>
+                <Hospitalisation data={data}/>
             </div>
         </div>
     );

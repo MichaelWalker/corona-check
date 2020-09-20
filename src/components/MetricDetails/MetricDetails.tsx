@@ -12,7 +12,7 @@ interface MetricProps {
     name: string;
     data: AreaData | undefined;
     plotOptions: PlotOption[];
-    statCategory: StatCategory | undefined;
+    statCategory?: StatCategory | undefined;
 }
 
 interface PlotConfig {
@@ -29,14 +29,14 @@ export interface PlotOption {
 interface CardContentProps {
     data: AreaData;
     plotOptions: PlotOption[];
-    statCategory: StatCategory;
+    statCategory: StatCategory | undefined;
 }
 
 export const MetricDetails: FunctionComponent<MetricProps> = ({ name, data, plotOptions, statCategory }) => {
     return (
         <section className={styles.card}>
             <h2 className={styles.header}>{name}</h2>
-            { data ? <CardContent data={data} plotOptions={plotOptions} statCategory={statCategory!}/> : <div>Loading</div> }
+            { data ? <CardContent data={data} plotOptions={plotOptions} statCategory={statCategory}/> : <div>Loading</div> }
         </section>
     );  
 };
@@ -62,7 +62,7 @@ const CardContent: FunctionComponent<CardContentProps> = ({data, plotOptions, st
     
     return (
         <div>
-            <StatRow statCategory={statCategory}/>
+            {statCategory && <StatRow statCategory={statCategory}/>}
             <CustomisableChart data={data.timeSeries} 
                                dataKey={plotConfig.value.key}
                                rollingAverageKey={rollingAverageKey()}
