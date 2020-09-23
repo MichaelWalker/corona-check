@@ -1,7 +1,7 @@
 ﻿import {RawDataPoint} from "./dataStructures";
 import {METRICS} from "../config/options";
 
-const BASE_URL = "https://api.coronavirus-staging.data.gov.uk";
+const BASE_URL = "https://api.coronavirus.data.gov.uk";
 
 const getStructure = (): {} => {
     let structure: any = {
