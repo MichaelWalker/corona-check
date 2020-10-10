@@ -11,7 +11,7 @@ interface SummaryCardProps {
 }
 
 export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, isLarge = false}) => {
-    const [data, setData] = useState<AreaData | null>(null);
+    const [data, setData] = useState<AreaData | undefined>();
     
     useEffect(() => {
         getAreaData(areaName)
@@ -22,14 +22,11 @@ export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, isLa
         if (!data) {
             return <div>Loading...</div>
         }
-        if (isLarge) {
-            return <LargeCardContent areaData={data}/>
-        }
-        return <CardContent areaData={data}/>
+        return <CardContent areaData={data} isLarge={isLarge}/>
     };
     
     return (
-        <Link to={`/areas/${areaName}`} className={isLarge ? styles.largeCard : styles.card}>
+        <Link to={`/areas/${areaName}`} className={isLarge ? `${styles.largeCard} ${styles.card}` : styles.card}>
             <section>
                 <h2 className={styles.title}>{areaName}</h2>
                 {getContent()}
@@ -46,36 +43,24 @@ export const LargeSummaryCard: FunctionComponent<SummaryCardProps> = ({areaName}
 
 interface CardContentProps {
     areaData: AreaData;
+    isLarge: boolean;
 }
 
-const CardContent: FunctionComponent<CardContentProps> = ({areaData}) => {
+const CardContent: FunctionComponent<CardContentProps> = ({areaData, isLarge}) => {
+    const stats = [
+        areaData.cases[0].stat!,
+        areaData.admissions[0].stat!,
+        areaData.deaths[0].stat!
+    ]
+    
     return (
         <div>
             <div className={styles.statRow}>
-                <StatRow label={"Cases"} statCategory={areaData.stats.cases}/>
+                <StatRow stats={stats}/>
             </div>
             <div className={styles.graphContainer}>
-                <SimpleAreaChart data={areaData.timeSeries} dataKey="newCasesRollingAverage"/>
+                <SimpleAreaChart data={areaData.cases[0].data!} isLarge={isLarge}/>
             </div>
         </div>
     );  
-};
-
-const LargeCardContent: FunctionComponent<CardContentProps> = ({areaData}) => {
-    return (
-        <ul className={styles.categoryList}>
-            <li className={styles.category}>
-                <StatRow label={"Cases"} statCategory={areaData.stats.cases}/>
-                <SimpleAreaChart data={areaData.timeSeries} dataKey="newCasesRollingAverage"/>
-            </li>
-            <li className={styles.category}>
-                <StatRow label={"Admissions"} statCategory={areaData.stats.admissions}/>
-                <SimpleAreaChart data={areaData.timeSeries} dataKey="newAdmissionsRollingAverage"/>
-            </li>
-            <li className={styles.category}>
-                <StatRow label={"Deaths"} statCategory={areaData.stats.deaths}/>
-                <SimpleAreaChart data={areaData.timeSeries} dataKey="newDeathsRollingAverage"/>
-            </li>
-        </ul>
-    );
 };

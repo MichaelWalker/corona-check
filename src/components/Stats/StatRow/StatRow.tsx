@@ -1,21 +1,17 @@
 ﻿import React, {FunctionComponent} from "react";
-import {StatCategory} from "../../../services/statService";
-import {TrendStat, NewValueStat, TotalValueStat} from "../Stat/Stat";
 import styles from "./StatRow.module.scss";
+import {Stat} from "../../../services/dataProcessor";
+import {StatComponent} from "../Stat/Stat";
 
 interface StatRowProps {
-    label?: string | undefined;
-    statCategory: StatCategory;
+    stats: Stat[];
 }
 
-export const StatRow: FunctionComponent<StatRowProps> = ({label, statCategory}) => {
+export const StatRow: FunctionComponent<StatRowProps> = ({stats}) => {
     return (
         <div className={styles.statRow}>
-            {label && <div className={styles.label}>{label}</div>}
             <div className={styles.statContainer}>
-                <NewValueStat stat={statCategory.new}/>
-                <TotalValueStat stat={statCategory.total}/>
-                <TrendStat stat={statCategory.trend}/>
+                { stats.map(stat => <StatComponent stat={stat}/>) }
             </div>
         </div>
     );

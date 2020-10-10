@@ -1,12 +1,8 @@
 ﻿import React, {FunctionComponent, useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import styles from "./AreaPage.module.scss";
-import {MetricDetails} from "../MetricDetails/MetricDetails";
 import {AreaData, getAreaData} from "../../services/dataProcessor";
-import {Cases} from "../MetricDetails/Cases";
-import {Admissions} from "../MetricDetails/Admissions";
-import {Deaths} from "../MetricDetails/Deaths";
-import {Hospitalisation} from "../MetricDetails/Hospitilisation";
+import {MetricDetails} from "../MetricDetails/MetricDetails";
 
 export const AreaPage: FunctionComponent = () => {
     const { name } = useParams();
@@ -17,14 +13,18 @@ export const AreaPage: FunctionComponent = () => {
             .then(areaData => setData(areaData));
     }, [name]);
     
+    if (!data) {
+        return <div>Loading...</div>
+    }
+    
     return (
         <div className={styles.page}>
             <h1 className={styles.title}>{name}</h1>
             <div className={styles.metrics}>
-                <Cases data={data}/>
-                <Admissions data={data}/>
-                <Deaths data={data}/>
-                <Hospitalisation data={data}/>
+                <MetricDetails name={"Cases"} metrics={data.cases}/>
+                <MetricDetails name={"Admissions"} metrics={data.admissions}/>
+                <MetricDetails name={"Deaths"} metrics={data.deaths}/>
+                <MetricDetails name={"Hospitalisation"} metrics={data.hospitalisation}/>
             </div>
         </div>
     );

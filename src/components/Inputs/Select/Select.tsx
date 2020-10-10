@@ -3,7 +3,6 @@ import styles from "./Select.module.scss";
 
 export interface Option {
     label: string;
-    value: any;
 }
 
 interface SelectProps {

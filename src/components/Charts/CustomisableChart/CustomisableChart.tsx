@@ -1,27 +1,26 @@
 ﻿import React, {FunctionComponent} from "react";
 import styles from "./CustomisableChart.module.scss";
 import {Area, Bar, Brush, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
-import {DataPoint, TimeSeries} from "../../../services/dataStructures";
 import moment from "moment";
+import {MetricDataPoint} from "../../../services/dataProcessor";
 
 interface CustomisableChartProps {
-    data: TimeSeries;
-    dataKey: keyof DataPoint;
-    rollingAverageKey?: keyof DataPoint | undefined;
-    scale: "auto" | "log";
-    chartType: "bar" | "area";
+    data: MetricDataPoint[] | null;
 }
 
-export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({data, dataKey, rollingAverageKey, scale, chartType }) => {
-    const safeData = makeLogSafe(data, dataKey);
+export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({data}) => {
+    if (!data) {
+        return <div>Insufficient Data</div>
+    }
     
+    const chartType = hasRollingAverage(data) ? "bar" : "area";
     return (
         <div className={styles.container}>
             <ResponsiveContainer>
-                <ComposedChart data={safeData} >
-                    {chartType === "bar" && <Bar dataKey={dataKey} fill={"#413ea0"}/>}
-                    {chartType === "area" && <Area dataKey={dataKey} type={"monotone"} fill={"#8884d8"}/>}
-                    {rollingAverageKey && <Line dataKey={rollingAverageKey} fill={"#413ea0"} dot={false} activeDot={true}/>} 
+                <ComposedChart data={data} >
+                    {chartType === "bar" && <Bar dataKey={"value"} fill={"#413ea0"}/>}
+                    {chartType === "area" && <Area dataKey={"value"} type={"monotone"} fill={"#8884d8"}/>}
+                    {hasRollingAverage(data) && <Line dataKey={"rollingAverage"} fill={"#413ea0"} dot={false} activeDot={true}/>} 
                     <XAxis dataKey={"timestamp"} 
                            type={"number"} 
                            domain={['dataMin - 36000', 'dataMax + 36000']}
@@ -29,8 +28,7 @@ export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({da
                            tickFormatter={timestamp => moment.unix(timestamp).format("DD-MMM")}
                            interval={"preserveEnd"}
                     />
-                    <YAxis width={50} 
-                           scale={scale} 
+                    <YAxis width={50}
                            domain={["dataMin", "auto"]} 
                            allowDataOverflow={true} 
                            allowDecimals={true}
@@ -49,17 +47,7 @@ export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({da
     );
 };
 
-const makeLogSafe = (data: TimeSeries, dataKey: keyof DataPoint): TimeSeries => {
-    data.forEach(dataPoint => {
-        // @ts-ignore
-        dataPoint[dataKey] = logSafe(dataPoint[dataKey] as number | null);
-    });
-    return data;    
-};
-
-const logSafe = (input: number | null): number => {
-    if (input === null || input === 0) {
-        return 0.0001;
-    }
-    return input;
-};
+const hasRollingAverage = (data: MetricDataPoint[]): boolean => {
+    const withRollingAverage = data.filter(d => d.rollingAverage !== undefined);
+    return withRollingAverage.length > 5;
+}

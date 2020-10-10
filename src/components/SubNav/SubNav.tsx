@@ -11,6 +11,5 @@ export const SubNav: FunctionComponent = () => {
                 <NavLink className={styles.navItem} activeClassName={styles.active} to={"/favourites"} >Favourites</NavLink>
             </nav>
         </div>
-
     );  
 };

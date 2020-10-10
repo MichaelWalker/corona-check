@@ -1,45 +1,23 @@
 ﻿@import "../../styles/common";
 
-@mixin summaryCard($width, $height) {
-  @include card;
-  width: $width;
-  height: $height;
-  flex-grow: 1;
-}
-
 .card {
-  @include summaryCard(calc(50% - 2*#{$cardMargin}), 328px);
-}
-
-.largeCard {
-  @include summaryCard(calc(100% - 2*#{$cardMargin}), 460px);
+  @include card;
+  width: calc(50% - 2*#{$cardMargin});
+  height: 328px;
+  flex-grow: 1;
+  
+  &.largeCard {
+    width: calc(100% - 2*#{$cardMargin});
+    height: 428px;
+  }
 }
 
 .title {
   @include cardTitleFont;
 }
 
-.categoryList {
-  list-style: none;
-  padding: 0;
-  margin: 20px 0;
-}
-
 .statRow {
   margin: 20px 0;
-}
-
-.category {
-  display: flex;
-  flex-direction: row;
-  
-  &:first-child {
-    margin-top: 0;
-  }
-  
-  & > :first-child {
-    margin-right: 20px;
-  }
 }
 
 .graphContainer {

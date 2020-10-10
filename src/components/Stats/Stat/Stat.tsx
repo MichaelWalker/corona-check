@@ -1,27 +1,15 @@
 ﻿import React, {FunctionComponent} from "react";
 import moment from "moment";
 import styles from "./Stat.module.scss";
-import {Stat} from "../../../services/statService";
+import {Stat} from "../../../services/dataProcessor";
 
-interface StatProps {
-    stat: Stat | undefined;
+type StatProps = {
+    stat: Stat;
 }
 
-type BaseStatProps = StatProps & {
-    className: string;
-    name: string;
-}
-
-export const StatComponent: FunctionComponent<BaseStatProps> = ({name, stat, className}) => {
-    const hasCurrentData = (): boolean => {
-        if (!stat) {
-            return false;
-        }
-        return stat.lastUpdated.isSame(moment(), "day");
-    };
-
+export const StatComponent: FunctionComponent<StatProps> = ({ stat}) => {
     const valueString = (): string => {
-        if (!stat) {
+        if (stat.value === null) {
             return "N/A";
         }
         if (stat.value > 1000000) {
@@ -30,40 +18,42 @@ export const StatComponent: FunctionComponent<BaseStatProps> = ({name, stat, cla
         if (stat.value > 1000) {
             return `${(stat.value / 1000).toPrecision(3)}k`;
         }
-        return `${stat.value}`;
+        if (stat.value < 1 && stat.value > 0) {
+            return `${stat.value.toFixed(2)}`
+        }
+        return `${stat.value.toFixed(0)}`;
     };
 
     const lastUpdatedString = (): string => {
-        if (!stat) {
+        if (!stat.moment) {
             return "-";
         }
-        if (stat.lastUpdated.isSame(moment(), "day")) {
+        if (stat.moment.isSame(moment(), "day")) {
             return "today";
         }
-        if (stat.lastUpdated.isSame(moment().add(-1, "day"), "day")) {
+        if (stat.moment.isSame(moment().add(-1, "day"), "day")) {
             return "yesterday";
         }
-        return stat.lastUpdated.fromNow();
+        return stat.moment.fromNow();
     };
     
+    const trendString = (): string => {
+        if (!stat.trend) {
+            return "-";
+        }
+        if (stat.trendMode === "raw") {
+            return `${stat.trend.weeklyIncrease.toFixed(0)}`;
+        }
+        
+        return `${stat.trend.weeklyPercentageIncrease.toFixed(0)}%`;
+    }
+    
     return (
-        <div className={`${styles.statContainer} ${className} ${hasCurrentData() ? "" : styles.isNotCurrent}`}>
-            <div className={styles.name}>{name}</div>
+        <div className={styles.statContainer}>
+            <div className={styles.name}>{stat.label}</div>
             <div className={styles.value}>{valueString()}</div>
+            <div className={styles.trend}>{trendString()}</div>
             <div className={styles.lastUpdated}>{lastUpdatedString()}</div>
         </div>
     );
 };
-
-export const NewValueStat: FunctionComponent<StatProps> = ({stat}) => {
-    return <StatComponent name={"New"} stat={stat} className={styles.newCases}/>  
-};
-
-export const TotalValueStat: FunctionComponent<StatProps> = ({stat}) => {
-    return <StatComponent name={"Total"} stat={stat} className={styles.totalCases}/>
-};
-
-export const TrendStat: FunctionComponent<StatProps> = ({stat}) => {
-    return <StatComponent name={"Trend"} stat={stat} className={styles.trend}/>
-};
-
