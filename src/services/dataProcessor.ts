@@ -1,17 +1,15 @@
 ﻿import {DailyReport, fetchDataForArea} from "./coronaDataFetcher";
 import moment from "moment";
-import {get14DayTrend, Trend} from "./trendCalculator";
+import {get14DayTrend} from "./trendCalculator";
 
 
 export type Figure = number | null;
-type TrendMode = "raw" | "percentage";
 
 export interface Stat {
     label: string;
-    trendMode: TrendMode;
     value: Figure;
     moment: moment.Moment | null;
-    trend: Trend | null;
+    trend: Figure;
 }
 
 export interface MetricDataPoint {
@@ -52,7 +50,6 @@ const getCasesData = (dailyReports: DailyReport[]): Metric[] => {
         {
             label: "New Cases (by best available)",
             data: getMetricDataWithRollingAverage(dailyReports, getBestCaseFigure),
-            stat: getStat("New Cases", dailyReports, getBestCaseFigure)
         },
         {
             label: "New Cases (by specimen date)",
@@ -60,31 +57,32 @@ const getCasesData = (dailyReports: DailyReport[]): Metric[] => {
         },
         {
             label: "New Cases (by publish date)",
-            data: getMetricDataWithRollingAverage(dailyReports, dailyReport => dailyReport.newCasesByPublishDate)
+            data: getMetricDataWithRollingAverage(dailyReports, dailyReport => dailyReport.newCasesByPublishDate),
+            stat: getStat("New Cases", dailyReports, dailyReport => dailyReport.newCasesByPublishDate, true)
         },
         {
             label: "Cumulative Cases (by specimen date)",
             data: getMetricDataWithoutRollingAverage(dailyReports, dailyReport => dailyReport.cumCasesBySpecimenDate),
-            stat: getStat("New Cases", dailyReports, dailyReport => dailyReport.cumCasesBySpecimenDate, "raw")
+            stat: getStat("New Cases", dailyReports, dailyReport => dailyReport.cumCasesBySpecimenDate, false)
         },
         {
             label: "Cumulative Cases (by publish date)",
             data: getMetricDataWithoutRollingAverage(dailyReports, dailyReport => dailyReport.cumCasesByPublishDate)
         }
     ]
-}
+};
 
 const getAdmissionsData = (dailyReports: DailyReport[]): Metric[] => {
     return [
         {
             label: "New Admissions",
             data: getMetricDataWithRollingAverage(dailyReports, dailyReport => dailyReport.newAdmissions),
-            stat: getStat("New Admissions", dailyReports, dailyReport => dailyReport.newAdmissions),
+            stat: getStat("New Admissions", dailyReports, dailyReport => dailyReport.newAdmissions, true),
         },
         {
             label: "Cumulative Admissions",
             data: getMetricDataWithRollingAverage(dailyReports, dailyReport => dailyReport.cumAdmissions),
-            stat: getStat("Cumulative Admissions", dailyReports, dailyReport => dailyReport.cumAdmissions, "raw")
+            stat: getStat("Cumulative Admissions", dailyReports, dailyReport => dailyReport.cumAdmissions, false)
         },
     ];
 };
@@ -94,7 +92,6 @@ const getDeathsData = (dailyReports: DailyReport[]): Metric[] => {
         {
             label: "New Deaths (by best available)",
             data: getMetricDataWithRollingAverage(dailyReports, getBestDeathFigure),
-            stat: getStat("New Deaths", dailyReports, getBestDeathFigure),
         },
         {
             label: "New Deaths (by death date)",
@@ -102,12 +99,13 @@ const getDeathsData = (dailyReports: DailyReport[]): Metric[] => {
         },
         {
             label: "New Deaths (by publish date)",
-            data: getMetricDataWithRollingAverage(dailyReports, dailyReport => dailyReport.newDeaths28DaysByPublishDate)
+            data: getMetricDataWithRollingAverage(dailyReports, dailyReport => dailyReport.newDeaths28DaysByPublishDate),
+            stat: getStat("New Deaths", dailyReports, dailyReport => dailyReport.newDeaths28DaysByPublishDate, true),
         },
         {
             label: "Cumulative Deaths (by death date)",
             data: getMetricDataWithoutRollingAverage(dailyReports, dailyReport => dailyReport.cumDeaths28DaysByDeathDate),
-            stat: getStat("Cumulative Deaths", dailyReports, dailyReport => dailyReport.cumDeaths28DaysByDeathDate, "raw"),
+            stat: getStat("Cumulative Deaths", dailyReports, dailyReport => dailyReport.cumDeaths28DaysByDeathDate, false),
         },
         {
             label: "Cumulative Deaths (by publish date)",
@@ -121,7 +119,7 @@ const getHospitalisationData = (dailyReports: DailyReport[]): Metric[] => {
         {
             label: "Number of people in hospital",
             data: getMetricDataWithRollingAverage(dailyReports, dailyReport => dailyReport.hospitalCases),
-            stat: getStat("People in Hospital", dailyReports, dailyReport => dailyReport.hospitalCases),
+            stat: getStat("People in Hospital", dailyReports, dailyReport => dailyReport.hospitalCases, true),
         },
         {
             label: "Planned hospital capacity",
@@ -139,7 +137,7 @@ const getHospitalisationData = (dailyReports: DailyReport[]): Metric[] => {
         {
             label: "% of hospital capacity used",
             data: getMetricDataWithRollingAverage(dailyReports, getPercentageHospitalCapacity),
-            stat: getStat("% of hospital capacity", dailyReports, getPercentageHospitalCapacity),
+            stat: getStat("% of hospital capacity", dailyReports, getPercentageHospitalCapacity, false),
         },
     ];
 };
@@ -149,7 +147,7 @@ const getPercentageHospitalCapacity = (dailyReport: DailyReport): Figure => {
         return null;
     }
     return dailyReport.hospitalCases * 100 / dailyReport.plannedCapacityByPublishDate;
-}
+};
 
 const getBestCaseFigure = (dailyReport: DailyReport): Figure => {
     if (dailyReport.moment.isBefore(moment().subtract(5, "days"))) {
@@ -158,7 +156,7 @@ const getBestCaseFigure = (dailyReport: DailyReport): Figure => {
     }
     // but for data from the last couple of days the publish date is more likely to be up to date, so use that where possible.
     return dailyReport.newCasesByPublishDate !== null ? dailyReport.newCasesByPublishDate : dailyReport.newCasesBySpecimenDate;
-}
+};
 
 const getBestDeathFigure = (dailyReport: DailyReport): Figure => {
     if (dailyReport.moment.isBefore(moment().subtract(5, "days"))) {
@@ -167,7 +165,7 @@ const getBestDeathFigure = (dailyReport: DailyReport): Figure => {
     }
     // but for data from the last couple of days the publish date is more likely to be up to date, so use that where possible.
     return dailyReport.newDeaths28DaysByPublishDate !== null ? dailyReport.newDeaths28DaysByPublishDate : dailyReport.newDeaths28DaysByDeathDate;
-}
+};
 
 const getMetricDataWithRollingAverage = (dailyReports: DailyReport[], getValue: (dailyReport: DailyReport) => Figure): MetricDataPoint[] | null => {
     const allValues = dailyReports.map(getValue);
@@ -185,7 +183,7 @@ const getMetricDataWithRollingAverage = (dailyReports: DailyReport[], getValue: 
             rollingAverage: getRollingAverages(lastWeeksValues)
         }
     })
-}
+};
 
 const getMetricDataWithoutRollingAverage = (dailyReports: DailyReport[], getValue: (dailyReport: DailyReport) => Figure): MetricDataPoint[] | null => {
     const allValues = dailyReports.map(getValue);
@@ -194,19 +192,19 @@ const getMetricDataWithoutRollingAverage = (dailyReports: DailyReport[], getValu
         return null;
     }
 
-    return dailyReports.map((dailyReport, index) => {
+    return dailyReports.map((dailyReport) => {
         return {
             moment: dailyReport.moment,
             timestamp: dailyReport.timestamp,
             value: getValue(dailyReport),
         }
     })
-}
+};
 
 const sufficientData = (allValues: Figure[]) => {
     const nonNullValues = allValues.filter(value => value !== null);
     return nonNullValues.length >= 5;
-}
+};
 
 const getRollingAverages = (values: Figure[]): Figure => {
     if (values[values.length - 1] === null) {
@@ -231,12 +229,11 @@ const valuesForLastSevenDays = (values: Figure[], index: number) => {
     return values.slice(index - 6, index + 1);
 };
 
-const getStat = (label: string, dailyReports: DailyReport[], getValue: (dailyReport: DailyReport) => Figure, trendMode: TrendMode = "percentage"): Stat => {
+const getStat = (label: string, dailyReports: DailyReport[], getValue: (dailyReport: DailyReport) => Figure, showTrend: boolean): Stat => {
     const mostRecentReport = getMostRecentFigure(dailyReports, getValue);
     if (mostRecentReport === null) {
         return {
             label: label,
-            trendMode: trendMode,
             value: null,
             moment: null,
             trend: null,
@@ -245,12 +242,11 @@ const getStat = (label: string, dailyReports: DailyReport[], getValue: (dailyRep
     
     return {
         label: label,
-        trendMode: trendMode,
         value: getValue(mostRecentReport),
         moment: mostRecentReport.moment,
-        trend: get14DayTrend(dailyReports.map(getValue))
+        trend: showTrend ? get14DayTrend(dailyReports.map(getValue)) : null
     }
-}
+};
 
 const getMostRecentFigure = (dailyReports: DailyReport[], getValue: (dailyReport: DailyReport) => Figure): DailyReport | null => {
     const nonNullReports = dailyReports.filter(dailyReport => getValue(dailyReport) !== null);
@@ -260,4 +256,4 @@ const getMostRecentFigure = (dailyReports: DailyReport[], getValue: (dailyReport
     }
     
     return nonNullReports.slice(-1)[0];
-}
+};

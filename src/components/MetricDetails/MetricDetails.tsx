@@ -31,7 +31,7 @@ const CardContent: FunctionComponent<CardContentProps> = ({metrics, stats}) => {
     const updateMetric = (metricLabel: string): void => {
         const newMetric = metrics.find(m => m.label === metricLabel);
         setMetric(newMetric!);
-    }
+    };
     
     return (
         <div>

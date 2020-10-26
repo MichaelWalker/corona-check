@@ -48,10 +48,10 @@ interface CardContentProps {
 
 const CardContent: FunctionComponent<CardContentProps> = ({areaData, isLarge}) => {
     const stats = [
-        areaData.cases[0].stat!,
+        areaData.cases[2].stat!,
         areaData.admissions[0].stat!,
-        areaData.deaths[0].stat!
-    ]
+        areaData.deaths[2].stat!
+    ];
     
     return (
         <div>

@@ -41,12 +41,9 @@ export const StatComponent: FunctionComponent<StatProps> = ({ stat}) => {
         if (!stat.trend) {
             return "-";
         }
-        if (stat.trendMode === "raw") {
-            return `${stat.trend.weeklyIncrease.toFixed(0)}`;
-        }
         
-        return `${stat.trend.weeklyPercentageIncrease.toFixed(0)}%`;
-    }
+        return `${stat.trend.toFixed(0)}%`;
+    };
     
     return (
         <div className={styles.statContainer}>

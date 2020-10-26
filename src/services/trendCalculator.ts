@@ -1,73 +1,28 @@
 ﻿import {Figure} from "./dataProcessor";
 
-interface DataPoint {
-    value: number;
-    day: number;
-}
-
-export interface Trend {
-    weeklyIncrease: number;
-    weeklyPercentageIncrease: number;
-}
-
-export const get14DayTrend = (values: Figure[]): Trend | null => {
-    const dataPoints = getLast14Values(values)
-        .map(toDataPoint)
-        .filter(notNull) as DataPoint[];
-
-    if (dataPoints.length < 5) {
-        return null;
-    }
-
-    const averageValue = average(dataPoints.map(point => point.value));
-    const averageDay = average(dataPoints.map(point => point.day));
+export const get14DayTrend = (values: Figure[]): Figure => {
+    const differences: Figure[] = [];
     
-    if (averageValue < 5) {
-        return null;
+    for (let i = 0; i < 7; i++) {
+        const thisWeeksData = values[values.length - i];
+        const lastWeeksData = values[values.length - (i + 7)];
+        
+        if (thisWeeksData !== null && lastWeeksData !== null && lastWeeksData > 5) {
+            const percentageDifference = 100 * (thisWeeksData - lastWeeksData) / lastWeeksData;
+            differences.push(percentageDifference);
+        }
     }
     
-    const typicalDailyIncrease = getNumerator(dataPoints, averageValue, averageDay) / getDenominator(dataPoints, averageValue, averageDay);
-    
-    return {
-        weeklyIncrease: typicalDailyIncrease * 7,
-        weeklyPercentageIncrease: typicalDailyIncrease * 700 / averageValue,
-    }
+    return average(differences);
 };
 
-const getLast14Values = (values: Figure[]) => {
-    if (values.length <= 14) {
-        return values;
-    }
-    return values.slice(values.length - 14, values.length);
-};
-
-const toDataPoint = (value: number | null, index : number): DataPoint | null => {
-    if (value === null) {
+const average = (figures: Figure[]): Figure => {
+    if (figures.length === 0) {
         return null;
     }
-    return {
-        value,
-        day: index
-    }
-}
-
-const notNull = (dataPoint: DataPoint | null): boolean => {
-    return dataPoint !== null;
-}
-
-const average = (numbers: number[]): number => {
-    const sum = numbers.reduce((a, b) => a + b);
-    return sum / numbers.length;
-}
-
-const getNumerator = (dataPoints: DataPoint[], averageValue: number, averageDay: number): number => {
-    return dataPoints
-        .map(dataPoint => (dataPoint.day - averageDay) * (dataPoint.value - averageValue))
+    
+    const sum = figures
+        .map(figure => figure || 0)
         .reduce((a, b) => a + b);
-}
-
-const getDenominator = (dataPoints: DataPoint[], averageValue: number, averageDay: number): number => {
-    return dataPoints
-        .map(dataPoint => (dataPoint.day - averageDay) * (dataPoint.day - averageDay))
-        .reduce((a, b) => a + b);
-}
+    return sum / figures.length;
+};
