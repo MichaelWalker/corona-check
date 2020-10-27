@@ -26,35 +26,35 @@ const defaultDataMax = 'dataMax + 36000';
 export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({data}) => {
     const [dragStart, setDragStart] = useState<number | undefined>(undefined);
     const [dragEnd, setDragEnd] = useState<number | undefined>(undefined);
-    const [dataMin, setDataMin] = useState<number | string>(defaultDataMin);
-    const [dataMax, setDataMax] = useState<number | string>(defaultDataMax);
-    const [plottedData, setPlottedData] = useState(data);
-    const [isZoomedIn, setZoomedIn] = useState(false);
+    const [specifiedDataMin, setSpecifiedDataMin] = useState<number | undefined>();
+    const [specifiedDataMax, setSpecifiedDataMax] = useState<number | undefined>();
     
-    const hasReferenceArea = dragStart !== undefined && dragEnd !== undefined;
     
     if (!data) {
         return <div>Insufficient Data</div>
     }
     
     const chartType = hasRollingAverage(data) ? "bar" : "area";
+    const hasReferenceArea = dragStart !== undefined && dragEnd !== undefined;
+    const dataMin = specifiedDataMin || defaultDataMin;
+    const dataMax = specifiedDataMax || defaultDataMax;
+    const isZoomedIn = specifiedDataMin !== undefined;
+    
+    const getPlottedData = (): MetricDataPoint[] => {
+        return data
+            .filter(d => specifiedDataMin === undefined || d.timestamp >= specifiedDataMin)
+            .filter(d => specifiedDataMax === undefined || d.timestamp <= specifiedDataMax);
+    };
 
     const zoom = () => {
         if (hasReferenceArea) {
-            const minTimestamp = defaultDataMin;
-            const maxTimestamp = defaultDataMax;
             if (Number.isNaN(dragEnd!)) {
-                const minTimestamp = dragStart! - 36000;
-                setPlottedData(data.filter(d => d.timestamp > minTimestamp));
+                setSpecifiedDataMin(dragStart! - 36000);
             }
             else {
-                const minTimestamp = Math.min(dragStart!, dragEnd!) - 36000;
-                const maxTimestamp = Math.max(dragStart!, dragEnd!) + 36000;
-                setPlottedData(data.filter(d => d.timestamp > minTimestamp).filter(d => d.timestamp < maxTimestamp));
+                setSpecifiedDataMin(Math.min(dragStart!, dragEnd!) - 36000);
+                setSpecifiedDataMax(Math.max(dragStart!, dragEnd!) + 36000);
             }
-            setDataMin(minTimestamp);
-            setDataMax(maxTimestamp);
-            setZoomedIn(true);
         }
         setDragStart(undefined);
         setDragEnd(undefined);
@@ -63,10 +63,8 @@ export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({da
     const zoomOut = () => {
         setDragStart(undefined);
         setDragEnd(undefined);
-        setDataMin(defaultDataMin);
-        setDataMax(defaultDataMax);
-        setPlottedData(data);
-        setZoomedIn(false);
+        setSpecifiedDataMin(undefined);
+        setSpecifiedDataMax(undefined);
     };
     
     return (
@@ -74,9 +72,9 @@ export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({da
             {isZoomedIn && <button className={styles.zoomOutButton} onClick={zoomOut}><ZoomOutIcon/></button>}
             <ResponsiveContainer>
                 <ComposedChart 
-                    data={plottedData!}
-                    onMouseDown={e => setDragStart(parseInt(e.activeLabel))}
-                    onMouseMove={e => dragStart !== undefined && setDragEnd(parseInt(e.activeLabel))}
+                    data={getPlottedData()}
+                    onMouseDown={e => { if (e && e.activeLabel) { setDragStart(parseInt(e.activeLabel)) }}}
+                    onMouseMove={e => { if (dragStart !== undefined && e && e.activeLabel) { setDragEnd(parseInt(e.activeLabel)) }}}
                     onMouseUp={zoom}
                 >
                     {chartType === "bar" && <Bar dataKey={"value"} fill={"#004293"} fillOpacity={0.3}/>}
@@ -107,4 +105,4 @@ export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({da
 const hasRollingAverage = (data: MetricDataPoint[]): boolean => {
     const withRollingAverage = data.filter(d => d.rollingAverage !== undefined);
     return withRollingAverage.length > 5;
-}
+};
