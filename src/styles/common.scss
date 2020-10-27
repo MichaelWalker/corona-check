@@ -48,13 +48,12 @@ $cardPadding: 20px;
   @include _font($fontSize: 20px, $color: $colorLight, $fontFamily: "Permanent Marker");
 }
 
-@mixin bodyFont {
-  @include _font($color: $colorLight);
+@mixin bodyFont($color: $colorDark) {
+  @include _font($color: $color);
 }
 
 @mixin linkFont {
-  @include bodyFont;
-  color: $colorLight2;
+  @include bodyFont($colorLight2);
   
   &:hover {
     text-decoration: underline;

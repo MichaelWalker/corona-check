@@ -1,0 +1,13 @@
+@import "../../../styles/common";
+
+.label {
+  @include bodyFont;
+  margin-right: 10px;
+}
+
+.select {
+  @include bodyFont;
+  @include shadow;
+  border-radius: 8px;
+  border: none;
+}

@@ -7,11 +7,11 @@
 
 .iconCredit {
   @include contentGutters;
-  @include bodyFont;
+  @include bodyFont($colorLight);
 }
 
 .iconCredit {
-  @include bodyFont;
+  @include bodyFont($colorLight);
 }
 
 .link {
