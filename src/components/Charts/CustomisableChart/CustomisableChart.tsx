@@ -79,9 +79,9 @@ export const CustomisableChart: FunctionComponent<CustomisableChartProps> = ({da
                     onMouseMove={e => dragStart !== undefined && setDragEnd(parseInt(e.activeLabel))}
                     onMouseUp={zoom}
                 >
-                    {chartType === "bar" && <Bar dataKey={"value"} fill={"#413ea0"}/>}
-                    {chartType === "area" && <Area dataKey={"value"} type={"monotone"} fill={"#8884d8"}/>}
-                    {hasRollingAverage(data) && <Line dataKey={"rollingAverage"} fill={"#413ea0"} dot={false} activeDot={true}/>} 
+                    {chartType === "bar" && <Bar dataKey={"value"} fill={"#004293"} fillOpacity={0.3}/>}
+                    {chartType === "area" && <Area dataKey={"value"} type={"monotone"} fill={"#004293"}/>}
+                    {hasRollingAverage(data) && <Line dataKey={"rollingAverage"} stroke={"#004293"} strokeWidth={3} dot={false} activeDot={true}/>} 
                     <XAxis dataKey={"timestamp"} 
                            type={"number"} 
                            domain={[dataMin, dataMax]}
