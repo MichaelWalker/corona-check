@@ -1,6 +1,29 @@
-﻿
+﻿@import "../../../styles/common";
+
 .container {
   margin-top: 40px;
   height: 300px;
   width: 100%;
+  position: relative;
+}
+
+.zoomOutButton {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  
+  background: $colorLight;
+  border: 1px solid $colorMid;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s all ease;
+  
+  &:hover {
+    background: $colorMid;
+  }
 }
