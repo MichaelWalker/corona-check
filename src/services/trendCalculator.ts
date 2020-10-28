@@ -1,4 +1,4 @@
-﻿import {Figure} from "./dataProcessor";
+﻿import {Figure} from "./processingHelpers";
 
 export const get14DayTrend = (values: Figure[]): Figure => {
     const differences: Figure[] = [];

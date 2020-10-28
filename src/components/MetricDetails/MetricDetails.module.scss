@@ -6,8 +6,40 @@
 
 .header {
   @include cardTitleFont;
+  margin-right: 40px;
+}
+
+.headerRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .controls {
   text-align: center;
+}
+
+.lastUpdated {
+  @include bodyFont;
+}
+
+.figureContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  margin-left: 40px;
+}
+
+.label {
+  @include statNameFont;
+}
+
+.value {
+  @include statValueFont;
 }

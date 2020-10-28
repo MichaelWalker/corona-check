@@ -13,8 +13,8 @@ import {
     YAxis
 } from "recharts";
 import moment from "moment";
-import {MetricDataPoint} from "../../../services/dataProcessor";
 import {ZoomOutIcon} from "../../Icons/ZoomOutIcon";
+import {MetricDataPoint} from "../../../services/processingHelpers";
 
 interface CustomisableChartProps {
     data: MetricDataPoint[] | null;

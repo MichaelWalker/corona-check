@@ -48,9 +48,10 @@ interface CardContentProps {
 
 const CardContent: FunctionComponent<CardContentProps> = ({areaData, isLarge}) => {
     const stats = [
-        areaData.cases[2].stat!,
-        areaData.admissions[0].stat!,
-        areaData.deaths[2].stat!
+        areaData.cases.headlineStat!,
+        areaData.admissions.headlineStat!,
+        areaData.deaths.headlineStat!,
+        areaData.hospitalisation.headlineStat!
     ];
     
     return (
@@ -59,7 +60,7 @@ const CardContent: FunctionComponent<CardContentProps> = ({areaData, isLarge}) =
                 <StatRow stats={stats}/>
             </div>
             <div className={styles.graphContainer}>
-                <SimpleAreaChart data={areaData.cases[0].data!} isLarge={isLarge}/>
+                <SimpleAreaChart data={areaData.cases.metrics[0].data!} isLarge={isLarge}/>
             </div>
         </div>
     );  

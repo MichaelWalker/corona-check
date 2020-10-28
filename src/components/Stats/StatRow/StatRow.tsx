@@ -1,7 +1,7 @@
 ﻿import React, {FunctionComponent} from "react";
 import styles from "./StatRow.module.scss";
-import {Stat} from "../../../services/dataProcessor";
 import {StatComponent} from "../Stat/Stat";
+import {Stat} from "../../../services/statService";
 
 interface StatRowProps {
     stats: Stat[];

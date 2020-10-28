@@ -1,45 +1,54 @@
 ﻿import React, {FunctionComponent, useState} from "react";
 import styles from "./MetricDetails.module.scss";
-import {Metric, Stat} from "../../services/dataProcessor";
-import {StatRow} from "../Stats/StatRow/StatRow";
 import {CustomisableChart} from "../Charts/CustomisableChart/CustomisableChart";
 import {Select} from "../Inputs/Select/Select";
+import {formatDaysAgo, formatFigure} from "../../services/formatHelpers";
+import {Figure, Metric, MetricCategory} from "../../services/processingHelpers";
 
 interface MetricProps {
     name: string;
-    metrics: Metric[];
+    metricCategory: MetricCategory;
 }
 
-interface CardContentProps {
-    metrics: Metric[];
-    stats: Stat[];
-}
+export const MetricDetails: FunctionComponent<MetricProps> = ({ name, metricCategory }) => {
+    const [metric, setMetric] = useState<Metric>(metricCategory.metrics[0]);
 
-export const MetricDetails: FunctionComponent<MetricProps> = ({ name, metrics }) => {
-    const stats = metrics.map(m => m.stat).filter(s => s !== undefined) as Stat[];
+    const overviewStats = metricCategory.overviewStats;
+
+    const updateMetric = (metricLabel: string): void => {
+        const newMetric = metricCategory.metrics.find(m => m.label === metricLabel);
+        setMetric(newMetric!);
+    };
+
     return (
         <section className={styles.card}>
-            <h2 className={styles.header}>{name}</h2>
-            <CardContent metrics={metrics} stats={stats}/>
+            <div className={styles.headerRow}>
+                <div>
+                    <h2 className={styles.header}>{name}</h2>
+                    <div className={styles.lastUpdated}>Last updated: {formatDaysAgo(overviewStats.lastUpdated)}</div>
+                </div>
+                <div className={styles.figureContainer}>
+                    {overviewStats.stats.map(stat => <MetricFigure label={stat.label} figure={stat.value}/>)}
+                </div>
+            </div>
+            <CustomisableChart data={metric.data}/>
+            <div className={styles.controls}>
+                <Select label={"Metric"} value={metric.label} options={metricCategory.metrics} onChange={updateMetric}/>
+            </div>
         </section>
     );  
 };
 
-const CardContent: FunctionComponent<CardContentProps> = ({metrics, stats}) => {
-    const [metric, setMetric] = useState<Metric>(metrics[0]);
-    
-    const updateMetric = (metricLabel: string): void => {
-        const newMetric = metrics.find(m => m.label === metricLabel);
-        setMetric(newMetric!);
-    };
-    
+interface MetricFigureProps {
+    label: string;
+    figure: Figure;
+}
+
+const MetricFigure: FunctionComponent<MetricFigureProps> = ({label, figure}) => {
     return (
-        <div>
-            <StatRow stats={stats}/>
-            <CustomisableChart data={metric.data}/>
-            <div className={styles.controls}>
-                <Select label={"Metric"} value={metric.label} options={metrics} onChange={updateMetric}/>
-            </div>
+        <div className={styles.figure}>
+            <div className={styles.label}>{label}</div>
+            <div className={styles.value}>{formatFigure(figure)}</div>
         </div>
     );
 };

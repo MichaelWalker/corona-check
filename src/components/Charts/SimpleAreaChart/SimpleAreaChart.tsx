@@ -1,7 +1,7 @@
 ﻿import React, {FunctionComponent} from "react";
 import {Area, AreaChart, ResponsiveContainer} from "recharts";
 import styles from "./SimpleAreaChart.module.scss";
-import {MetricDataPoint} from "../../../services/dataProcessor";
+import {MetricDataPoint} from "../../../services/processingHelpers";
 
 interface AreaChartProps {
     data: MetricDataPoint[];

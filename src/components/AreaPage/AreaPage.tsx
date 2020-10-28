@@ -21,10 +21,10 @@ export const AreaPage: FunctionComponent = () => {
         <div className={styles.page}>
             <h1 className={styles.title}>{name}</h1>
             <div className={styles.metrics}>
-                <MetricDetails name={"Cases"} metrics={data.cases}/>
-                <MetricDetails name={"Admissions"} metrics={data.admissions}/>
-                <MetricDetails name={"Deaths"} metrics={data.deaths}/>
-                <MetricDetails name={"Hospitalisation"} metrics={data.hospitalisation}/>
+                <MetricDetails name={"Cases"} metricCategory={data.cases}/>
+                <MetricDetails name={"Admissions"} metricCategory={data.admissions}/>
+                <MetricDetails name={"Deaths"} metricCategory={data.deaths}/>
+                <MetricDetails name={"Hospitalisation"} metricCategory={data.hospitalisation}/>
             </div>
         </div>
     );
