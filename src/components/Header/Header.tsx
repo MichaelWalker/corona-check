@@ -17,13 +17,13 @@ export const Header = () => {
         <header className={styles.header}>
             <nav className={styles.nav}>
                 <NavLink className={styles.logoLink} to={"/"}><Logo/>CoronaCheck</NavLink>
-                <NavLink className={styles.navItem} to={"/areas"}>Areas</NavLink>
-                <form className={styles.form} onSubmit={searchAreas}>
-                    <label className={styles.searchLabel}>Search
-                        <input className={styles.input} type="text" value={search} onChange={event => setSearch(event.target.value)}/>
-                    </label>
-                    <button className={styles.searchButton}><SearchIcon/></button>
-                </form>
+                {/*<NavLink className={styles.navItem} to={"/areas"}>Areas</NavLink>*/}
+                {/*<form className={styles.form} onSubmit={searchAreas}>*/}
+                {/*    <label className={styles.searchLabel}>Search*/}
+                {/*        <input className={styles.input} type="text" value={search} onChange={event => setSearch(event.target.value)}/>*/}
+                {/*    </label>*/}
+                {/*    <button className={styles.searchButton}><SearchIcon/></button>*/}
+                {/*</form>*/}
             </nav>
         </header>
     );  
