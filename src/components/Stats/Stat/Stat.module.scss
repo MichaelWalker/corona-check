@@ -20,6 +20,10 @@
   @include statValueFont;
 }
 
+.trend {
+  @include statTrendFont;
+}
+
 .lastUpdated {
   @include statLastUpdatedFont;
 }

@@ -1,12 +1,12 @@
 ﻿import React, {FunctionComponent} from "react";
 import styles from "./SummaryPage.module.scss";
-import {LargeSummaryCard, SummaryCard} from "../SummaryCard/SummaryCard";
+import {SummaryCard} from "../SummaryCard/SummaryCard";
 
 export const UkSummaryPage: FunctionComponent = () => {
     return (
         <main className={styles.page}>
             <div className={styles.cardContainer}>
-                <LargeSummaryCard areaName={"United Kingdom"}/>
+                <SummaryCard areaName={"United Kingdom"}/>
                 <SummaryCard areaName={"England"}/>
                 <SummaryCard areaName={"Scotland"}/>
                 <SummaryCard areaName={"Wales"}/>
@@ -20,7 +20,7 @@ export const DevonSummaryPage: FunctionComponent = () => {
     return (
         <main className={styles.page}>
             <div className={styles.cardContainer}>
-                <LargeSummaryCard areaName={"Devon"}/>
+                <SummaryCard areaName={"Devon"}/>
                 <SummaryCard areaName={"East Devon"}/>
                 <SummaryCard areaName={"Exeter"}/>
                 <SummaryCard areaName={"Mid Devon"}/>

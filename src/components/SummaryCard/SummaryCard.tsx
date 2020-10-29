@@ -2,15 +2,14 @@
 import styles from "./SummaryCard.module.scss";
 import {AreaData, getAreaData} from "../../services/dataProcessor";
 import {SimpleAreaChart} from "../Charts/SimpleAreaChart/SimpleAreaChart";
-import {StatRow} from "../Stats/StatRow/StatRow";
 import {Link} from "react-router-dom";
+import {StatComponent} from "../Stats/Stat/Stat";
 
 interface SummaryCardProps {
     areaName: string;
-    isLarge?: boolean;
 }
 
-export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, isLarge = false}) => {
+export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName}) => {
     const [data, setData] = useState<AreaData | undefined>();
     
     useEffect(() => {
@@ -18,50 +17,37 @@ export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, isLa
             .then(areaData => setData(areaData))
     }, [areaName]);
     
-    const getContent = () => {
-        if (!data) {
-            return <div>Loading...</div>
-        }
-        return <CardContent areaData={data} isLarge={isLarge}/>
-    };
-    
-    return (
-        <Link to={`/areas/${areaName}`} className={isLarge ? `${styles.largeCard} ${styles.card}` : styles.card}>
-            <section>
-                <h2 className={styles.title}>{areaName}</h2>
-                {getContent()}
-            </section>
-        </Link>
-    );  
-};
+    if (!data) {
+        return (
+            <Link to={`/areas/${areaName}`} className={styles.card}>
+                <section>
+                    <h2 className={styles.title}>{areaName}</h2>
+                    <div>Loading...</div>
+                </section>
+            </Link>
+        );
+    }
 
-export const LargeSummaryCard: FunctionComponent<SummaryCardProps> = ({areaName}) => {
-    return (
-        <SummaryCard areaName={areaName} isLarge={true}/>
-    );
-};
-
-interface CardContentProps {
-    areaData: AreaData;
-    isLarge: boolean;
-}
-
-const CardContent: FunctionComponent<CardContentProps> = ({areaData, isLarge}) => {
     const stats = [
-        areaData.cases.headlineStat!,
-        areaData.admissions.headlineStat!,
-        areaData.deaths.headlineStat!,
-        areaData.hospitalisation.headlineStat!
+        data.cases.headlineStat!,
+        data.admissions.headlineStat!,
+        data.deaths.headlineStat!,
+        data.hospitalisation.headlineStat!
     ];
     
     return (
-        <div>
-            <div className={styles.statRow}>
-                <StatRow stats={stats}/>
-            </div>
-            <div className={styles.graphContainer}>
-                <SimpleAreaChart data={areaData.cases.metrics[0].data!} isLarge={isLarge}/>
-            </div>
-        </div>
+        <Link to={`/areas/${areaName}`} className={styles.card}>
+            <section>
+                <div className={styles.headerRow}>
+                    <h2 className={styles.title}>{areaName}</h2>
+                    <div className={styles.statContainer}>
+                        { stats.map(stat => <StatComponent key={stat.label} stat={stat}/>) }
+                    </div>
+                </div>
+                <div className={styles.graphContainer}>
+                    <SimpleAreaChart data={data.cases.metrics[0].data!}/>
+                </div>
+            </section>
+        </Link>
     );  
 };

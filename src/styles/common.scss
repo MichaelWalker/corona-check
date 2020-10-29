@@ -1,5 +1,5 @@
 ﻿$colorExtraLight: #FFFFFF;
-$colorLight: #FBFBFB;
+$colorLight: #F4F4F4;
 $colorLight2: #bcd1de;
 $colorMid: #004293;
 $colorDark: #050d22;
@@ -10,6 +10,7 @@ $maxContentWidth: 1384px;
 $footerHeight: 40px;
 $headerHeight: 60px;
 $cardMargin: 20px; 
+$cardMarginMobile: 10px;
 $statMargin: 10px;
 $cardPadding: 20px;
 
@@ -19,6 +20,10 @@ $cardPadding: 20px;
   @media (min-width: $maxContentWidth + 2*$gutterWidth) {
     margin: auto;
     max-width: $maxContentWidth;
+  }
+
+  @media (max-width: 479px) {
+    margin: 0 20px;
   }
 }
 
@@ -81,6 +86,11 @@ $cardPadding: 20px;
   text-transform: uppercase;
 }
 
+@mixin statTrendFont {
+  @include _font($fontSize: 16px, $fontFamily: "Open Sans", $lineHeight: 1);
+  text-transform: uppercase;
+}
+
 @mixin statLastUpdatedFont {
   @include _font($fontSize: 12px, $fontFamily: "Open Sans Condensed", $lineHeight: 1);
   text-transform: uppercase;
@@ -97,10 +107,15 @@ $cardPadding: 20px;
 
 @mixin card {
   @include shadow;
-  background: $colorExtraLight;
+  background: $colorLight;
   margin: $cardMargin;
   padding: $cardPadding;
   border-radius: 8px;
   box-sizing: border-box;
   overflow: hidden;
+  
+  @media (max-width: 479px) {
+    border-radius: 0;
+    margin: $cardMarginMobile #{-$cardMarginMobile};
+  }
 }

@@ -2,22 +2,26 @@
 
 .card {
   @include card;
-  width: calc(50% - 2*#{$cardMargin});
-  height: 328px;
+  width: calc(100% - 2*#{$cardMargin});
   flex-grow: 1;
-  
-  &.largeCard {
-    width: calc(100% - 2*#{$cardMargin});
-    height: 428px;
-  }
+}
+
+.headerRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .title {
   @include cardTitleFont;
 }
 
-.statRow {
-  margin: 20px 0;
+.statContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 -10px;
 }
 
 .graphContainer {

@@ -10,4 +10,8 @@
   flex-wrap: wrap;
   position: relative;
   margin: #{40px - $cardMargin} -$cardMargin;
+  
+  @media (max-width: 479px) {
+    margin: #{20px - $cardMarginMobile} #{-$cardMarginMobile};
+  }
 }
