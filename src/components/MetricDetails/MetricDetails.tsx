@@ -28,7 +28,7 @@ export const MetricDetails: FunctionComponent<MetricProps> = ({ name, metricCate
                     <div className={styles.lastUpdated}>Last updated: {formatDaysAgo(overviewStats.lastUpdated)}</div>
                 </div>
                 <div className={styles.figureContainer}>
-                    {overviewStats.stats.map(stat => <MetricFigure label={stat.label} figure={stat.value}/>)}
+                    {overviewStats.stats.map(stat => <MetricFigure key={stat.label} label={stat.label} figure={stat.value}/>)}
                 </div>
             </div>
             <CustomisableChart data={metric.data}/>

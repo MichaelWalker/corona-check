@@ -3,7 +3,6 @@ import styles from "./CustomisableChart.module.scss";
 import {
     Area,
     Bar,
-    Brush,
     ComposedChart,
     Line,
     ReferenceArea,

@@ -11,7 +11,7 @@ export const StatRow: FunctionComponent<StatRowProps> = ({stats}) => {
     return (
         <div className={styles.statRow}>
             <div className={styles.statContainer}>
-                { stats.map(stat => <StatComponent stat={stat}/>) }
+                { stats.map(stat => <StatComponent key={stat.label} stat={stat}/>) }
             </div>
         </div>
     );

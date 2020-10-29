@@ -16,7 +16,7 @@ export const Select: FunctionComponent<SelectProps> = ({label, value, options, o
     return (
         <label><span className={styles.label}>{label}</span>
             <select className={styles.select} value={value} onChange={event => onChange(event.target.value)}>
-                {options.map(option => <option value={option.label}>{option.label}</option>)}
+                {options.map(option => <option key={option.label} value={option.label}>{option.label}</option>)}
             </select>
         </label>
     );
