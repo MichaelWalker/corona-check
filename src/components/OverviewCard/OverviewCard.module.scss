@@ -27,6 +27,8 @@
   @media (max-width: $breakpointTablet) {
     margin: -$paddingDefault;
     margin-top: $paddingDefault;
+    height: 200px;
+    width: calc(100% + #{2*$paddingDefault});
   }
 }
 
@@ -41,7 +43,7 @@
   padding: 12px 0;
   transition: all ease 0.2s;
   
-  &.active, &:hover {
+  &.active, &:hover, &:focus {
     &.cases {
       border-right: 4px solid $colorCases;
     }
@@ -89,6 +91,10 @@
   margin-right: 20px;
   width: 80px;
   flex-grow: 1;
+
+  @media (max-width: $breakpointMobile) {
+    width: 60px;
+  }
 }
 
 .statLabel {

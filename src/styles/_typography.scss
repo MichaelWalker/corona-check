@@ -11,33 +11,65 @@
 
 @mixin fontHeading1 {
   @include _font($fontSize: 48px, $lineHeight: 72px);
+  
+  @media (max-width: $breakpointMobile) {
+    @include _font($fontSize: 36px, $lineHeight: 48px);
+  }
 }
 
 @mixin fontHeading2 {
   @include _font($fontSize: 32px, $lineHeight: 48px);
+
+  @media (max-width: $breakpointMobile) {
+    @include _font($fontSize: 26px, $lineHeight: 36px);
+  }
 }
 
 @mixin fontHeading3 {
   @include _font($fontSize: 24px, $lineHeight: 36px);
+
+  @media (max-width: $breakpointMobile) {
+    @include _font($fontSize: 20px, $lineHeight: 28px);
+  }
 }
 
 @mixin fontHeading4 {
   @include _font($fontSize: 20px, $lineHeight: 24px, $fontWeight: 500);
+
+  @media (max-width: $breakpointMobile) {
+    @include _font($fontSize: 16px, $lineHeight: 20px, $fontWeight: 500);
+  }
 }
 
 @mixin fontFigure {
   @include _font($fontSize: 24px, $lineHeight: 24px);
+
+  @media (max-width: $breakpointMobile) {
+    @include _font($fontSize: 20px, $lineHeight: 20px);
+  }
 }
 
 @mixin fontBody {
   @include _font($fontSize: 16px, $lineHeight: 24px);
+
+  @media (max-width: $breakpointMobile) {
+    @include _font($fontSize: 14px, $lineHeight: 20px);
+  }
 }
 
 @mixin fontLabel {
   @include _font($fontSize: 14px, $lineHeight: 16px, $fontFamily: "Open Sans Condensed", $fontWeight: 300);
   text-transform: uppercase;
+
+  @media (max-width: $breakpointMobile) {
+    @include _font($fontSize: 10px, $lineHeight: 12px, $fontFamily: "Open Sans Condensed", $fontWeight: 300);
+  }
 }
 
 @mixin fontNote {
   @include _font($fontSize: 12px, $lineHeight: 16px);
+
+  @media (max-width: $breakpointMobile) {
+    @include _font($fontSize: 10px, $lineHeight: 12px);
+  }
 }
