@@ -2,31 +2,40 @@
 import styles from "./SummaryCard.module.scss";
 import {AreaData, getAreaData} from "../../services/dataProcessor";
 import {SimpleAreaChart} from "../Charts/SimpleAreaChart/SimpleAreaChart";
-import {Link} from "react-router-dom";
 import {StatComponent} from "../Stats/Stat/Stat";
 import {AreaType} from "../../services/govUkApiClient";
+import {Link} from "react-router-dom";
 
 interface SummaryCardProps {
+    data: AreaData | undefined;
+    areaName?: string | undefined;
+}
+
+interface SummaryLinkCardProps { 
     areaName: string;
     areaType: AreaType;
 }
 
-export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, areaType}) => {
+export const SummaryLinkCard: FunctionComponent<SummaryLinkCardProps> = ({areaName, areaType}) => {
     const [data, setData] = useState<AreaData | undefined>();
     
     useEffect(() => {
-        getAreaData(areaName, areaType)
-            .then(areaData => setData(areaData))
-    }, [areaName]);
+        getAreaData(areaName, areaType).then(setData);
+    }, [areaName, areaType]);
     
+    return (
+        <Link to={`/${areaType}/${areaName}`}>
+            <SummaryCard data={data} areaName={areaName}/>
+        </Link>
+    );
+};
+
+export const SummaryCard: FunctionComponent<SummaryCardProps> = ({data, areaName}) => {
     if (!data) {
         return (
-            <Link to={`/areas/${areaType}/${areaName}`} className={styles.card}>
-                <section>
-                    <h2 className={styles.title}>{areaName}</h2>
-                    <div>Loading...</div>
-                </section>
-            </Link>
+            <section className={styles.card}>
+                <div>Loading...</div>
+            </section>
         );
     }
 
@@ -38,18 +47,16 @@ export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, area
     ];
     
     return (
-        <Link to={`/areas/${areaName}`} className={styles.card}>
-            <section>
-                <div className={styles.headerRow}>
-                    <h2 className={styles.title}>{areaName}</h2>
-                    <div className={styles.statContainer}>
-                        { stats.map(stat => <StatComponent key={stat.label} stat={stat}/>) }
-                    </div>
+        <section className={styles.card}>
+            <div className={styles.headerRow}>
+                <h2 className={styles.title}>{areaName}</h2>
+                <div className={styles.statContainer}>
+                    { stats.map(stat => <StatComponent key={stat.label} stat={stat}/>) }
                 </div>
-                <div className={styles.graphContainer}>
-                    <SimpleAreaChart data={data.cases.metrics[0].data!}/>
-                </div>
-            </section>
-        </Link>
+            </div>
+            <div className={styles.graphContainer}>
+                <SimpleAreaChart data={data.cases.metrics[0].data!}/>
+            </div>
+        </section>
     );  
 };

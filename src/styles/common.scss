@@ -113,7 +113,7 @@ $cardPadding: 20px;
 @mixin card {
   @include shadow;
   background: $colorLight;
-  margin: $cardMargin;
+  margin: $cardMargin 0;
   padding: $cardPadding;
   border-radius: 8px;
   box-sizing: border-box;

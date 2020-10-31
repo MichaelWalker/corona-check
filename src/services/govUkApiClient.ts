@@ -20,7 +20,6 @@ export const fetchData = async <T extends HasDate> (areaType: AreaType, fields: 
     let page = 1;
     while (true) {
         const response = await makeApiRequest<T>(areaType, fields, page, areaName);
-        console.log(response);
         data.push(...response.data || []);
         if (!response.pagination.next) {
             break;
@@ -37,7 +36,7 @@ const baseUrl = "https://api.coronavirus.data.gov.uk/v1/data";
 
 const makeApiRequest = async <T extends HasDate> (areaType: AreaType, fields: (keyof T)[], page: number, areaName?: string): Promise<ApiResponse<T>> => {
     const url = `${baseUrl}?page=${page}&${filterQueryParam(areaType, areaName)}&${structureQueryParam<T>(fields)}`;
-    const response = await fetch(url);
+    const response = await fetch(encodeURI(url));
     return await response.json();
 };
 

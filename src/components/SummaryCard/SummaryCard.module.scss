@@ -2,8 +2,6 @@
 
 .card {
   @include card;
-  width: calc(100% - 2*#{$cardMargin});
-  flex-grow: 1;
 }
 
 .headerRow {

@@ -4,9 +4,7 @@ import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import {Header} from "../Header/Header";
 import {SubNav} from "../SubNav/SubNav";
 import {Footer} from "../Footer/Footer";
-import {DevonSummaryPage, FavouritesSummaryPage, UkSummaryPage} from "../SummaryPage/SummaryPage";
 import moment from "moment";
-import {AreaPage} from "../AreaPage/AreaPage";
 import {RegionPage} from "../RegionPage/RegionPage";
 
 moment.relativeTimeRounding(Math.floor);
@@ -16,27 +14,10 @@ function App() {
         <BrowserRouter>
             <Header/>
             <div className={styles.main}>
+                <SubNav/>
                 <Switch>
-                    <Route path={"/areas/:areaType/:areaName"} exact={true}>
-                        <AreaPage/>
-                    </Route>
-                    <Route path={"/regions/:areaType/:areaName"} exact={true} children={<RegionPage/>}/>
-
-                    <Route path={""}>
-                        <SubNav/>
-                        <Route path={"/"} exact={true}>
-                            <Redirect to={"/uk"}/>
-                        </Route>
-                        <Route path={"/uk"} exact={true}>
-                            <UkSummaryPage/>
-                        </Route>
-                        <Route path={"/devon"} exact={true}>
-                            <DevonSummaryPage/>
-                        </Route>
-                        <Route path={"/favourites"} exact={true}>
-                            <FavouritesSummaryPage/>
-                        </Route>
-                    </Route>
+                    <Route path={"/:areaType/:areaName"} exact={true} children={<RegionPage/>}/>
+                    <Route path={"/"} exact={true} children={<Redirect to={"/overview/united kingdom"}/>}/>
                 </Switch>
             </div>
             <Footer/>
