@@ -1,0 +1,15 @@
+﻿@import "../../styles/shared";
+
+.card {
+  @include shadow;
+  background: $colorBackgroundSubtle;
+  margin: $marginDefault 0;
+  padding: $paddingDefault;
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.cardTitle {
+  @include fontHeading4;
+}

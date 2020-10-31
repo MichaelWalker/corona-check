@@ -12,7 +12,7 @@ interface RegionsSectionProps {
 export const RegionsSection: FunctionComponent<RegionsSectionProps> = ({areaType, regions}) => {
     return (
         <Section title={"Regions"}>
-            {regions.map(name => <SummaryLinkCard areaName={name} areaType={areaType}/>)}
+            {regions.map(name => <SummaryLinkCard key={name} areaName={name} areaType={areaType}/>)}
         </Section>
     );
 };

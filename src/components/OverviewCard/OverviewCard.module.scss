@@ -1,0 +1,100 @@
+﻿@import "../../styles/shared";
+
+.overviewContainer {
+  display: flex;
+  flex-direction: row;
+  
+  @media (max-width: $breakpointTablet) {
+    flex-direction: column;
+  }
+}
+
+.statContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardTitle {
+  @include fontHeading3;
+  margin-bottom: 20px;
+}
+
+.graphContainer {
+  margin: -$paddingDefault;
+  margin-left: $paddingDefault;
+  width: 100%;
+
+  @media (max-width: $breakpointTablet) {
+    margin: -$paddingDefault;
+    margin-top: $paddingDefault;
+  }
+}
+
+.statCategory {
+  display: flex;
+  flex-direction: row;
+  border: none;
+  background: transparent;
+  text-align: left;
+  outline: none;
+  border-bottom: 1px solid $colorForegroundSubtle;
+  padding: 12px 0;
+  transition: all ease 0.2s;
+  
+  &.active, &:hover {
+    &.cases {
+      border-right: 4px solid $colorCases;
+    }
+
+    &.admissions {
+      border-right: 4px solid $colorAdmissions;
+    }
+
+    &.hospitalisation {
+      border-right: 4px solid $colorHospitalisation;
+    }
+
+    &.deaths {
+      border-right: 4px solid $colorDeaths;
+    }
+  }
+  
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
+.statCategoryHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 20px;
+  width: 160px;
+  flex-grow: 2;
+}
+
+.statCategoryName {
+  @include fontHeading4;
+}
+
+.statUpdatedText {
+  @include fontNote;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  
+  margin-right: 20px;
+  width: 80px;
+  flex-grow: 1;
+}
+
+.statLabel {
+  @include fontLabel;
+}
+
+.statValue {
+  @include fontFigure;
+}

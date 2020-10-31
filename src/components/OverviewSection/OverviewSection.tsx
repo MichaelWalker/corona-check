@@ -1,7 +1,7 @@
 ﻿import React, {FunctionComponent} from "react";
 import {Section} from "../Section/Section";
-import {SummaryCard} from "../SummaryCard/SummaryCard";
 import {AreaData} from "../../services/dataProcessor";
+import {OverviewCard} from "../OverviewCard/OverviewCard";
 
 interface OverviewSectionProps {
     data: AreaData | undefined;
@@ -9,8 +9,8 @@ interface OverviewSectionProps {
 
 export const OverviewSection: FunctionComponent<OverviewSectionProps> = ({data}) => {
     return (
-        <Section title={"Overview"}>
-            <SummaryCard data={data}/>
+        <Section>
+            <OverviewCard data={data}/>
         </Section>
     );
 };

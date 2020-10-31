@@ -47,8 +47,8 @@ const getOverview = (dailyReports: DailyReport[]): OverviewStats => {
     return {
         lastUpdated: latestReport ? latestReport.moment : null,
         stats: [
-            {label: "People In Hospital", value: getMostRecentFigure(dailyReports, report => report.hospitalCases)},
-            {label: "% of hospital capacity", value: getMostRecentFigure(dailyReports, getPercentageHospitalCapacity)},
+            {label: "In Hospital", value: getMostRecentFigure(dailyReports, report => report.hospitalCases)},
+            {label: "% capacity", value: getMostRecentFigure(dailyReports, getPercentageHospitalCapacity)},
             {label: "Trend", value: get14DayTrend(dailyReports.map(report => report.hospitalCases))},
         ]
     }

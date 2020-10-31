@@ -55,7 +55,7 @@ export const SummaryCard: FunctionComponent<SummaryCardProps> = ({data, areaName
                 </div>
             </div>
             <div className={styles.graphContainer}>
-                <SimpleAreaChart data={data.cases.metrics[0].data!}/>
+                <SimpleAreaChart data={data.cases.metrics[0].data!} color={"#1573aa"}/>
             </div>
         </section>
     );  

@@ -1,0 +1,6 @@
+﻿@import "constants";
+@import "typography";
+
+@mixin shadow {
+  box-shadow: 2px 2px 4px $colorForegroundSubtle;
+}

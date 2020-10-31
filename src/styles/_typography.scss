@@ -1,0 +1,43 @@
+﻿@import "constants";
+
+@mixin _font($fontSize, $lineHeight, $fontFamily: "Open Sans", $fontWeight: 400, $color: $colorForeground) {
+  font-family: $fontFamily, "sans-serif";
+  font-weight: $fontWeight;
+  line-height: $lineHeight;
+  font-size: $fontSize;
+  color: $color;
+  text-decoration: none;
+}
+
+@mixin fontHeading1 {
+  @include _font($fontSize: 48px, $lineHeight: 72px);
+}
+
+@mixin fontHeading2 {
+  @include _font($fontSize: 32px, $lineHeight: 48px);
+}
+
+@mixin fontHeading3 {
+  @include _font($fontSize: 24px, $lineHeight: 36px);
+}
+
+@mixin fontHeading4 {
+  @include _font($fontSize: 20px, $lineHeight: 24px, $fontWeight: 500);
+}
+
+@mixin fontFigure {
+  @include _font($fontSize: 24px, $lineHeight: 24px);
+}
+
+@mixin fontBody {
+  @include _font($fontSize: 16px, $lineHeight: 24px);
+}
+
+@mixin fontLabel {
+  @include _font($fontSize: 14px, $lineHeight: 16px, $fontFamily: "Open Sans Condensed", $fontWeight: 300);
+  text-transform: uppercase;
+}
+
+@mixin fontNote {
+  @include _font($fontSize: 12px, $lineHeight: 16px);
+}
