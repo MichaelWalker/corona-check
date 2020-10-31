@@ -1,9 +1,11 @@
 ﻿@import "../../styles/common";
 
 .page {
-  
+  @include contentGutters;
 }
 
 .title {
-  
+  @include titleFont;
+  margin-top: 30px;
+  margin-bottom: 15px;
 }

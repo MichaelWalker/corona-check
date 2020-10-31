@@ -1,9 +1,10 @@
 ﻿import React, {FunctionComponent} from "react";
+import {Section} from "../Section/Section";
 
 export const DetailsSection: FunctionComponent = () => {
     return (
-        <section>
-            <h2>Details</h2>
-        </section>
+        <Section title={"Details"}>
+
+        </Section>
     );
 };

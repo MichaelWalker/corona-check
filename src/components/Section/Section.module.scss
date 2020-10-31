@@ -1,0 +1,10 @@
+﻿@import "../../styles/common";
+
+.section {
+  border-top: 1px solid $colorMid;
+  padding: 20px 0;
+}
+
+.sectionTitle {
+  @include sectionTitleFont;
+}
