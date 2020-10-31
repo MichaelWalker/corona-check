@@ -6,9 +6,8 @@ export const SubNav: FunctionComponent = () => {
     return (
         <div className={styles.navContainer}>
             <nav className={styles.nav}>
-                <NavLink className={styles.navItem} activeClassName={styles.active} to={"/uk"} >UK</NavLink>
-                <NavLink className={styles.navItem} activeClassName={styles.active} to={"/devon"} >Devon</NavLink>
-                <NavLink className={styles.navItem} activeClassName={styles.active} to={"/favourites"} >Favourites</NavLink>
+                <NavLink className={styles.navItem} activeClassName={styles.active} to={"/overview/united kingdom"}>UK</NavLink>
+                <NavLink className={styles.navItem} activeClassName={styles.active} to={"/utla/devon"}>Devon</NavLink>
             </nav>
         </div>
     );  
