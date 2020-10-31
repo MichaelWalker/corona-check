@@ -7,6 +7,7 @@ import {Footer} from "../Footer/Footer";
 import {DevonSummaryPage, FavouritesSummaryPage, UkSummaryPage} from "../SummaryPage/SummaryPage";
 import moment from "moment";
 import {AreaPage} from "../AreaPage/AreaPage";
+import {RegionPage} from "../RegionPage/RegionPage";
 
 moment.relativeTimeRounding(Math.floor);
 
@@ -16,13 +17,10 @@ function App() {
             <Header/>
             <div className={styles.main}>
                 <Switch>
-                    <Route path={"/areas"} exact={true}>
-                        <h1>Areas</h1>
-                        <p>Coming Soon!</p>
-                    </Route>
                     <Route path={"/areas/:areaType/:areaName"} exact={true}>
                         <AreaPage/>
                     </Route>
+                    <Route path={"/regions/:areaType/:areaName"} exact={true} children={<RegionPage/>}/>
 
                     <Route path={""}>
                         <SubNav/>
