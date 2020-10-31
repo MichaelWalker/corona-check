@@ -1,5 +1,4 @@
-﻿import {DailyReport} from "./coronaDataFetcher";
-import {
+﻿import {
     Figure,
     getMetricDataWithoutRollingAverage,
     getMetricDataWithRollingAverage, Metric,
@@ -8,6 +7,7 @@ import {
 import {getMostRecentFigure, getMostRecentReport, getStat, OverviewStats, Stat} from "./statService";
 import {get14DayTrend} from "./trendCalculator";
 import moment from "moment";
+import {DailyReport} from "./areaDataFetcher";
 
 export const getDeathData = (dailyReports: DailyReport[]): MetricCategory => {
     return {

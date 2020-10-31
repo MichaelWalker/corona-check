@@ -1,9 +1,10 @@
-﻿import {fetchDataForArea} from "./coronaDataFetcher";
-import {MetricCategory} from "./processingHelpers";
+﻿import {MetricCategory} from "./processingHelpers";
 import {getCaseData} from "./caseService";
 import {getAdmissionsData} from "./admissionService";
 import {getDeathData} from "./deathService";
 import {getHospitalisationData} from "./hospitalisationService";
+import {fetchDataForArea} from "./areaDataFetcher";
+import {AreaType} from "./govUkApiClient";
 
 export interface AreaData {
     areaName: string;
@@ -13,8 +14,8 @@ export interface AreaData {
     hospitalisation: MetricCategory;
 }
 
-export const getAreaData = async (areaName: string): Promise<AreaData> => {
-    const dailyReports = await fetchDataForArea(areaName);
+export const getAreaData = async (areaName: string, areaType: AreaType): Promise<AreaData> => {
+    const dailyReports = await fetchDataForArea(areaName, areaType);
     
     return {
         areaName: areaName,

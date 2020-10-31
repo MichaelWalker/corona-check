@@ -1,6 +1,6 @@
-﻿import {DailyReport} from "./coronaDataFetcher";
-import {OverviewStats, Stat} from "./statService";
+﻿import {OverviewStats, Stat} from "./statService";
 import moment from "moment";
+import {DailyReport} from "./areaDataFetcher";
 
 export type Figure = number | null;
 

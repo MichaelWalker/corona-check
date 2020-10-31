@@ -4,22 +4,24 @@ import {AreaData, getAreaData} from "../../services/dataProcessor";
 import {SimpleAreaChart} from "../Charts/SimpleAreaChart/SimpleAreaChart";
 import {Link} from "react-router-dom";
 import {StatComponent} from "../Stats/Stat/Stat";
+import {AreaType} from "../../services/govUkApiClient";
 
 interface SummaryCardProps {
     areaName: string;
+    areaType: AreaType;
 }
 
-export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName}) => {
+export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, areaType}) => {
     const [data, setData] = useState<AreaData | undefined>();
     
     useEffect(() => {
-        getAreaData(areaName)
+        getAreaData(areaName, areaType)
             .then(areaData => setData(areaData))
     }, [areaName]);
     
     if (!data) {
         return (
-            <Link to={`/areas/${areaName}`} className={styles.card}>
+            <Link to={`/areas/${areaType}/${areaName}`} className={styles.card}>
                 <section>
                     <h2 className={styles.title}>{areaName}</h2>
                     <div>Loading...</div>

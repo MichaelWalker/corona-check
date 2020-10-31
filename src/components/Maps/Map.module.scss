@@ -1,0 +1,8 @@
+﻿@import "../../styles/common";
+
+.card {
+  @include card;
+  padding: 0;
+  width: calc(100%/3 - #{2*$cardMargin});
+  flex-grow: 1;
+}

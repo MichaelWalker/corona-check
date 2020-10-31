@@ -5,13 +5,13 @@ import {AreaData, getAreaData} from "../../services/dataProcessor";
 import {MetricDetails} from "../MetricDetails/MetricDetails";
 
 export const AreaPage: FunctionComponent = () => {
-    const { name } = useParams();
+    const { areaName, areaType } = useParams();
     const [ data, setData ] = useState<AreaData | undefined>(undefined);
     
     useEffect(() => {
-        getAreaData(name)
+        getAreaData(areaName, areaType)
             .then(areaData => setData(areaData));
-    }, [name]);
+    }, [areaName, areaType]);
     
     if (!data) {
         return <div>Loading...</div>
@@ -19,7 +19,7 @@ export const AreaPage: FunctionComponent = () => {
     
     return (
         <div className={styles.page}>
-            <h1 className={styles.title}>{name}</h1>
+            <h1 className={styles.title}>{areaName}</h1>
             <div className={styles.metrics}>
                 <MetricDetails name={"Cases"} metricCategory={data.cases}/>
                 <MetricDetails name={"Admissions"} metricCategory={data.admissions}/>

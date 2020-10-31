@@ -1,7 +1,7 @@
-﻿import {DailyReport} from "./coronaDataFetcher";
-import {get14DayTrend} from "./trendCalculator";
+﻿import {get14DayTrend} from "./trendCalculator";
 import moment from "moment";
 import {Figure} from "./processingHelpers";
+import {DailyReport} from "./areaDataFetcher";
 
 export interface Stat {
     label: string;

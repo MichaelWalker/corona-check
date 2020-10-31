@@ -20,7 +20,7 @@ function App() {
                         <h1>Areas</h1>
                         <p>Coming Soon!</p>
                     </Route>
-                    <Route path={"/areas/:name"} exact={true}>
+                    <Route path={"/areas/:areaType/:areaName"} exact={true}>
                         <AreaPage/>
                     </Route>
 
