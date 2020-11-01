@@ -25,4 +25,17 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto;
   grid-gap: $marginDefault;
+  margin-top: $marginDefault;
+  
+  @media (max-width: 1399px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  
+  @media (max-width: 1099px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  @media (max-width: 750px) {
+    grid-template-columns: 1fr;
+  }
 }
