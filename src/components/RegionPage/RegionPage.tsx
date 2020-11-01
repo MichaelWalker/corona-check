@@ -27,7 +27,7 @@ export const RegionPage: FunctionComponent = () => {
         <main className={styles.page}>
             <h1 className={styles.title}>{areaName}</h1>
             <OverviewSection data={areaData}/>
-            {regionConfig?.subRegions && <RegionsSection areaType={regionConfig.subRegions.type} regions={regionConfig.subRegions.names}/>}
+            {regionConfig?.subRegions && <RegionsSection mapData={mapData} areaType={regionConfig.subRegions.type} regions={regionConfig.subRegions.names}/>}
             <DetailsSection data={areaData}/>
         </main>
     );    

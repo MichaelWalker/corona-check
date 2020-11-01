@@ -7,6 +7,7 @@ import {SimpleAreaChart} from "../Charts/SimpleAreaChart/SimpleAreaChart";
 import {OverviewStats} from "../../services/statService";
 import {formatDaysAgo, formatFigure} from "../../services/formatHelpers";
 import {MetricDataPoint} from "../../services/processingHelpers";
+import {Stat} from "../Stat/Stat";
 
 
 type StatType = "Cases" | "Admissions" | "Deaths" | "Hospitalisation";
@@ -89,14 +90,7 @@ const StatList: FunctionComponent<StatListProps> = ({type, stats, isActive, setS
                 <h4 className={styles.statCategoryName}>{type}</h4>
                 <span className={styles.statUpdatedText}>Last Updated: {formatDaysAgo(stats.lastUpdated)}</span>
             </div>
-            {stats.stats.map(stat => {
-                return (
-                    <div key={stat.label} className={styles.stat}>
-                        <div className={styles.statLabel}>{stat.label}</div>
-                        <div className={styles.statValue}>{formatFigure(stat.value)}</div>
-                    </div>
-                );
-            })}
+            {stats.stats.map(stat => <Stat key={stat.label} label={stat.label} figure={stat.value}/>)}
         </button>
     );
 };

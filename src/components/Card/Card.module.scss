@@ -8,6 +8,7 @@
   border-radius: 4px;
   box-sizing: border-box;
   overflow: hidden;
+  flex-grow: 1;
   
   @media (max-width: $breakpointMobile) {
     border-radius: 0;
@@ -17,5 +18,5 @@
 }
 
 .cardTitle {
-  @include fontHeading4;
+  @include fontHeading3;
 }

@@ -1,0 +1,28 @@
+﻿@import "../../styles/shared";
+
+.sectionContainer {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.maps {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: -$marginDefault/2;
+  
+  > * {
+    margin: $marginDefault/2;
+    min-width: 250px;
+    max-width: 500px;
+    flex-grow: 1;
+  }
+}
+
+.regions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: $marginDefault;
+}

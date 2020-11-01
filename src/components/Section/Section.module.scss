@@ -1,10 +1,11 @@
 ﻿@import "../../styles/shared";
 
 .section {
-  border-top: 1px solid $colorForeground;
-  padding: $paddingDefault 0;
+  margin: $marginExtraLarge 0;
 }
 
 .sectionTitle {
   @include fontHeading2;
+  border-bottom: 1px solid $colorForeground;
+  margin-bottom: $marginLarge;
 }

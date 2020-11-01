@@ -1,27 +1,23 @@
-﻿@import "../../styles/common";
-
-.card {
-  @include card;
-}
+﻿@import "../../styles/shared";
 
 .headerRow {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  flex-wrap: wrap;
 }
 
 .title {
-  @include cardTitleFont;
+  @include fontHeading3;
 }
 
-.statContainer {
+.stat {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin: 0 -10px;
+  flex-direction: column;
+  margin-left: $marginDefault;
 }
 
 .graphContainer {
-  margin: 10px #{-$cardPadding} #{-$cardPadding} #{-$cardPadding};
+  height: 160px;
+  margin: -$paddingDefault;
+  margin-top: 0;
 }

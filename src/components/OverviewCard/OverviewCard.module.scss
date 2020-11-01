@@ -36,6 +36,7 @@
   display: flex;
   flex-direction: row;
   border: none;
+  border-right: 4px solid transparent;
   background: transparent;
   text-align: left;
   outline: none;
@@ -45,19 +46,19 @@
   
   &.active, &:hover, &:focus {
     &.cases {
-      border-right: 4px solid $colorCases;
+      border-color: $colorCases;
     }
 
     &.admissions {
-      border-right: 4px solid $colorAdmissions;
+      border-color: $colorAdmissions;
     }
 
     &.hospitalisation {
-      border-right: 4px solid $colorHospitalisation;
+      border-color: $colorHospitalisation;
     }
 
     &.deaths {
-      border-right: 4px solid $colorDeaths;
+      border-color: $colorDeaths;
     }
   }
   
@@ -81,26 +82,4 @@
 
 .statUpdatedText {
   @include fontNote;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;  
-  margin-right: 20px;
-  width: 80px;
-  flex-grow: 1;
-
-  @media (max-width: $breakpointMobile) {
-    width: 60px;
-  }
-}
-
-.statLabel {
-  @include fontLabel;
-}
-
-.statValue {
-  @include fontFigure;
 }

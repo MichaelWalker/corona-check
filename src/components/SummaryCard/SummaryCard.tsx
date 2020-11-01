@@ -5,58 +5,37 @@ import {SimpleAreaChart} from "../Charts/SimpleAreaChart/SimpleAreaChart";
 import {StatComponent} from "../Stats/Stat/Stat";
 import {AreaType} from "../../services/govUkApiClient";
 import {Link} from "react-router-dom";
+import {LoadingCard} from "../LoadingCard/LoadingCard";
+import {Card} from "../Card/Card";
+import {Stat} from "../Stat/Stat";
 
 interface SummaryCardProps {
-    data: AreaData | undefined;
-    areaName?: string | undefined;
-}
-
-interface SummaryLinkCardProps { 
     areaName: string;
     areaType: AreaType;
 }
 
-export const SummaryLinkCard: FunctionComponent<SummaryLinkCardProps> = ({areaName, areaType}) => {
+export const SummaryCard: FunctionComponent<SummaryCardProps> = ({areaName, areaType}) => {
     const [data, setData] = useState<AreaData | undefined>();
     
     useEffect(() => {
         getAreaData(areaName, areaType).then(setData);
     }, [areaName, areaType]);
     
-    return (
-        <Link to={`/${areaType}/${areaName}`}>
-            <SummaryCard data={data} areaName={areaName}/>
-        </Link>
-    );
-};
-
-export const SummaryCard: FunctionComponent<SummaryCardProps> = ({data, areaName}) => {
     if (!data) {
-        return (
-            <section className={styles.card}>
-                <div>Loading...</div>
-            </section>
-        );
+        return <LoadingCard/>;
     }
-
-    const stats = [
-        data.cases.headlineStat!,
-        data.admissions.headlineStat!,
-        data.deaths.headlineStat!,
-        data.hospitalisation.headlineStat!
-    ];
     
     return (
-        <section className={styles.card}>
-            <div className={styles.headerRow}>
-                <h2 className={styles.title}>{areaName}</h2>
-                <div className={styles.statContainer}>
-                    { stats.map(stat => <StatComponent key={stat.label} stat={stat}/>) }
+        <Card>
+            <Link to={`/${areaType}/${areaName}`}>
+                <div className={styles.headerRow}>
+                    <h3 className={styles.title}>{areaName}</h3>
+                    <Stat className={styles.stat} label={"New Cases"} figure={data.cases.overviewStats.stats[0].value}/>
                 </div>
-            </div>
-            <div className={styles.graphContainer}>
-                <SimpleAreaChart data={data.cases.metrics[0].data!} color={"#1573aa"}/>
-            </div>
-        </section>
-    );  
+                <div className={styles.graphContainer}>
+                    <SimpleAreaChart data={data.cases.metrics[0].data!} color={"#1573aa"}/>
+                </div>
+            </Link>
+        </Card>
+    );
 };

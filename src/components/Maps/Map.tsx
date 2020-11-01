@@ -1,55 +1,72 @@
 ﻿import React, {FunctionComponent} from "react";
-import styles from "./Map.module.scss";
 import {ComposableMap, Geographies, Geography} from "react-simple-maps";
 import {MapData} from "../../services/mapDataService";
+import {Card} from "../Card/Card";
 
-interface MapProps {
+interface MapCardProps {
     data: MapData;
-    hue: number;
+    className?: string | undefined;
 }
 
-export const Map: FunctionComponent<MapProps> = ({data, hue}) => {
-    const getFill = (code: string): string => {
+interface MapProps {
+    calculateFill: (code: string) => string;
+    width: number;
+    height: number;
+    rotate: [number, number, number];
+    scale: number;
+}
+
+const Map: FunctionComponent<MapProps> = ({calculateFill, width, height, rotate, scale}) => {
+    return (
+        <ComposableMap
+            projection="geoAzimuthalEqualArea"
+            width={width}
+            height={height}
+            projectionConfig={{
+                rotate: rotate,
+                scale: scale
+            }}
+        >
+            <Geographies
+                geography={"/uk-utla.json"}
+                fill="#D6D6DA"
+                stroke="#FFFFFF"
+                strokeWidth={0.5}
+            >
+                {({ geographies }) =>
+                    geographies.map(geo => {
+                        return <Geography key={geo.rsmKey} 
+                                          geography={geo} 
+                                          fill={calculateFill(geo.properties.code)} 
+                                          stroke={"#050d22"} 
+                                          strokeWidth={1} 
+                        />;
+                    })
+                }
+            </Geographies>
+        </ComposableMap>
+    );
+};
+
+export const CaseRateMap: FunctionComponent<MapCardProps> = ({data, className}) => {
+    const calculateFill = (code: string): string => {
         if (data[code] === undefined) {
             return "#CCCCCC";
         }
-        
+
         const value = data[code];
         const lightness = 100 - (value! * 100/150);
-        
-        console.log(`hsl(${hue}, 50, ${lightness})`);
-        return `hsl(${hue}, 50%, ${lightness}%)`;
+        return `hsl(200, 50%, ${lightness}%)`;
     };
     
     return (
-        <section className={styles.card}>
-            <ComposableMap
-                projection="geoAzimuthalEqualArea"
-                width={1000}
-                height={1600}
-                projectionConfig={{
-                    rotate: [3.5, -55.4, 0],
-                    scale: 8000
-                }}
-            >
-                <Geographies
-                    geography={"/uk-utla.json"}
-                    fill="#D6D6DA"
-                    stroke="#FFFFFF"
-                    strokeWidth={0.5}
-                >
-                    {({ geographies }) =>
-                        geographies.map(geo => {
-                            return <Geography key={geo.rsmKey} 
-                                              geography={geo} 
-                                              fill={getFill(geo.properties.code)} 
-                                              stroke={"#050d22"} 
-                                              strokeWidth={1} 
-                            />;
-                        })
-                    }
-                </Geographies>
-            </ComposableMap>
-        </section>
+        <Card className={className} title={"Cases per 100,000 people"}>
+            <Map calculateFill={calculateFill}
+                 width={1000}
+                 height={1600}
+                 rotate={[3.5, -55.4, 0]}
+                 scale={8000}
+            />
+        </Card>
     );
 };

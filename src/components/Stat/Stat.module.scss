@@ -1,0 +1,23 @@
+﻿@import "../../styles/shared";
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  width: 80px;
+  flex-grow: 1;
+
+  @media (max-width: $breakpointMobile) {
+    width: 60px;
+  }
+}
+
+.label {
+  @include fontLabel;
+}
+
+.figure {
+  @include fontFigure;
+}
